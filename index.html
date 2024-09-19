@@ -17,7 +17,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      margin-right:10px;
+      margin-right:5px;
     }
     [opcio_preferida]:hover{
       border-color:#af0;
@@ -28,15 +28,20 @@
       color:green;
       font-weight:bold;
     }
+    hr{
+      border:none;
+      border-bottom:1px solid #666;
+    }
   </style>
 </head><body>
-<code>pàgina en construcció</code>
 <h1>Tast aigua</h1>
 
 <div id=app>
   <div>
-    <span>Quina aigua és quina? </span>
-    <span style="color:royalblue">(marca la casella)</span>
+    <b>
+      <span>1. Quina aigua és quina? </span>
+      <span style="color:royalblue">(marca la casella)</span>
+    </b>
 
     <table border=0>
       <tr>
@@ -55,10 +60,12 @@
   </div><hr>
 
   <div>
-    <span>Quina t'ha agradat més? </span>
-    <span style="color:royalblue">(selecciona)</span>
+    <b>
+      <span>2. Quina aigua t'ha agradat més? </span>
+      <span style="color:royalblue">(selecciona)</span>
+    </b>
 
-    <div style="display:flex">
+    <div style="display:flex;margin-top:5px">
       <div v-for="o,i in opcions" opcio_preferida
         :marcada="opcio_preferida==i"
         @click="opcio_preferida=opcio_preferida==i?null:i"
@@ -88,18 +95,32 @@
     </table>
 
     <div style="margin-top:10px">
-      <b>Quina aigua t'ha agradat més?</b>
+      <b>Quina aigua t'ha agradat més? </b>
       <b style="color:royalblue" v-if="opcio_preferida!=null">
         Aigua {{resposta[opcio_preferida]}}
       </b>
+      <b v-else>--</b>
     </div>
   </div><hr>
 
   <div>
+    <div style="font-size:larger">
+      <b>
+        Respotes correctes: {{respostes_correctes}}
+      </b>
+    </div>
     <button style="font-size:x-large">
-      enviar resultats
+      Enviar Resultats
     </button>
-  </div>
+  </div><hr>
+</div>
+
+<div>
+  <code>pàgina en construcció</code>
+  <b>TO DO</b>
+  <ul>
+    <li>Falta dissenyar base de dades per guardar les respostes i com es veuria la taula de resultats
+  </ul>
 </div>
 
 <script>
@@ -129,5 +150,17 @@
         "Pou",
       ],
     }},
+
+    computed:{
+      respostes_correctes(){
+        let n=0;
+        this.resposta.forEach((r,i)=>{
+          if(r==this.opcions[i]){
+            n++;
+          }
+        });
+        return n;
+      }
+    }
   }).mount("#app");
 </script>
