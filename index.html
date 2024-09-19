@@ -1,5 +1,6 @@
 <!doctype html><html><head>
   <meta charset=utf8>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tast Aigua</title>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <style>
@@ -22,13 +23,19 @@
       border-color:#af0;
       color:#af0;
     }
+    [opcio_preferida][marcada=true]{
+      border-color:green;
+      color:green;
+      font-weight:bold;
+    }
   </style>
 </head><body>
+<code>pàgina en construcció</code>
 <h1>Tast aigua</h1>
 
 <div id=app>
   <div>
-    <span>Quina aigua és?</span>
+    <span>Quina aigua és quina? </span>
     <span style="color:royalblue">(marca la casella)</span>
 
     <table border=0>
@@ -36,26 +43,60 @@
         <td></td>
         <td v-for="o,i in opcions" center>{{i+1}}</td>
       </tr>
-      <tr v-for="a in aigues">
+      <tr v-for="a,i in aigues">
         <td>{{a}}</td>
         <td v-for="o,j in opcions">
           <input type=checkbox @change="opcions[j]=(opcions[j]==a?null:a)" :checked="opcions[j]==a"
-            :disabled="opcions[j] && opcions[j]!=a"
+            :disabled="(opcions[j] && opcions[j]!=a)"
           >
         </td>
       </tr>
     </table>
+  </div><hr>
 
-    <hr>
-  </div>
+  <div>
+    <span>Quina t'ha agradat més? </span>
+    <span style="color:royalblue">(selecciona)</span>
 
-  <span>Quina t'ha agradat més?</span>
-  <span style="color:royalblue">(selecciona)</span>
-
-  <div style="display:flex">
-    <div v-for="o,i in opcions" opcio_preferida>
-      <div>{{i+1}}</div>
+    <div style="display:flex">
+      <div v-for="o,i in opcions" opcio_preferida
+        :marcada="opcio_preferida==i"
+        @click="opcio_preferida=opcio_preferida==i?null:i"
+      >
+        <div>{{i+1}}</div>
+      </div>
     </div>
+  </div><hr>
+
+  <div>
+    <b style="color:royalblue">ELS TEUS RESULTATS</b>
+    <table border=1 center>
+      <tr>
+        <th>La teva resposta</th>
+        <th>Resposta correcta</th>
+      </tr>
+      <tr v-for="_,i in opcions"
+        :style="{color:opcions[i]==resposta[i]?'green':'red'}"
+      >
+        <td>
+          {{opcions[i] ?? '-'}}
+        </td>
+        <td>
+          {{resposta[i]}}
+        </td>
+      </tr>
+    </table>
+
+    Quina aigua t'ha agradat més?
+    <b style="color:royalblue" v-if="opcio_preferida!=null">
+      Aigua {{resposta[opcio_preferida]}}
+    </b>
+  </div><hr>
+
+  <div>
+    <button style="font-size:x-large">
+      enviar resultats
+    </button>
   </div>
 </div>
 
@@ -68,8 +109,16 @@
         "Aixeta filtrada",
         "Embotellada",
         "Dessalada",
+        "Pou",
       ],
-      opcion_preferida:null,
+      opcio_preferida:null,
+      resposta:[
+        "Aixeta",
+        "Aixeta filtrada",
+        "Embotellada",
+        "Dessalada",
+        "Pou",
+      ],
     }},
   }).mount("#app");
 </script>
