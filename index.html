@@ -103,16 +103,23 @@
 <script>
   let app = Vue.createApp({
     data(){return{
+      //respostes usuari
       opcions:[null,null,null,null,null],
-      aigues:[
+
+      //numero que li ha agradat més a l'usuari
+      opcio_preferida:null,
+
+      //respostes correctes
+      resposta:[
         "Aixeta",
         "Aixeta filtrada",
         "Embotellada",
         "Dessalada",
         "Pou",
       ],
-      opcio_preferida:null,
-      resposta:[
+
+      //totes les opcions
+      aigues:[
         "Aixeta",
         "Aixeta filtrada",
         "Embotellada",
