@@ -111,7 +111,7 @@
       </table><hr>
 
       <div style="margin-top:10px">
-        <b>Quina aigua t'ha agradat més? </b>
+        <b>Quina aigua t'ha agradat més?</b><br>
         <b style="color:royalblue" v-if="opcio_preferida!=null">
           Aigua {{resposta[opcio_preferida]}}
         </b>
@@ -164,12 +164,20 @@
           </tr>
         </table>
       </div>
-    </div><hr>
+    </div>
+
+    <div v-if="admin">
+      <hr>
+      Participa:<br>
+      <img src="qr.png">
+    </div>
 
     <div v-if="resultats && admin">
+      <hr>
+
       <b>Tots els Resultats (cada fila és un participant)</b><br>
 
-      <table border=1>
+      <table border=1 style="font-size:smaller">
         <tr>
           <th>nº</th>
           <th>respostes</th>
