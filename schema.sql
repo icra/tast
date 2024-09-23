@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS resultats (
+  id   INTEGER PRIMARY KEY,
+  json TEXT    NOT NULL
+);

@@ -1,0 +1,303 @@
+<!doctype html><html><head>
+  <meta charset=utf8>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ICRA podcast voice poll</title>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <!--
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
+  -->
+  <style>
+    body{
+      margin:0;
+      margin-left:1px;
+      margin-right:1px;
+      font-family:Arial;
+    }
+    hr{
+      border:none;
+      border-bottom:1px solid #ccc;
+    }
+    table{
+      border-collapse:collapse;
+    }
+    th{
+      background:#ccc;
+      padding:1px;
+    }
+    td{
+      padding:1px;
+    }
+    button[candidat]{
+      background:royalblue;
+      color:white;
+      padding:1em 0.309em;
+      border:1px solid #ccc;
+      border-radius:10px;
+      width:100%;
+
+      display:block;
+      margin:auto;
+    }
+  </style>
+</head>
+<body>
+
+<div id=app>
+  <h2
+    style="
+      border-bottom:1px solid #ccc;
+      text-align:center;
+    "
+  >ICRA podcast voice poll
+  </h2>
+
+  <button
+    v-if="false"
+    @click="admin^=1"
+    style="padding:1em 3em;display:block;width:100%"
+  >admin: {{admin}}</button>
+
+  <div v-if="has_votat==0">
+    <div v-for="lang in ['cat','eng']">
+      <b>
+        {{
+          {
+            'cat':"Selecciona el candidat en CATALÀ",
+            "eng":"Select the candidate for ENGLISH"
+          }[lang]
+        }}
+      </b>
+
+      <div v-if="selected[lang]==null">
+        <div
+          style="
+            display:grid;
+            grid-template-columns:repeat(4,25%);
+            width:100%;
+            margin-bottom:5px;
+          "
+        >
+          <div v-for="nom in candidats[lang]">
+            <button @click="selected[lang]=nom" candidat>{{nom}}</button>
+          </div>
+        </div>
+      </div>
+      <div v-else>selected: <b>{{selected[lang]}}</b> <button @click="selected[lang]=null">cancel</button></div>
+    </div>
+
+    <button
+      style="
+        margin-top:10px;
+        padding:1em 3em;
+        background:#af0;
+        font-size:x-large;
+        border:1px solid #ccc;
+        border-radius:5px;
+        width:100%;
+      "
+      @click="submit()"
+      :disabled="selected.cat==null || selected.eng==null">
+      submit
+    </button>
+    <hr>
+  </div>
+
+  <div
+    v-if="has_votat"
+    style="text-align:center"
+  >
+    Gràcies per participar!<hr>
+  </div>
+
+  <div v-if="votacions && votacions.length">
+    <div style="text-align:center">
+      <b>
+        Real time results
+        <button @click="fetch_votacions()">refresh</button>
+        <hr>
+      </b>
+    </div>
+
+    <!--rankings-->
+    <div>
+      <b>Rankings</b>
+      <div
+        v-if="resultats"
+        style="
+          display:grid;
+          grid-template-columns:50% 50%;
+          grid-gap:1px;
+          text-align:center;
+          font-size:smaller;
+        "
+      >
+        <div v-for="lang in ['cat','eng']">
+          <table border=1 style="width:100%">
+            <tr>
+              <th>{{lang}}</th>
+              <th>vots</th>
+            </tr>
+            <tr v-for="[nom,vots] in resultats[lang]">
+              <td>{{nom}}</td>
+              <td>{{vots}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!--vots-->
+    <div style="margin-top:5px">
+      <b>Vots ({{votacions.length}})</b>
+      <table border=1 style="font-size:smaller;text-align:center">
+        <tr>
+          <th>nº</th>
+          <th>cat</th>
+          <th>eng</th>
+          <th v-if="admin">delete</th>
+        </tr>
+        <tr v-for="vot,i in votacions">
+          <td>
+            <span v-if="admin">
+              {{vot.mail.replace("@icra.cat","")}}
+            </span>
+            <span v-if="!admin">
+              {{i+1}}
+            </span>
+          </td>
+          <td>{{vot.cat}}</td>
+          <td>{{vot.eng}}</td>
+          <td v-if="admin" style="text-align:center">
+            <button @click="esborra_vot(vot.id)">
+              delete
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  let candidats={
+    cat:[
+      "Maite Pijuan",
+      "Elisabet Tornés",
+      "Oriol Gutierrez",
+      "Anna Segués",
+      "Gigi",
+      "Mari Pau Garcia",
+      "Pau Gimenez",
+      "Anna Pico",
+    ],
+    eng:[
+      "Jelena Radjenovic",
+      "Tomàs Lock",
+      "Nick Duinslager",
+      "Janick Klink",
+      "Diana Alvarez",
+      "Atefeh Tizchang",
+      "Lucas Alonso",
+      "Sofia S.",
+    ],
+  };
+
+  let usp = new URLSearchParams(window.location.search);
+  let pass = usp.get("pass");
+  let admin = pass=="icra123"?1:0;
+
+  let app=Vue.createApp({
+    data(){return {
+      candidats,
+      selected:{
+        cat:null,
+        eng:null,
+      },
+      votacions:null,
+      has_votat:0,
+      admin,
+    }},
+
+    methods:{
+      submit(){
+        let mail = prompt("What is your ICRA email? (don't need to write '@icra.cat')");
+        if(!mail){
+          alert("Vot cancelat");
+          return;
+        }
+
+        let selected = this.selected;
+        let payload  = {mail,selected};
+        let payload_str = JSON.stringify(payload);
+
+        //crea request
+        let body = new FormData();
+        body.append('json',payload_str);
+        fetch(
+          'vota.php',
+          {method:'POST',body},
+        ).then(r=>
+          r.text()
+        ).then(success=>{
+          console.log(success);
+          alert(success); //"OK"
+          app.fetch_votacions();
+          app.has_votat = 1;
+        }).catch(err=>{
+          alert(err);
+        });
+      },
+
+      esborra_vot(id){
+        //crea request
+        let body = new FormData();
+        body.append('id',id);
+        fetch(
+          'esborra_vot.php',
+          {method:'POST',body},
+        ).then(r=>
+          r.text()
+        ).then(success=>{
+          console.log(success);
+          alert(success); //"OK"
+          app.fetch_votacions();
+        }).catch(err=>{
+          alert(err);
+        });
+      },
+
+      fetch_votacions(){
+        fetch("api.php").then(r=>r.json()).then(r=>{
+          this.votacions = r;
+          console.log("votacions llegides");
+        });
+      },
+    },
+
+    computed:{
+      resultats(){
+        if(this.votacions==null) return false;
+
+        let dicc={cat:{},eng:{}};
+        this.votacions.forEach(vot=>{
+          ["cat","eng"].forEach(lang=>{
+            if(!dicc[lang][vot[lang]]) dicc[lang][vot[lang]]=0;
+            dicc[lang][vot[lang]]++;;
+          });
+        });
+
+        let entries = Object.entries(dicc);
+        //ordena els resultats
+        let cat = Object.entries(dicc.cat).sort((a,b)=>b[1]-a[1]);
+        let eng = Object.entries(dicc.eng).sort((a,b)=>b[1]-a[1]);
+        return {cat,eng};
+      },
+    },
+  }).mount("#app");
+
+  //fetch resultats cada x segons
+  //let segons = 20;
+  //setInterval(app.fetch_votacions,segons*1000);
+  app.fetch_votacions();
+</script>

@@ -34,103 +34,168 @@
     }
   </style>
 </head><body>
-<h1>Tast aigua</h1>
+<h1>Tast Aigua</h1>
 
 <div id=app>
-  <div>
-    <b>
-      <span>1. Quina aigua és quina? </span>
-      <span style="color:royalblue">(marca la casella)</span>
-    </b>
+  <div v-if="seccio_actual==1 && admin==0">
+    <div>
+      <b>
+        <span>1. Quina aigua és quina? </span>
+        <span style="color:royalblue">(marca la casella)</span>
+      </b>
 
-    <table border=0>
-      <tr>
-        <td></td>
-        <td v-for="o,i in opcions" center>{{i+1}}</td>
-      </tr>
-      <tr v-for="a,i in aigues">
-        <td>{{a}}</td>
-        <td v-for="o,j in opcions">
-          <input type=checkbox @change="opcions[j]=(opcions[j]==a?null:a)" :checked="opcions[j]==a"
-            :disabled="(opcions[j] && opcions[j]!=a)"
-          >
-        </td>
-      </tr>
-    </table>
-  </div><hr>
+      <table border=0>
+        <tr>
+          <td></td>
+          <td v-for="o,i in opcions" center>{{i+1}}</td>
+        </tr>
+        <tr v-for="a,i in aigues">
+          <td>{{a}}</td>
+          <td v-for="o,j in opcions">
+            <input type=checkbox @change="opcions[j]=(opcions[j]==a?null:a)" :checked="opcions[j]==a"
+              :disabled="(opcions[j] && opcions[j]!=a)"
+            >
+          </td>
+        </tr>
+      </table>
+    </div><hr>
 
-  <div>
-    <b>
-      <span>2. Quina aigua t'ha agradat més? </span>
-      <span style="color:royalblue">(selecciona)</span>
-    </b>
+    <div>
+      <b>
+        <span>2. Quina aigua t'ha agradat més? </span>
+        <span style="color:royalblue">(selecciona)</span>
+      </b>
 
-    <div style="display:flex;margin-top:5px">
-      <div v-for="o,i in opcions" opcio_preferida
-        :marcada="opcio_preferida==i"
-        @click="opcio_preferida=opcio_preferida==i?null:i"
-      >
-        <div>{{i+1}}</div>
+      <div style="display:flex;margin-top:5px">
+        <div v-for="o,i in opcions" opcio_preferida
+          :marcada="opcio_preferida==i"
+          @click="opcio_preferida=opcio_preferida==i?null:i"
+        >
+          <div>{{i+1}}</div>
+        </div>
+      </div>
+    </div><hr>
+
+    <div>
+      <button style="font-size:x-large" @click="seccio_actual=2"
+        :disabled="opcions.some(n=>n==null) || opcio_preferida==null"
+      >SEGÜENT &rarr;</button>
+    </div>
+  </div>
+
+  <div v-if="seccio_actual==2 && admin==0">
+    <div>
+      <div style="margin-bottom:5px">
+        <button @click="seccio_actual=1">enrere</button>
+      </div>
+
+      <b style="color:royalblue">ELS TEUS RESULTATS</b>
+      <div style="font-size:larger">
+        Respostes correctes: {{respostes_correctes}}
+      </div>
+      <table border=1 center>
+        <tr>
+          <th>La teva resposta</th>
+          <th>Resposta correcta</th>
+        </tr>
+        <tr v-for="_,i in opcions"
+          :style="{color:opcions[i]==resposta[i]?'green':'red'}"
+        >
+          <td>
+            {{opcions[i] ?? '-'}}
+          </td>
+          <td>
+            {{resposta[i]}}
+          </td>
+        </tr>
+      </table><hr>
+
+      <div style="margin-top:10px">
+        <b>Quina aigua t'ha agradat més? </b>
+        <b style="color:royalblue" v-if="opcio_preferida!=null">
+          Aigua {{resposta[opcio_preferida]}}
+        </b>
+        <b v-else>--</b>
+      </div>
+    </div><hr>
+
+    <div>
+      <button style="font-size:x-large" @click="submit()" v-if="!has_participat">
+        Enviar Resultats
+      </button>
+
+      <div v-if="has_participat">
+        <button @click="seccio_actual=3">Veure resultats</button>
       </div>
     </div>
-  </div><hr>
+  </div>
 
-  <div>
-    <button style="font-size:x-large">SEGÜENT &rarr;</button>
-  </div><hr>
+  <div v-if="seccio_actual==3 || admin">
+    <div style="margin-bottom:5px" v-if="!admin">
+      <button @click="seccio_actual=2">enrere</button>
+    </div>
 
-  <div>
-    <b style="color:royalblue">ELS TEUS RESULTATS</b>
-    <table border=1 center>
-      <tr>
-        <th>La teva resposta</th>
-        <th>Resposta correcta</th>
-      </tr>
-      <tr v-for="_,i in opcions"
-        :style="{color:opcions[i]==resposta[i]?'green':'red'}"
+    <div v-if="taula_resultats">
+      <b>Taula Resum Resultats ({{resultats.length}} participants)</b><br>
+      <div
+        style="
+          display:flex;
+        "
       >
-        <td>
-          {{opcions[i] ?? '-'}}
-        </td>
-        <td>
-          {{resposta[i]}}
-        </td>
-      </tr>
-    </table>
+        <table border=1 style="margin-right:5px">
+          <tr v-for="rc in [5,4,3,2,1,0]">
+            <td>{{rc}} respostes correctes
+            <td>{{taula_resultats.respostes_correctes[rc]}} persones</td>
+          </tr>
+        </table>
 
-    <div style="margin-top:10px">
-      <b>Quina aigua t'ha agradat més? </b>
-      <b style="color:royalblue" v-if="opcio_preferida!=null">
-        Aigua {{resposta[opcio_preferida]}}
-      </b>
-      <b v-else>--</b>
+        <table border=1>
+          <tr v-for="ap,i in resposta">
+            <td>Aigua preferida: {{ap}}</td>
+            <td>{{taula_resultats.opcions_preferides[i]}} persones</td>
+          </tr>
+        </table>
+      </div>
+    </div><hr>
+
+    <div v-if="resultats">
+      <b>Tots els Resultats (cada fila és un participant)</b><br>
+
+      <table border=1>
+        <tr>
+          <th>nº</th>
+          <th>respostes</th>
+          <th>opcio preferida</th>
+          <th v-if="admin">admin</th>
+        </tr>
+        <tr v-for="res,i in resultats">
+          <td>{{i+1}}</td>
+          <td>{{res.json.respostes}}</td>
+          <td>
+            {{resposta[res.json.opcio_preferida]}}
+          </td>
+          <td v-if="admin">
+            <button @click="esborra_resultat(res.id)">esborra resultat</button>
+          </td>
+        </tr>
+      </table>
     </div>
-  </div><hr>
-
-  <div>
-    <div style="font-size:larger">
-      <b>
-        Respotes correctes: {{respostes_correctes}}
-      </b>
-    </div>
-    <button style="font-size:x-large">
-      Enviar Resultats
-    </button>
-  </div><hr>
-</div>
-
-<div>
-  <code>pàgina en construcció</code>
-  <b>TO DO</b>
-  <ul>
-    <li>Falta dissenyar com es veuria la taula de resultats
-    <li>Falta crear base de dades per guardar les respostes
-  </ul>
+  </div>
 </div>
 
 <script>
+  let usp   = new URLSearchParams(window.location.search);
+  let pass  = usp.get("pass");
+  let admin = pass=="icra123"?1:0;
+
   let app = Vue.createApp({
     data(){return{
+      admin,
+      has_participat:0,
+      seccio_actual:1,
+
+      resultats:null, //fetch
+
       //respostes usuari
       opcions:[null,null,null,null,null],
 
@@ -156,6 +221,88 @@
       ],
     }},
 
+    methods:{
+      submit(){
+        if(this.has_participat){
+          alert("Ja has participat!");
+          return;
+        }
+
+        let respostes       = this.opcions;
+        let opcio_preferida = this.opcio_preferida;
+
+        if(respostes.some(el=>el==null)){
+          alert("Respon totes les caselles");
+          return;
+        }
+        if(opcio_preferida==null){
+          alert("Falta seleccionar la teva aigua preferida");
+          return;
+        }
+
+        //empaqueta json i guarda com string
+        let payload     = {respostes,opcio_preferida};
+        let payload_str = JSON.stringify(payload);
+
+        //crea request
+        let body = new FormData();
+        body.append('json',payload_str);
+        fetch(
+          'guarda_resultat.php',
+          {method:'POST',body},
+        ).then(r=>
+          r.text()
+        ).then(success=>{
+          console.log(success);
+          alert(success); //"OK"
+          app.has_participat = 1;
+          app.fetch_resultats();
+          app.seccio_actual=3;
+        }).catch(err=>{
+          alert(err);
+        });
+      },
+
+      esborra_resultat(id){
+        //crea request
+        let body = new FormData();
+        body.append('id',id);
+        fetch(
+          'esborra_resultat.php',
+          {method:'POST',body},
+        ).then(r=>
+          r.text()
+        ).then(success=>{
+          console.log(success);
+          alert(success); //"OK"
+          app.fetch_resultats();
+        }).catch(err=>{
+          alert(err);
+        });
+      },
+
+      fetch_resultats(){
+        fetch("api.php").then(r=>r.json()).then(r=>{
+
+          //parseja camp "json"
+          r.forEach(el=>el.json = JSON.parse(el.json));
+
+          this.resultats = r;
+          console.log("resultats llegits");
+        });
+      },
+
+      calcula_respostes_correctes(resultat){
+        let n=0;
+        resultat.json.respostes.forEach((r,i)=>{
+          if(r==this.resposta[i]){
+            n++;
+          }
+        });
+        return n;
+      },
+    },
+
     computed:{
       respostes_correctes(){
         let n=0;
@@ -165,7 +312,43 @@
           }
         });
         return n;
-      }
-    }
+      },
+
+      taula_resultats(){
+        if(!this.resultats) return false;
+
+        let taula={
+          respostes_correctes:{
+            "5":0,
+            "4":0,
+            "3":0,
+            "2":0,
+            "1":0,
+            "0":0,
+          },
+          opcions_preferides:{
+            "4":0,
+            "3":0,
+            "2":0,
+            "1":0,
+            "0":0,
+          },
+        };
+
+        this.resultats.forEach(resultat=>{
+          let rc = this.calcula_respostes_correctes(resultat);
+          taula.respostes_correctes[rc]++;
+          taula.opcions_preferides[resultat.json.opcio_preferida]++;
+        });
+
+        return taula;
+      },
+    },
+
+    mounted(){
+      this.fetch_resultats();
+      let interval_segons = 5;
+      setInterval(this.fetch_resultats, interval_segons*1000);
+    },
   }).mount("#app");
 </script>
