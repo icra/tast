@@ -143,29 +143,37 @@
         "
       >
         <table border=1 style="margin-right:5px">
+          <tr>
+            <th>Respostes correctes</th>
+            <th>Persones</th>
+          </tr>
           <tr v-for="rc in [5,4,3,2,1,0]">
-            <td>{{rc}} respostes correctes
-            <td>{{taula_resultats.respostes_correctes[rc]}} persones</td>
+            <td center>{{rc}}
+            <td center>{{taula_resultats.respostes_correctes[rc]}}</td>
           </tr>
         </table>
 
         <table border=1>
+          <tr>
+            <th>Aigua preferida</th>
+            <th>Persones</th>
+          </tr>
           <tr v-for="ap,i in resposta">
-            <td>Aigua preferida: {{ap}}</td>
-            <td>{{taula_resultats.opcions_preferides[i]}} persones</td>
+            <td>{{ap}}</td>
+            <td center>{{taula_resultats.opcions_preferides[i]}}</td>
           </tr>
         </table>
       </div>
     </div><hr>
 
-    <div v-if="resultats">
+    <div v-if="resultats && admin">
       <b>Tots els Resultats (cada fila és un participant)</b><br>
 
       <table border=1>
         <tr>
           <th>nº</th>
           <th>respostes</th>
-          <th>opcio preferida</th>
+          <th>opció preferida</th>
           <th v-if="admin">admin</th>
         </tr>
         <tr v-for="res,i in resultats">
