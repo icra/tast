@@ -208,7 +208,12 @@
                   margin-bottom:10px;
                 "
               >
-                <div fondo_blau lletra_color_blau :style="{width:px+'%'}">|</div>
+                <div
+                  :style="{
+                    width:px+'%',
+                    background:colors_grafic_barres[i],
+                    color:colors_grafic_barres[i],
+                  }">|</div>
                 <div lletra_color_gris style="font-size:smaller;font-weight:bold">&nbsp;{{px}}%</div>
               </div>
             </td>
@@ -300,6 +305,14 @@
         "Aixeta filtrada",
         "Embotellada",
         "Dessalada",
+      ],
+
+      colors_grafic_barres:[
+        "#2CA58D", //verd
+        "#E28413", //taronja
+        "#574AE2", //blau
+        "#E5BEED", //rosa
+        "#92374D", //marro
       ],
     }},
 
