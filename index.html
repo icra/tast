@@ -56,8 +56,17 @@
       color:royalblue;
       font-weight:bold;
     }
+    [partit="1"]{
+      display:grid;
+      grid-template-columns:50% 50%;
+    }
   </style>
 </head><body>
+
+<nav>
+  <a href="index.html">versió normal</a> |
+  <a href="index.html?pass=icra123">versió admin</a> |
+</nav>
 
 <h1 fondo_blau>
   <div
@@ -125,7 +134,7 @@
     <div>
       <div style="margin-bottom:5px">
         <button @click="seccio_actual=1">enrere</button>
-      </div>
+      </div><hr>
 
       <b>ELS TEUS RESULTATS</b><hr>
       <div style="font-size:larger">
@@ -171,70 +180,78 @@
   <div v-if="seccio_actual==3 || admin">
     <div style="margin-bottom:5px" v-if="!admin">
       <button @click="seccio_actual=2">enrere</button>
+      <hr>
     </div>
 
-    <div v-if="taula_resultats">
-      <b>Aigua preferida de Girona</b><br><br>
-
+    <div :partit="admin">
       <div>
-        <!--
-        taula resultats per respostes correctes
-        <table border=1 style="margin-right:5px">
-          <tr>
-            <th>Respostes correctes</th>
-            <th>Persones</th>
-          </tr>
-          <tr v-for="rc in [5,4,3,2,1,0]">
-            <td center>{{rc}}
-            <td center>{{taula_resultats.respostes_correctes[rc]}}</td>
-          </tr>
-        </table>
-        -->
+        <div v-if="taula_resultats">
+          <b>Aigua preferida de Girona</b><br><br>
+
+          <div>
+            <!--
+            taula resultats per respostes correctes
+            <table border=1 style="margin-right:5px">
+              <tr>
+                <th>Respostes correctes</th>
+                <th>Persones</th>
+              </tr>
+              <tr v-for="rc in [5,4,3,2,1,0]">
+                <td center>{{rc}}
+                <td center>{{taula_resultats.respostes_correctes[rc]}}</td>
+              </tr>
+            </table>
+            -->
+          </div>
+
+          <table border=0 style="width:100%">
+            <tbody v-for="en,i in taula_resultats.opcions_preferides">
+              <tr>
+                <td style="padding-left:10px">{{resposta[en[0]]}}</td>
+              </tr>
+              <tr>
+                <td
+                  v-for="px in [(100*en[1]/resultats.length||0).toFixed(1)]"
+                >
+                  <div
+                    style="
+                      display:flex;
+                      align-items:center;
+                      margin-bottom:10px;
+                    "
+                  >
+                    <div
+                      :style="{
+                        width:px+'%',
+                        background:colors_grafic_barres[i],
+                        color:colors_grafic_barres[i],
+                      }">|</div>
+                    <div lletra_color_gris style="font-size:smaller;font-weight:bold">&nbsp;{{px}}%</div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div v-if="admin"
+          style="
+            display:flex;
+            justify-content:space-around;
+            align-items:center;
+          "
+        >
+          <div>
+            <img src="img/logo-icra-2.png" style="width:100px">
+          </div>
+          <div>
+            <div lletra_color_blau style="font-size:x-large" center><b>PARTICIPA!</b></div>
+            <img src="qr.png">
+          </div>
+        </div>
       </div>
-
-      <table border=0 style="width:100%">
-        <tbody v-for="en,i in taula_resultats.opcions_preferides">
-          <tr>
-            <td style="padding-left:10px">{{resposta[en[0]]}}</td>
-          </tr>
-          <tr>
-            <td
-              v-for="px in [(100*en[1]/resultats.length||0).toFixed(1)]"
-            >
-              <div
-                style="
-                  display:flex;
-                  align-items:center;
-                  margin-bottom:10px;
-                "
-              >
-                <div
-                  :style="{
-                    width:px+'%',
-                    background:colors_grafic_barres[i],
-                    color:colors_grafic_barres[i],
-                  }">|</div>
-                <div lletra_color_gris style="font-size:smaller;font-weight:bold">&nbsp;{{px}}%</div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div v-if="admin"
-      style="
-        display:flex;
-        justify-content:space-around;
-        align-items:center;
-      "
-    >
-      <div>
-        <img src="img/logo-icra-2.png" style="width:100px">
-      </div>
-      <div>
-        <div lletra_color_blau style="font-size:x-large" center><b>PARTICIPA!</b></div>
-        <img src="qr.png">
+      <div v-if="admin" style="border:1px solid #ccc" center>
+        placeholder infogràfic 50% amplada
       </div>
     </div>
 
