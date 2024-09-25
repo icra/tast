@@ -2,15 +2,40 @@
   <meta charset=utf8>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tast Aigua</title>
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <style>
+    body{
+      font-family:Arial;
+      margin:0;
+    }
+    hr{
+      border:none;
+    }
+    h1{
+      padding:1px 8px;
+    }
+    div#app{
+      margin-left:8px;
+    }
+
+    [fondo_blau]{
+      background:#7fdbf8;
+      color:white;
+    }
+
+    [lletra_color_gris]{
+      color:#a6a6a6;
+    }
+    [lletra_color_blau]{
+      color:#7fdbf8;
+    }
+
     [center]{
       text-align:center;
     }
     [opcio_preferida]{
-      border:1px solid royalblue;
+      border:1px solid black;
       border-radius:50%;
-      color:royalblue;
       width:50px;
       height:50px;
       font-size:20px;
@@ -20,28 +45,46 @@
       margin-right:5px;
     }
     [opcio_preferida]:hover{
-      border-color:#af0;
-      color:#af0;
+      border-color:#7fdbf8;
+      background:#7fdbf8;
+      color:white;
     }
     [opcio_preferida][marcada=true]{
-      border-color:green;
-      color:green;
+      border-color:royalblue;
+      background:#7fdbf8;
+      color:royalblue;
       font-weight:bold;
-    }
-    hr{
-      border:none;
-      border-bottom:1px solid #666;
     }
   </style>
 </head><body>
-<h1>Tast Aigua</h1>
+
+<nav>
+  TEMPORAL &rarr;
+  <a href="index.html">versio normal</a> |
+  <a href="index.html?pass=icra123">versio admin</a>
+</nav>
+
+<h1 fondo_blau>
+  <div
+    style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    "
+  >
+    <div>TAST D'AIGUA</div>
+    <div>
+      <img src="img/logo-icra.png" style="width:60px">
+    </div>
+  </div>
+</h1>
 
 <div id=app>
   <div v-if="seccio_actual==1 && admin==0">
     <div>
       <b>
         <span>1. Quina aigua és quina? </span>
-        <span style="color:royalblue">(marca la casella)</span>
+        <span lletra_color_gris>(marca la casella)</span>
       </b>
 
       <table border=0>
@@ -63,7 +106,7 @@
     <div>
       <b>
         <span>2. Quina aigua t'ha agradat més? </span>
-        <span style="color:royalblue">(selecciona)</span>
+        <span lletra_color_gris>(selecciona)</span>
       </b>
 
       <div style="display:flex;margin-top:5px">
@@ -89,14 +132,14 @@
         <button @click="seccio_actual=1">enrere</button>
       </div>
 
-      <b style="color:royalblue">ELS TEUS RESULTATS</b>
+      <b>ELS TEUS RESULTATS</b><hr>
       <div style="font-size:larger">
-        Respostes correctes: {{respostes_correctes}}
-      </div>
-      <table border=1 center>
-        <tr>
-          <th>La teva resposta</th>
-          <th>Resposta correcta</th>
+        Respostes correctes: <b lletra_color_blau>{{respostes_correctes}}</b>
+      </div><hr>
+      <table border=0 center>
+        <tr fondo_blau>
+          <th style="padding:5px 8px">La teva resposta</th>
+          <th style="padding:5px 8px">Resposta correcta</th>
         </tr>
         <tr v-for="_,i in opcions"
           :style="{color:opcions[i]==resposta[i]?'green':'red'}"
@@ -112,7 +155,7 @@
 
       <div style="margin-top:10px">
         <b>Quina aigua t'ha agradat més?</b><br>
-        <b style="color:royalblue" v-if="opcio_preferida!=null">
+        <b lletra_color_blau v-if="opcio_preferida!=null" style="font-size:x-large">
           Aigua {{resposta[opcio_preferida]}}
         </b>
         <b v-else>--</b>
@@ -121,7 +164,7 @@
 
     <div>
       <button style="font-size:x-large" @click="submit()" v-if="!has_participat">
-        Enviar Resultats
+        Enviar resultats
       </button>
 
       <div v-if="has_participat">
@@ -136,12 +179,11 @@
     </div>
 
     <div v-if="taula_resultats">
-      <b>Taula Resum Resultats ({{resultats.length}} participants)</b><br>
-      <div
-        style="
-          display:flex;
-        "
-      >
+      <b>Aigua preferida de Girona</b><br><br>
+
+      <div>
+        <!--
+        taula resultats per respostes correctes
         <table border=1 style="margin-right:5px">
           <tr>
             <th>Respostes correctes</th>
@@ -152,49 +194,77 @@
             <td center>{{taula_resultats.respostes_correctes[rc]}}</td>
           </tr>
         </table>
+        -->
+      </div>
 
-        <table border=1>
+      <table border=0 style="width:100%">
+        <tbody v-for="en,i in taula_resultats.opcions_preferides">
           <tr>
-            <th>Aigua preferida</th>
-            <th>Persones</th>
+            <td style="padding-left:10px">{{resposta[en[0]]}}</td>
           </tr>
-          <tr v-for="ap,i in resposta">
-            <td>{{ap}}</td>
-            <td center>{{taula_resultats.opcions_preferides[i]}}</td>
+          <tr>
+            <td
+              v-for="px in [(100*en[1]/resultats.length||0).toFixed(1)]"
+            >
+              <div
+                style="
+                  display:flex;
+                  align-items:center;
+                  margin-bottom:10px;
+                "
+              >
+                <div fondo_blau lletra_color_blau :style="{width:px+'%'}">.</div>
+                <div lletra_color_gris style="font-size:smaller;font-weight:bold">&nbsp;{{px}}%</div>
+              </div>
+            </td>
           </tr>
-        </table>
+        </tbody>
+      </table>
+    </div>
+
+    <div v-if="admin"
+      style="
+        display:flex;
+        justify-content:space-around;
+        align-items:center;
+      "
+    >
+      <div>
+        <img src="img/logo-icra-2.png" style="width:100px">
+      </div>
+      <div>
+        <div lletra_color_blau style="font-size:x-large" center><b>PARTICIPA!</b></div>
+        <img src="qr.png">
       </div>
     </div>
 
-    <div v-if="admin">
-      <hr>
-      Participa:<br>
-      <img src="qr.png">
-    </div>
-
+    <!-- taula tots els resultats
+    -->
     <div v-if="resultats && admin">
       <hr>
+      <button @click="veure_taula_tots_els_resultats^=1">taula resultats</button>
 
-      <b>Tots els Resultats (cada fila és un participant)</b><br>
-
-      <table border=1 style="font-size:smaller">
-        <tr>
-          <th>nº</th>
-          <th>respostes</th>
-          <th>opció preferida</th>
-          <th v-if="admin">admin</th>
-        </tr>
-        <tr v-for="res,i in resultats">
-          <td>{{i+1}}</td>
-          <td>{{res.json.respostes}}</td>
-          <td>
-            {{resposta[res.json.opcio_preferida]}}
-          </td>
-          <td v-if="admin">
-            <button @click="esborra_resultat(res.id)">esborra resultat</button>
-          </td>
-        </tr>
-      </table>
+      <div v-if="veure_taula_tots_els_resultats">
+        <b>Tots els Resultats (cada fila és un participant)</b><br>
+        <table border=1 style="font-size:x-small">
+          <tr>
+            <th>nº</th>
+            <th>respostes</th>
+            <th>opció preferida</th>
+            <th v-if="admin">admin</th>
+          </tr>
+          <tr v-for="res,i in resultats">
+            <td>{{i+1}}</td>
+            <td>{{res.json.respostes}}</td>
+            <td>
+              {{resposta[res.json.opcio_preferida]}}
+            </td>
+            <td v-if="admin">
+              <button @click="esborra_resultat(res.id)">esborra</button>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </div>
@@ -209,6 +279,7 @@
       admin,
       has_participat:0,
       seccio_actual:1,
+      veure_taula_tots_els_resultats:false,
 
       resultats:null, //fetch
 
@@ -218,22 +289,22 @@
       //numero que li ha agradat més a l'usuari
       opcio_preferida:null,
 
-      //respostes correctes
+      //resposta correcta
       resposta:[
-        "Aixeta",
-        "Aixeta filtrada",
         "Embotellada",
+        "Aixeta filtrada",
+        "Aixeta",
         "Dessalada",
-        "Pou",
+        "Font natural",
       ],
 
       //totes les opcions
       aigues:[
+        "Font natural",
         "Aixeta",
         "Aixeta filtrada",
         "Embotellada",
         "Dessalada",
-        "Pou",
       ],
     }},
 
@@ -357,13 +428,24 @@
           taula.opcions_preferides[resultat.json.opcio_preferida]++;
         });
 
+        //ordena aigua preferida
+        let opcions_preferides_sorted=[];
+        Object.entries(taula.opcions_preferides).sort((a,b)=>b[1]-a[1]).forEach(en=>{
+          console.log({en});
+          opcions_preferides_sorted.push(en);
+        });
+
+        console.log(opcions_preferides_sorted);
+        
+        taula.opcions_preferides = opcions_preferides_sorted;
+
         return taula;
       },
     },
 
     mounted(){
       this.fetch_resultats();
-      let interval_segons = 5;
+      let interval_segons = 15;
       setInterval(this.fetch_resultats, interval_segons*1000);
     },
   }).mount("#app");
