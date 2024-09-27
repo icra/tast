@@ -7,6 +7,7 @@
     body{
       font-family:Arial;
       margin:0;
+      background:white;
     }
     hr{
       border:none;
@@ -58,9 +59,7 @@
       font-weight:bold;
     }
     [partit="1"]{
-      display:grid;
-      grid-template-columns:50% 50%;
-      justify-items:stretch;
+      display:flex;
     }
   </style>
 </head><body>
@@ -74,7 +73,11 @@
 
 <div id=app>
   <div :partit="admin">
-    <div><!--esquerra-->
+    <div
+      style="
+        flex:1;
+      "
+    ><!--esquerra-->
       <h1 fondo_blau>
         <div
           style="
@@ -290,7 +293,9 @@
     <!--dreta-->
     <img v-if="admin" src="img/infografia.png"
       style="
+        flex: 0 0 auto;
         height:100vh;
+        width:auto;
       "
     >
   </div>
