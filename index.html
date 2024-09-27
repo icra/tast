@@ -14,6 +14,7 @@
     h1{
       padding:1px 8px;
       margin-top:0;
+      margin-left:-8px;
     }
     div#app{
       margin-left:8px;
@@ -59,6 +60,7 @@
     [partit="1"]{
       display:grid;
       grid-template-columns:50% 50%;
+      justify-items:stretch;
     }
   </style>
 </head><body>
@@ -70,221 +72,227 @@
 </nav>
 -->
 
-<h1 fondo_blau>
-  <div
-    style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    "
-  >
-    <div>TAST D'AIGUA</div>
-    <div>
-      <img src="img/logo-icra.png" style="width:60px">
-    </div>
-  </div>
-</h1>
-
 <div id=app>
-  <div v-if="seccio_actual==1 && admin==0">
-    <div>
-      <b>
-        <span>1. Quina aigua és quina? </span>
-        <span lletra_color_gris>(marca la casella)</span>
-      </b>
-
-      <table border=0>
-        <tr>
-          <td></td>
-          <td v-for="o,i in opcions" center>{{i+1}}</td>
-        </tr>
-        <tr v-for="a,i in aigues">
-          <td>{{a}}</td>
-          <td v-for="o,j in opcions">
-            <input type=checkbox @change="opcions[j]=(opcions[j]==a?null:a)" :checked="opcions[j]==a"
-              :disabled="(opcions[j] && opcions[j]!=a)"
-            >
-          </td>
-        </tr>
-      </table>
-    </div><hr>
-
-    <div>
-      <b>
-        <span>2. Quina aigua t'ha agradat més? </span>
-        <span lletra_color_gris>(selecciona)</span>
-      </b>
-
-      <div style="display:flex;margin-top:5px">
-        <div v-for="o,i in opcions" opcio_preferida
-          :marcada="opcio_preferida==i"
-          @click="opcio_preferida=opcio_preferida==i?null:i"
-        >
-          <div>{{i+1}}</div>
-        </div>
-      </div>
-    </div><hr>
-
-    <div>
-      <button style="font-size:x-large" @click="seccio_actual=2"
-        :disabled="opcions.some(n=>n==null) || opcio_preferida==null"
-      >SEGÜENT &rarr;</button>
-    </div>
-  </div>
-
-  <div v-if="seccio_actual==2 && admin==0">
-    <div>
-      <div style="margin-bottom:5px">
-        <button @click="seccio_actual=1">enrere</button>
-      </div><hr>
-
-      <b>ELS TEUS RESULTATS</b><hr>
-      <div style="font-size:larger">
-        Respostes correctes: <b lletra_color_blau>{{respostes_correctes}}</b>
-      </div><hr>
-      <table border=0 center>
-        <tr fondo_blau>
-          <th style="padding:5px 8px">La teva resposta</th>
-          <th style="padding:5px 8px">Resposta correcta</th>
-        </tr>
-        <tr v-for="_,i in opcions"
-          :style="{color:opcions[i]==resposta[i]?'green':'red'}"
-        >
-          <td>
-            {{opcions[i] ?? '-'}}
-          </td>
-          <td>
-            {{resposta[i]}}
-          </td>
-        </tr>
-      </table><hr>
-
-      <div style="margin-top:10px">
-        <b>Quina aigua t'ha agradat més?</b><br>
-        <b lletra_color_blau v-if="opcio_preferida!=null" style="font-size:x-large">
-          Aigua {{resposta[opcio_preferida]}}
-        </b>
-        <b v-else>--</b>
-      </div>
-    </div><hr>
-
-    <div>
-      <button style="font-size:x-large" @click="submit()" v-if="!has_participat">
-        Enviar resultats
-      </button>
-
-      <div v-if="has_participat">
-        <button @click="seccio_actual=3">Veure resultats</button>
-      </div>
-    </div>
-  </div>
-
-  <div v-if="seccio_actual==3 || admin">
-    <div style="margin-bottom:5px" v-if="!admin">
-      <button @click="seccio_actual=2">enrere</button>
-      <hr>
-    </div>
-
-    <div :partit="admin">
-      <div>
-        <div v-if="taula_resultats">
-          <b>Aigua preferida de Girona</b><br><br>
-
-          <div>
-            <!--
-            taula resultats per respostes correctes
-            <table border=1 style="margin-right:5px">
-              <tr>
-                <th>Respostes correctes</th>
-                <th>Persones</th>
-              </tr>
-              <tr v-for="rc in [5,4,3,2,1,0]">
-                <td center>{{rc}}
-                <td center>{{taula_resultats.respostes_correctes[rc]}}</td>
-              </tr>
-            </table>
-            -->
-          </div>
-
-          <table border=0 style="width:100%">
-            <tbody v-for="en,i in taula_resultats.opcions_preferides">
-              <tr>
-                <td style="padding-left:10px">{{resposta[en[0]]}}</td>
-              </tr>
-              <tr>
-                <td
-                  v-for="px in [(100*en[1]/resultats.length||0).toFixed(1)]"
-                >
-                  <div
-                    style="
-                      display:flex;
-                      align-items:center;
-                      margin-bottom:10px;
-                    "
-                  >
-                    <div
-                      :style="{
-                        width:px+'%',
-                        background:colors_grafic_barres[i],
-                        color:colors_grafic_barres[i],
-                      }">|</div>
-                    <div lletra_color_gris style="font-size:smaller;font-weight:bold">&nbsp;{{px}}%</div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div v-if="admin"
+  <div :partit="admin">
+    <div><!--esquerra-->
+      <h1 fondo_blau>
+        <div
           style="
             display:flex;
-            justify-content:space-around;
+            justify-content:space-between;
             align-items:center;
           "
         >
+          <div>TAST D'AIGUA</div>
           <div>
-            <img src="img/logo-icra-2.png" style="width:100px">
+            <img src="img/logo-icra.png" style="width:60px">
           </div>
-          <div>
-            <div lletra_color_blau style="font-size:x-large" center><b>PARTICIPA!</b></div>
-            <img src="qr.png">
+        </div>
+      </h1>
+
+      <div v-if="seccio_actual==1 && admin==0">
+        <div>
+          <b>
+            <span>1. Quina aigua és quina? </span>
+            <span lletra_color_gris>(marca la casella)</span>
+          </b>
+
+          <table border=0>
+            <tr>
+              <td></td>
+              <td v-for="o,i in opcions" center>{{i+1}}</td>
+            </tr>
+            <tr v-for="a,i in aigues">
+              <td>{{a}}</td>
+              <td v-for="o,j in opcions">
+                <input type=checkbox @change="opcions[j]=(opcions[j]==a?null:a)" :checked="opcions[j]==a"
+                  :disabled="(opcions[j] && opcions[j]!=a)"
+                >
+              </td>
+            </tr>
+          </table>
+        </div><hr>
+
+        <div>
+          <b>
+            <span>2. Quina aigua t'ha agradat més? </span>
+            <span lletra_color_gris>(selecciona)</span>
+          </b>
+
+          <div style="display:flex;margin-top:5px">
+            <div v-for="o,i in opcions" opcio_preferida
+              :marcada="opcio_preferida==i"
+              @click="opcio_preferida=opcio_preferida==i?null:i"
+            >
+              <div>{{i+1}}</div>
+            </div>
+          </div>
+        </div><hr>
+
+        <div>
+          <button style="font-size:x-large" @click="seccio_actual=2"
+            :disabled="opcions.some(n=>n==null) || opcio_preferida==null"
+          >SEGÜENT &rarr;</button>
+        </div>
+      </div>
+
+      <div v-if="seccio_actual==2 && admin==0">
+        <div>
+          <div style="margin-bottom:5px">
+            <button @click="seccio_actual=1">enrere</button>
+          </div><hr>
+
+          <b>ELS TEUS RESULTATS</b><hr>
+          <div style="font-size:larger">
+            Respostes correctes: <b lletra_color_blau>{{respostes_correctes}}</b>
+          </div><hr>
+          <table border=0 center>
+            <tr fondo_blau>
+              <th style="padding:5px 8px">La teva resposta</th>
+              <th style="padding:5px 8px">Resposta correcta</th>
+            </tr>
+            <tr v-for="_,i in opcions"
+              :style="{color:opcions[i]==resposta[i]?'green':'red'}"
+            >
+              <td>
+                {{opcions[i] ?? '-'}}
+              </td>
+              <td>
+                {{resposta[i]}}
+              </td>
+            </tr>
+          </table><hr>
+
+          <div style="margin-top:10px">
+            <b>Quina aigua t'ha agradat més?</b><br>
+            <b lletra_color_blau v-if="opcio_preferida!=null" style="font-size:x-large">
+              Aigua {{resposta[opcio_preferida]}}
+            </b>
+            <b v-else>--</b>
+          </div>
+        </div><hr>
+
+        <div>
+          <button style="font-size:x-large" @click="submit()" v-if="!has_participat">
+            Enviar resultats
+          </button>
+
+          <div v-if="has_participat">
+            <button @click="seccio_actual=3">Veure resultats</button>
           </div>
         </div>
       </div>
-      <div v-if="admin" style="border:1px solid #ccc" center>
-        placeholder infogràfic 50% amplada
+
+      <div v-if="seccio_actual==3 || admin">
+        <div style="margin-bottom:5px" v-if="!admin">
+          <button @click="seccio_actual=2">enrere</button>
+          <hr>
+        </div>
+
+        <div>
+          <div v-if="taula_resultats">
+            <b>Aigua preferida de Girona</b><br><br>
+
+            <div>
+              <!--
+              taula resultats per respostes correctes
+              <table border=1 style="margin-right:5px">
+                <tr>
+                  <th>Respostes correctes</th>
+                  <th>Persones</th>
+                </tr>
+                <tr v-for="rc in [5,4,3,2,1,0]">
+                  <td center>{{rc}}
+                  <td center>{{taula_resultats.respostes_correctes[rc]}}</td>
+                </tr>
+              </table>
+              -->
+            </div>
+
+            <table border=0 style="width:100%">
+              <tbody v-for="en,i in taula_resultats.opcions_preferides">
+                <tr>
+                  <td style="padding-left:10px">{{resposta[en[0]]}}</td>
+                </tr>
+                <tr>
+                  <td
+                    v-for="px in [(100*en[1]/resultats.length||0).toFixed(1)]"
+                  >
+                    <div
+                      style="
+                        display:flex;
+                        align-items:center;
+                        margin-bottom:10px;
+                      "
+                    >
+                      <div
+                        :style="{
+                          width:px+'%',
+                          background:colors_grafic_barres[i],
+                          color:colors_grafic_barres[i],
+                        }">|</div>
+                      <div lletra_color_gris style="font-size:smaller;font-weight:bold">&nbsp;{{px}}%</div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div v-if="admin"
+            style="
+              display:flex;
+              justify-content:space-around;
+              align-items:center;
+            "
+          >
+            <div>
+              <img src="img/logo-icra-2.png" style="width:100px">
+            </div>
+            <div>
+              <div lletra_color_blau style="font-size:x-large" center><b>PARTICIPA!</b></div>
+              <img src="qr.png">
+            </div>
+          </div>
+        </div>
+
+        <!-- taula tots els resultats
+        -->
+        <div v-if="resultats && admin">
+          <hr>
+          <button @click="veure_taula_tots_els_resultats^=1">taula resultats</button>
+
+          <div v-if="veure_taula_tots_els_resultats">
+            <b>Tots els Resultats (cada fila és un participant)</b><br>
+            <table border=1 style="font-size:x-small">
+              <tr>
+                <th>nº</th>
+                <th>respostes</th>
+                <th>opció preferida</th>
+                <th v-if="admin">admin</th>
+              </tr>
+              <tr v-for="res,i in resultats">
+                <td>{{i+1}}</td>
+                <td>{{res.json.respostes}}</td>
+                <td>
+                  {{resposta[res.json.opcio_preferida]}}
+                </td>
+                <td v-if="admin">
+                  <button @click="esborra_resultat(res.id)">esborra</button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- taula tots els resultats
-    -->
-    <div v-if="resultats && admin">
-      <hr>
-      <button @click="veure_taula_tots_els_resultats^=1">taula resultats</button>
-
-      <div v-if="veure_taula_tots_els_resultats">
-        <b>Tots els Resultats (cada fila és un participant)</b><br>
-        <table border=1 style="font-size:x-small">
-          <tr>
-            <th>nº</th>
-            <th>respostes</th>
-            <th>opció preferida</th>
-            <th v-if="admin">admin</th>
-          </tr>
-          <tr v-for="res,i in resultats">
-            <td>{{i+1}}</td>
-            <td>{{res.json.respostes}}</td>
-            <td>
-              {{resposta[res.json.opcio_preferida]}}
-            </td>
-            <td v-if="admin">
-              <button @click="esborra_resultat(res.id)">esborra</button>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
+    <!--dreta-->
+    <img v-if="admin" src="img/infografia.png"
+      style="
+        height:100vh;
+      "
+    >
   </div>
 </div>
 
