@@ -73,11 +73,7 @@
 
 <div id=app>
   <div :partit="admin">
-    <div
-      style="
-        flex:1;
-      "
-    ><!--esquerra-->
+    <div style=" flex:1;" ><!--esquerra-->
       <h1 fondo_blau>
         <div
           style="
@@ -94,13 +90,29 @@
       </h1>
 
       <div v-if="seccio_actual==1 && admin==0">
+        <div><!--pregunta 1-->
+          <b>
+            <span>1. Quin tipus d'aigua beus normalment? </span>
+          </b>
+
+          <table border=0 style="font-size:larger">
+            <tr v-for="a,i in aigues">
+              <td>
+                <label :style="{fontWeight:a==aigua_que_beu_normalment?'bold':''}">
+                  <input type=radio v-model="aigua_que_beu_normalment" :value="a"> {{a}}
+                </label>
+              </td>
+            </tr>
+          </table>
+        </div><hr>
+
         <div>
           <b>
             <span>1. Quina aigua és quina? </span>
             <span lletra_color_gris>(marca la casella)</span>
           </b>
 
-          <table border=0>
+          <table border=0 style="font-size:larger">
             <tr>
               <td></td>
               <td v-for="o,i in opcions" center>{{i+1}}</td>
@@ -134,7 +146,7 @@
 
         <div>
           <button style="font-size:x-large" @click="seccio_actual=2"
-            :disabled="opcions.some(n=>n==null) || opcio_preferida==null"
+            :disabled="opcions.some(n=>n==null) || opcio_preferida==null || aigua_que_beu_normalment==null"
           >SEGÜENT &rarr;</button>
         </div>
       </div>
@@ -151,25 +163,36 @@
           </div><hr>
           <table border=0 center>
             <tr fondo_blau>
-              <th style="padding:5px 8px">La teva resposta</th>
+              <th style="padding:5px 8px">Nº</th>
               <th style="padding:5px 8px">Resposta correcta</th>
+              <th style="padding:5px 8px">La teva resposta</th>
             </tr>
-            <tr v-for="_,i in opcions"
-              :style="{color:opcions[i]==resposta[i]?'green':'red'}"
-            >
+            <tr v-for="_,i in opcions">
               <td>
-                {{opcions[i] ?? '-'}}
+                {{i+1}}
               </td>
               <td>
                 {{resposta[i]}}
+              </td>
+              <td
+                :style="{color:opcions[i]==resposta[i]?'green':'red'}"
+              >
+                {{opcions[i] ?? '-'}}
               </td>
             </tr>
           </table><hr>
 
           <div style="margin-top:10px">
-            <b>Quina aigua t'ha agradat més?</b><br>
+            <b>Normalment beus:</b><br>
+            <b lletra_color_blau v-if="aigua_que_beu_normalment!=null" style="font-size:x-large">
+              Aigua {{aigua_que_beu_normalment}}
+            </b>
+            <b v-else>--</b>
+          </div>
+          <div style="margin-top:10px">
+            <b>I l'aigua que t'ha agradat més és:</b><br>
             <b lletra_color_blau v-if="opcio_preferida!=null" style="font-size:x-large">
-              Aigua {{resposta[opcio_preferida]}}
+              Aigua {{resposta[opcio_preferida]}} (nº {{opcio_preferida+1}})
             </b>
             <b v-else>--</b>
           </div>
@@ -194,7 +217,7 @@
 
         <div>
           <div v-if="taula_resultats">
-            <b>Aigua preferida de Girona</b><br><br>
+            <b>Aigua preferida dels participants ({{resultats.length}})</b><br><br>
 
             <div>
               <!--
@@ -234,7 +257,7 @@
                           background:colors_grafic_barres[i],
                           color:colors_grafic_barres[i],
                         }">|</div>
-                      <div lletra_color_gris style="font-size:smaller;font-weight:bold">&nbsp;{{px}}%</div>
+                      <div lletra_color_gris style="font-size:smaller;font-weight:bold">&nbsp;{{px}}% ({{en[1]}} persones)</div>
                     </div>
                   </td>
                 </tr>
@@ -315,28 +338,25 @@
 
       resultats:null, //fetch
 
-      //respostes usuari
-      opcions:[null,null,null,null,null],
-
-      //numero que li ha agradat més a l'usuari
-      opcio_preferida:null,
+      /*respostes usuari*/
+      aigua_que_beu_normalment:null,
+      opcions:[null,null,null,null],
+      opcio_preferida:null, //numero (aigua preferida)
 
       //resposta correcta
       resposta:[
         "Embotellada",
-        "Aixeta filtrada Bàsquet Girona",
-        "Aixeta Bàsquet Girona",
-        "Dessalada",
-        "Font ferrosa",
+        "Aixeta",
+        "Aixeta filtrada",
+        "Font",
       ],
 
       //totes les opcions
       aigues:[
-        "Font ferrosa",
-        "Aixeta Bàsquet Girona",
-        "Aixeta filtrada Bàsquet Girona",
+        "Aixeta",
+        "Aixeta filtrada",
+        "Font",
         "Embotellada",
-        "Dessalada",
       ],
 
       colors_grafic_barres:[
@@ -355,8 +375,9 @@
           return;
         }
 
-        let respostes       = this.opcions;
-        let opcio_preferida = this.opcio_preferida;
+        let respostes                = this.opcions;
+        let opcio_preferida          = this.opcio_preferida;
+        let aigua_que_beu_normalment = this.aigua_que_beu_normalment
 
         if(respostes.some(el=>el==null)){
           alert("Respon totes les caselles");
@@ -366,9 +387,13 @@
           alert("Falta seleccionar la teva aigua preferida");
           return;
         }
+        if(aigua_que_beu_normalment==null){
+          alert("Falta seleccionar l'aigua que beus normalment");
+          return;
+        }
 
         //empaqueta json i guarda com string
-        let payload     = {respostes,opcio_preferida};
+        let payload     = {respostes, opcio_preferida, aigua_que_beu_normalment};
         let payload_str = JSON.stringify(payload);
 
         //crea request
@@ -446,7 +471,6 @@
 
         let taula={
           respostes_correctes:{
-            "5":0,
             "4":0,
             "3":0,
             "2":0,
@@ -454,7 +478,6 @@
             "0":0,
           },
           opcions_preferides:{
-            "4":0,
             "3":0,
             "2":0,
             "1":0,
@@ -471,7 +494,7 @@
         //ordena aigua preferida
         let opcions_preferides_sorted=[];
         Object.entries(taula.opcions_preferides).sort((a,b)=>b[1]-a[1]).forEach(en=>{
-          console.log({en});
+          //console.log({en});
           opcions_preferides_sorted.push(en);
         });
 
