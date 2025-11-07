@@ -317,6 +317,38 @@
                 <td v-if="admin">
                   <button @click="esborra_resultat(res.id)">esborra</button>
                 </td>
+
+                <!--
+                <td>
+                  {{res}}
+                </td>
+                -->
+
+              </tr>
+            </table>
+            <div style="height:1em"></div>
+
+            <b>Encerts</b>
+            <table border=1 style="font-size:x-small">
+              <tr>
+                <th>nº<th>Aigua<th>Persones<th>%
+              </tr>
+              <tr v-for="aigua,i in resposta">
+                <td>{{i+1}}</td>
+                <td>{{aigua}}</td>
+
+                <td>
+                  {{
+                    resultats.filter(r=>r.json.respostes[i]==aigua).length
+                  }}
+                </td>
+
+                <td>
+                  {{
+                    (resultats.filter(r=>r.json.respostes[i]==aigua).length/resultats.length*100).toFixed(2)
+                  }}
+                </td>
+
               </tr>
             </table>
             <div style="height:1em"></div>
