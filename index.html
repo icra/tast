@@ -289,18 +289,25 @@
           <button @click="veure_taula_tots_els_resultats^=1">taula resultats</button>
 
           <div v-if="veure_taula_tots_els_resultats">
+            <div style="height:1em"></div>
+
             <b>Tots els Resultats (cada fila és un participant)</b><br>
             <table border=1 style="font-size:x-small">
               <tr>
                 <th>nº</th>
-                <th>respostes</th>
+                <th v-for="n in resultats[0].json.respostes.length">
+                  resposta {{n}}<br>
+                  [{{resposta[n-1]}}]
+                </th>
                 <th>opció preferida</th>
                 <th>aigua que beu normalment</th>
                 <th v-if="admin">admin</th>
               </tr>
               <tr v-for="res,i in resultats">
                 <td>{{i+1}}</td>
-                <td>{{res.json.respostes}}</td>
+                <td v-for="rr in res.json.respostes">
+                  {{rr}}
+                </td>
                 <td>
                   {{resposta[res.json.opcio_preferida]}}
                 </td>
@@ -309,6 +316,51 @@
                 </td>
                 <td v-if="admin">
                   <button @click="esborra_resultat(res.id)">esborra</button>
+                </td>
+              </tr>
+            </table>
+            <div style="height:1em"></div>
+
+            <b>Opcions preferides</b>
+            <table border=1 style="font-size:x-small">
+              <tr>
+                <th>nº<th>Aigua<th>Persones<th>%
+              </tr>
+              <tr v-for="aigua,i in resposta">
+                <td>{{i+1}}</td>
+                <td>{{aigua}}</td>
+
+                <td>
+                  {{
+                    resultats.filter(r=>r.json.opcio_preferida==i).length
+                  }}
+                </td>
+                <td>
+                  {{
+                    (resultats.filter(r=>r.json.opcio_preferida==i).length/resultats.length*100).toFixed(2)
+                  }}
+                </td>
+              </tr>
+            </table>
+            <div style="height:1em"></div>
+
+            <b>Aigua que es beu normalment</b>
+            <table border=1 style="font-size:x-small">
+              <tr>
+                <th>nº<th>Aigua<th>Persones<th>%
+              </tr>
+              <tr v-for="aigua,i in resposta">
+                <td>{{i+1}}</td>
+                <td>{{aigua}}</td>
+                <td>
+                  {{
+                    resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua).length
+                  }}
+                </td>
+                <td>
+                  {{
+                    (resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua).length/resultats.length*100).toFixed(2)
+                  }}
                 </td>
               </tr>
             </table>
