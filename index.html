@@ -295,6 +295,7 @@
                 <th>nº</th>
                 <th>respostes</th>
                 <th>opció preferida</th>
+                <th>aigua que beu normalment</th>
                 <th v-if="admin">admin</th>
               </tr>
               <tr v-for="res,i in resultats">
@@ -302,6 +303,9 @@
                 <td>{{res.json.respostes}}</td>
                 <td>
                   {{resposta[res.json.opcio_preferida]}}
+                </td>
+                <td>
+                  {{res.json.aigua_que_beu_normalment}}
                 </td>
                 <td v-if="admin">
                   <button @click="esborra_resultat(res.id)">esborra</button>
