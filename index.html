@@ -379,7 +379,12 @@
             <b>Aigua que es beu normalment</b>
             <table border=1 style="font-size:x-small">
               <tr>
-                <th>nº<th>Aigua<th>Persones<th>%
+                <th>nº
+                <th>Aigua
+                <th>Persones
+                <th>%
+                <th>Persones que encerten la mateixa aigua que beuen
+                <th>%
               </tr>
               <tr v-for="aigua,i in resposta">
                 <td>{{i+1}}</td>
@@ -389,9 +394,21 @@
                     resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua).length
                   }}
                 </td>
+
                 <td>
                   {{
                     (resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua).length/resultats.length*100).toFixed(2)
+                  }}
+                </td>
+
+                <td>
+                  {{
+                    resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua && r.json.respostes[i]==aigua).length
+                  }}
+                </td>
+                <td>
+                  {{
+                    (resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua && r.json.respostes[i]==aigua).length/resultats.length*100).toFixed(2)
                   }}
                 </td>
               </tr>
