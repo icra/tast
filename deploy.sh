@@ -9,6 +9,6 @@ git push
 # -r  actua recursivament
 rsync -hPvr \
   --exclude ".git" \
-  --exclude "db.sqlite" \
+  --exclude "db/db.sqlite" \
   --exclude "deploy.sh" \
   . root@icra.loading.net:/var/www/vhosts/icradev.cat/tast.icradev.cat
