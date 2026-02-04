@@ -64,14 +64,13 @@
   </style>
 </head><body>
 
-<!--debug mode
-<nav>
-  <a href="index.html">versió normal</a> |
-  <a href="index.html?pass=icra123">versió admin</a> |
-</nav>
--->
-
 <div id=app>
+  <nav v-if="mode_debug">
+    <a href="index.html">versió normal</a> |
+    <a href="index.html?pass=icra123">versió admin</a> |
+    <a href="jornades.html">jornades</a> |
+  </nav>
+
   <div :partit="admin">
     <div style=" flex:1;" ><!--esquerra-->
       <h1 fondo_blau>
@@ -277,7 +276,7 @@
             </div>
             <div>
               <div lletra_color_blau style="font-size:x-large" center><b>PARTICIPA!</b></div>
-              <img src="qr.png">
+              <img src="img/qr.png">
             </div>
           </div>
         </div>
@@ -285,16 +284,29 @@
         <!-- taula tots els resultats
         -->
         <div v-if="resultats && admin">
-          <hr>
-          <button @click="veure_taula_tots_els_resultats^=1">taula resultats</button>
+          <button @click="veure_taula_tots_els_resultats^=1">
+            <span v-html="veure_taula_tots_els_resultats?'[-]':'[+]'"></span>
+            taula resultats
+          </button>
 
+          <!--veure tots els resultats-->
           <div v-if="veure_taula_tots_els_resultats">
             <div style="height:1em"></div>
 
-            <b>Tots els Resultats (cada fila és un participant)</b><br>
-            <table border=1 style="font-size:x-small">
+            <div v-if="resultats && resultats.length">
+              <button @click="guardar_resultats_com_a_nova_jornada()">
+                Guardar participacions a "historial jornades"
+              </button>
+            </div>
+
+            <b>Totes les participacions ({{resultats?resultats.length:0}})</b><br>
+            <div v-if="resultats && resultats.length==0">
+              ~Encara no hi ha participacions
+            </div>
+            <table border=1 style="font-size:x-small" v-if="resultats && resultats.length">
               <tr>
                 <th>nº</th>
+                <th>creat</th>
                 <th v-for="n in resultats[0].json.respostes.length">
                   resposta {{n}}<br>
                   [{{resposta[n-1]}}]
@@ -304,7 +316,8 @@
                 <th v-if="admin">admin</th>
               </tr>
               <tr v-for="res,i in resultats">
-                <td>{{i+1}}</td>
+                <td>{{i+1}} {{res.id}}</td>
+                <td>{{res.created}}</td>
                 <td v-for="rr in res.json.respostes">
                   {{rr}}
                 </td>
@@ -328,91 +341,94 @@
             </table>
             <div style="height:1em"></div>
 
-            <b>Encerts</b>
-            <table border=1 style="font-size:x-small">
-              <tr>
-                <th>nº<th>Aigua<th>Persones<th>%
-              </tr>
-              <tr v-for="aigua,i in resposta">
-                <td>{{i+1}}</td>
-                <td>{{aigua}}</td>
+            <!--taules resum resultats-->
+            <div v-if="resultats && resultats.length">
+              <b>Encerts</b>
+              <table border=1 style="font-size:x-small">
+                <tr>
+                  <th>nº<th>Aigua<th>Persones<th>%
+                </tr>
+                <tr v-for="aigua,i in resposta">
+                  <td>{{i+1}}</td>
+                  <td>{{aigua}}</td>
 
-                <td>
-                  {{
-                    resultats.filter(r=>r.json.respostes[i]==aigua).length
-                  }}
-                </td>
+                  <td>
+                    {{
+                      resultats.filter(r=>r.json.respostes[i]==aigua).length
+                    }}
+                  </td>
 
-                <td>
-                  {{
-                    (resultats.filter(r=>r.json.respostes[i]==aigua).length/resultats.length*100).toFixed(2)
-                  }}
-                </td>
+                  <td>
+                    {{
+                      (resultats.filter(r=>r.json.respostes[i]==aigua).length/resultats.length*100).toFixed(2)
+                    }}
+                  </td>
 
-              </tr>
-            </table>
-            <div style="height:1em"></div>
+                </tr>
+              </table>
+              <div style="height:1em"></div>
 
-            <b>Opcions preferides</b>
-            <table border=1 style="font-size:x-small">
-              <tr>
-                <th>nº<th>Aigua<th>Persones<th>%
-              </tr>
-              <tr v-for="aigua,i in resposta">
-                <td>{{i+1}}</td>
-                <td>{{aigua}}</td>
+              <b>Opcions preferides</b>
+              <table border=1 style="font-size:x-small">
+                <tr>
+                  <th>nº<th>Aigua<th>Persones<th>%
+                </tr>
+                <tr v-for="aigua,i in resposta">
+                  <td>{{i+1}}</td>
+                  <td>{{aigua}}</td>
 
-                <td>
-                  {{
-                    resultats.filter(r=>r.json.opcio_preferida==i).length
-                  }}
-                </td>
-                <td>
-                  {{
-                    (resultats.filter(r=>r.json.opcio_preferida==i).length/resultats.length*100).toFixed(2)
-                  }}
-                </td>
-              </tr>
-            </table>
-            <div style="height:1em"></div>
+                  <td>
+                    {{
+                      resultats.filter(r=>r.json.opcio_preferida==i).length
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      (resultats.filter(r=>r.json.opcio_preferida==i).length/resultats.length*100).toFixed(2)
+                    }}
+                  </td>
+                </tr>
+              </table>
+              <div style="height:1em"></div>
 
-            <b>Aigua que es beu normalment</b>
-            <table border=1 style="font-size:x-small">
-              <tr>
-                <th>nº
-                <th>Aigua
-                <th>Persones
-                <th>%
-                <th>Persones que encerten la mateixa aigua que beuen
-                <th>%
-              </tr>
-              <tr v-for="aigua,i in resposta">
-                <td>{{i+1}}</td>
-                <td>{{aigua}}</td>
-                <td>
-                  {{
-                    resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua).length
-                  }}
-                </td>
+              <b>Aigua que es beu normalment</b>
+              <table border=1 style="font-size:x-small">
+                <tr>
+                  <th>nº
+                  <th>Aigua
+                  <th>Persones
+                  <th>%
+                  <th>Persones que encerten la mateixa aigua que beuen normalment
+                  <th>%
+                </tr>
+                <tr v-for="aigua,i in resposta">
+                  <td>{{i+1}}</td>
+                  <td>{{aigua}}</td>
+                  <td>
+                    {{
+                      resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua).length
+                    }}
+                  </td>
 
-                <td>
-                  {{
-                    (resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua).length/resultats.length*100).toFixed(2)
-                  }}
-                </td>
+                  <td>
+                    {{
+                      (resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua).length/resultats.length*100).toFixed(2)
+                    }}
+                  </td>
 
-                <td>
-                  {{
-                    resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua && r.json.respostes[i]==aigua).length
-                  }}
-                </td>
-                <td>
-                  {{
-                    (resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua && r.json.respostes[i]==aigua).length/resultats.length*100).toFixed(2)
-                  }}
-                </td>
-              </tr>
-            </table>
+                  <td>
+                    {{
+                      resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua && r.json.respostes[i]==aigua).length
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      (resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua && r.json.respostes[i]==aigua).length/resultats.length*100).toFixed(2)
+                    }}
+                  </td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -434,12 +450,15 @@
   let pass  = usp.get("pass");
   let admin = pass=="icra123"?1:0;
 
+  let mode_debug = 0; //canviar al fer deploy TODO
+
   let app = Vue.createApp({
     data(){return{
+      mode_debug,
       admin,
       has_participat:0,
-      seccio_actual:1,
-      veure_taula_tots_els_resultats:false,
+      seccio_actual:1, //1,2,3
+      veure_taula_tots_els_resultats:mode_debug,
 
       resultats:null, //fetch
 
@@ -474,6 +493,36 @@
     }},
 
     methods:{
+      guardar_resultats_com_a_nova_jornada(){
+        //agafa votacions
+        let resultats = this.resultats;
+        if(!resultats) return;
+
+        //agafa resposta correcta
+        let resposta_correcta = this.resposta;
+
+        //empaqueta votacions i resposta com a string json
+        let payload     = {resposta_correcta, resultats};
+        let payload_str = JSON.stringify(payload);
+
+        //crea request
+        let body = new FormData();
+        body.append('json', payload_str);
+        fetch(
+          'api/guarda_jornada.php',
+          {method:'POST',body},
+        ).then(r=>
+          r.text()
+        ).then(success=>{
+          console.log(success);
+          alert(success); //"OK"
+          window.location.href="jornades.html";
+        }).catch(err=>{
+          alert(err);
+        });
+      },
+
+      //guarda resultats (votació)
       submit(){
         if(this.has_participat){
           alert("Ja has participat!");
@@ -505,7 +554,7 @@
         let body = new FormData();
         body.append('json',payload_str);
         fetch(
-          'guarda_resultat.php',
+          'api/guarda_resultat.php',
           {method:'POST',body},
         ).then(r=>
           r.text()
@@ -525,7 +574,7 @@
         let body = new FormData();
         body.append('id',id);
         fetch(
-          'esborra_resultat.php',
+          'api/esborra_resultat.php',
           {method:'POST',body},
         ).then(r=>
           r.text()
@@ -539,12 +588,12 @@
       },
 
       fetch_resultats(){
-        fetch("api.php").then(r=>r.json()).then(r=>{
+        fetch("api/get_resultats.php").then(r=>r.json()).then(arr=>{
 
           //parseja camp "json"
-          r.forEach(el=>el.json = JSON.parse(el.json));
+          arr.forEach(el=>el.json = JSON.parse(el.json));
 
-          this.resultats = r;
+          this.resultats = arr;
           console.log("resultats llegits");
         });
       },

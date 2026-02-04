@@ -1,11 +1,10 @@
 <?php
-//dumpeja base de dades en format json per poder ser cridada i parsejada des
-//del client (JS fetch)
 
-$db = new SQLite3("db.sqlite",SQLITE3_OPEN_READONLY);
+//dump taula jornades en format json
+$db = new SQLite3("../db/db.sqlite",SQLITE3_OPEN_READONLY);
 
 //query
-$sql="SELECT * FROM resultats";
+$sql="SELECT * FROM jornades ORDER BY id DESC";
 $payload=[];
 $res=$db->query($sql) or die(print_r($db->errorInfo(), true));
 while($row=$res->fetchArray(SQLITE3_ASSOC)){

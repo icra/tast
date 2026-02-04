@@ -1,9 +1,8 @@
 <?php
-//esborra vot
+//esborra un sol vot
+$db = new SQLite3("../db/db.sqlite");
 
-$db = new SQLite3("db.sqlite");
-
-//camps entrada
+//camp entrada
 $id = isset($_POST['id']) ? $db->escapeString($_POST['id']) : "NOT_DEFINED";
 
 if($id=="NOT_DEFINED"){

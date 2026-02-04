@@ -1,7 +1,6 @@
 <?php
-//guarda resultat
-
-$db = new SQLite3("db.sqlite");
+//guarda jornada
+$db = new SQLite3("../db/db.sqlite");
 
 //camps entrada
 $json = isset($_POST['json']) ? $db->escapeString($_POST['json']) : false;
@@ -16,9 +15,9 @@ if(!$obj){
   die("JSON malformat");
 }
 
-$sql="INSERT INTO resultats (json) VALUES ('$json');";
+$sql="INSERT INTO jornades(json) VALUES ('$json');";
 $db->exec($sql) or die(print_r($db->lastErrorMsg(), true));
 
 //final tot OK
-echo "Resultat registrat correctament";
+echo "Jornada guardada correctament";
 ?>
