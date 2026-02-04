@@ -286,17 +286,23 @@
         <div v-if="resultats && admin">
           <button @click="veure_taula_tots_els_resultats^=1">
             <span v-html="veure_taula_tots_els_resultats?'[-]':'[+]'"></span>
-            taula resultats
+            Veure totes les estadístiques
           </button>
 
           <!--veure tots els resultats-->
           <div v-if="veure_taula_tots_els_resultats">
             <div style="height:1em"></div>
 
+            <div>
+              <a href="jornades.html">Veure historial jornades</a>
+            </div>
+            <div style="height:1em"></div>
+
             <div v-if="resultats && resultats.length">
               <button @click="guardar_resultats_com_a_nova_jornada()">
-                Guardar participacions a "historial jornades"
+                Guardar totes les participacions (crear nova jornada)
               </button>
+              <div style="height:1em"></div>
             </div>
 
             <b>Totes les participacions ({{resultats?resultats.length:0}})</b><br>

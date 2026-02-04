@@ -11,7 +11,7 @@
   </style>
 </head><body>
 
-<a href="index.html?pass=icra123">Pàgina principal</a>
+<a href="index.html?pass=icra123">&larr; pàgina principal</a>
 
 <h1>Historial Jornades</h1>
 
@@ -23,14 +23,16 @@
 <small>Més recents a dalt</small>
 
 <div id=app>
-  <table border=1 v-if="jornades">
+  <p v-if="jornades && jornades.length==0">~no hi ha jornades guardades</p>
+
+  <table border=1 v-if="jornades && jornades.length">
     <tr v-for="jornada in jornades">
       <td>
         <details>
           <summary>
             Jornada (id={{jornada.id}})
+            ({{jornada.json.resultats.length}} participants)
             [{{jornada.created}}]
-            [{{jornada.json.resultats.length}} votacions]
           </summary>
           <div>
             <pre>{{JSON.stringify(jornada.json,null,'  ')}}</pre>
