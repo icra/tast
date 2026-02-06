@@ -2,5 +2,8 @@
 
 tast aigua nit de la recerca
 
-- Lide Jaurrieta (ljaurrieta@icra.cat)
-- Lluís Bosch (lbosch@icra.cat)
+- Lluís Bosch (lbosch@icra.cat) (programació)
+- Lide Jaurrieta (ljaurrieta@icra.cat) (disseny)
+- Pau Giménez (pgimenez@icra.cat)
+- Neus Besoli (nbesoli@icra.cat)
+- Anna Freixa (afreixa@icra.cat)
