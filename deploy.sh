@@ -1,6 +1,7 @@
 #check mode debug
 cat index.html | grep "let mode_debug"
-read -p "continuar? (enter:sí, ctrl+c:no)"
+read -p "continuar (Y/n)? " continuar
+if [ $continuar == "n" ]; then exit; fi
 
 git add *
 git commit -am 'update'
