@@ -1,8 +1,10 @@
+#check mode debug
+cat index.html | grep "let mode_debug"
+read -p "continuar?"
+
 git add *
 git commit -am 'update'
 git push
-
-cat index.html | grep "let mode_debug"
 
 #desplega al servidor
 # -h  human readable format
