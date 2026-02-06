@@ -61,6 +61,14 @@
     [partit="1"]{
       display:flex;
     }
+
+    /*taula participacions*/
+    td[correcte=true]{
+      background:lightgreen;
+    }
+    td[correcte=false]{
+      background:lightcoral;
+    }
   </style>
 </head><body>
 
@@ -107,7 +115,7 @@
 
         <div>
           <b>
-            <span>1. Quina aigua és quina? </span>
+            <span>2. Quina aigua és quina? </span>
             <span lletra_color_gris>(marca la casella)</span>
           </b>
 
@@ -129,7 +137,7 @@
 
         <div>
           <b>
-            <span>2. Quina aigua t'ha agradat més? </span>
+            <span>3. Quina aigua t'ha agradat més? </span>
             <span lletra_color_gris>(selecciona)</span>
           </b>
 
@@ -141,6 +149,30 @@
               <div>{{i+1}}</div>
             </div>
           </div>
+        </div><hr>
+
+        <div>
+          <b>
+            <span>4. Canviaries algun dels teus hàbits de consum? </span>
+          </b>
+
+          <table border=0 style="font-size:larger">
+            <tr>
+              <td>
+                <label>
+                  <input type=radio v-model="canviaras_algun_habit_de_consum" :value="true"> Sí
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>
+                  <input type=radio v-model="canviaras_algun_habit_de_consum" :value="false"> No
+                </label>
+              </td>
+            </tr>
+          </table>
+
         </div><hr>
 
         <div>
@@ -182,16 +214,10 @@
           </table><hr>
 
           <div style="margin-top:10px">
-            <b>Normalment beus:</b><br>
-            <b lletra_color_blau v-if="aigua_que_beu_normalment!=null" style="font-size:x-large">
-              Aigua {{aigua_que_beu_normalment}}
-            </b>
-            <b v-else>--</b>
-          </div>
-          <div style="margin-top:10px">
-            <b>I l'aigua que t'ha agradat més és:</b><br>
+            <b>L'aigua que t'ha agradat més és:</b><br>
             <b lletra_color_blau v-if="opcio_preferida!=null" style="font-size:x-large">
-              Aigua {{resposta[opcio_preferida]}} (nº {{opcio_preferida+1}})
+              Nº {{opcio_preferida+1}}:
+              Aigua {{resposta[opcio_preferida]}}
             </b>
             <b v-else>--</b>
           </div>
@@ -314,24 +340,30 @@
                 <th>nº</th>
                 <th>creat</th>
                 <th v-for="n in resultats[0].json.respostes.length">
-                  resposta {{n}}<br>
+                  Aigua {{n}}<br>
                   [{{resposta[n-1]}}]
                 </th>
                 <th>opció preferida</th>
                 <th>aigua que beu normalment</th>
+                <th>canviaràs hàbit consum?</th>
                 <th v-if="admin">admin</th>
               </tr>
               <tr v-for="res,i in resultats">
-                <td>{{i+1}} {{res.id}}</td>
+                <td>{{i+1}}</td>
                 <td>{{res.created}}</td>
-                <td v-for="rr in res.json.respostes">
-                  {{rr}}
+                <td center
+                  v-for="rr,j in res.json.respostes"
+                  :correcte="rr==resposta[j]"
+                >{{rr}}
                 </td>
-                <td>
+                <td center>
                   {{resposta[res.json.opcio_preferida]}}
                 </td>
-                <td>
+                <td center>
                   {{res.json.aigua_que_beu_normalment}}
+                </td>
+                <td center>
+                  {{res.json.canviaras_algun_habit_de_consum?"Sí":"No"}}
                 </td>
                 <td v-if="admin">
                   <button @click="esborra_resultat(res.id)">esborra</button>
@@ -352,46 +384,52 @@
               <b>Encerts</b>
               <table border=1 style="font-size:x-small">
                 <tr>
-                  <th>nº<th>Aigua<th>Persones<th>%
+                  <th>nº</th>
+                  <th>Aigua</th>
+                  <th>Encerts</th>
+                  <th>%respecte {{resultats.length}} persones</th>
                 </tr>
                 <tr v-for="aigua,i in resposta">
                   <td>{{i+1}}</td>
                   <td>{{aigua}}</td>
 
-                  <td>
+                  <td center>
                     {{
                       resultats.filter(r=>r.json.respostes[i]==aigua).length
                     }}
                   </td>
 
-                  <td>
+                  <td center>
                     {{
                       (resultats.filter(r=>r.json.respostes[i]==aigua).length/resultats.length*100).toFixed(2)
-                    }}
+                    }}%
                   </td>
 
                 </tr>
               </table>
               <div style="height:1em"></div>
 
-              <b>Opcions preferides</b>
+              <b>Aigua preferida</b>
               <table border=1 style="font-size:x-small">
                 <tr>
-                  <th>nº<th>Aigua<th>Persones<th>%
+                  <th>nº</th>
+                  <th>Aigua</th>
+                  <th>Persones que la prefereixen</th>
+                  <th>% respecte {{resultats.length}} persones</th>
                 </tr>
                 <tr v-for="aigua,i in resposta">
                   <td>{{i+1}}</td>
                   <td>{{aigua}}</td>
 
-                  <td>
+                  <td center>
                     {{
                       resultats.filter(r=>r.json.opcio_preferida==i).length
                     }}
                   </td>
-                  <td>
+                  <td center>
                     {{
                       (resultats.filter(r=>r.json.opcio_preferida==i).length/resultats.length*100).toFixed(2)
-                    }}
+                    }}%
                   </td>
                 </tr>
               </table>
@@ -400,40 +438,63 @@
               <b>Aigua que es beu normalment</b>
               <table border=1 style="font-size:x-small">
                 <tr>
-                  <th>nº
-                  <th>Aigua
-                  <th>Persones
-                  <th>%
-                  <th>Persones que encerten la mateixa aigua que beuen normalment
-                  <th>%
+                  <th>nº</th>
+                  <th>Aigua</th>
+                  <th>Persones</th>
+                  <th>%</th>
+                  <th>Persones que encerten la mateixa aigua que beuen</th>
+                  <th>%</th>
                 </tr>
                 <tr v-for="aigua,i in resposta">
                   <td>{{i+1}}</td>
                   <td>{{aigua}}</td>
-                  <td>
+                  <td center>
                     {{
                       resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua).length
                     }}
                   </td>
 
-                  <td>
+                  <td center>
                     {{
                       (resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua).length/resultats.length*100).toFixed(2)
                     }}
                   </td>
 
-                  <td>
+                  <td center>
                     {{
                       resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua && r.json.respostes[i]==aigua).length
                     }}
                   </td>
-                  <td>
+                  <td center>
                     {{
                       (resultats.filter(r=>r.json.aigua_que_beu_normalment==aigua && r.json.respostes[i]==aigua).length/resultats.length*100).toFixed(2)
                     }}
                   </td>
                 </tr>
               </table>
+              <div style="height:1em"></div>
+
+              <b>Canvis de consum</b>
+              <table border=1 style="font-size:x-small">
+                <tr>
+                  <th>Canviarà</th>
+                  <th>Persones</th>
+                  <th>%respecte {{resultats.length}} persones</th>
+                </tr>
+                <tr v-for="val in [false,true]">
+                  <td center>{{val?"Sí":"No"}}</td>
+                  <td center>
+                    {{resultats.filter(r=>r.json.canviaras_algun_habit_de_consum===val).length}}
+                  </td>
+                  <td center>
+                    {{
+                      (resultats.filter(r=>r.json.canviaras_algun_habit_de_consum===val).length/resultats.length*100).toFixed(2)
+                    }}%
+                  </td>
+                </tr>
+              </table>
+              <div style="height:1em"></div>
+
             </div>
           </div>
         </div>
@@ -456,7 +517,7 @@
   let pass  = usp.get("pass");
   let admin = pass=="icra123"?1:0;
 
-  let mode_debug = 0; //canviar al fer deploy TODO
+  let mode_debug = 1; //canviar al fer deploy TODO
 
   let app = Vue.createApp({
     data(){return{
@@ -472,6 +533,7 @@
       aigua_que_beu_normalment:null,
       opcions:[null,null,null,null],
       opcio_preferida:null, //numero (aigua preferida)
+      canviaras_algun_habit_de_consum:false,
 
       //resposta correcta
       resposta:[
@@ -535,9 +597,10 @@
           return;
         }
 
-        let respostes                = this.opcions;
-        let opcio_preferida          = this.opcio_preferida;
-        let aigua_que_beu_normalment = this.aigua_que_beu_normalment
+        let respostes                       = this.opcions;
+        let opcio_preferida                 = this.opcio_preferida;
+        let aigua_que_beu_normalment        = this.aigua_que_beu_normalment
+        let canviaras_algun_habit_de_consum = this.canviaras_algun_habit_de_consum;
 
         if(respostes.some(el=>el==null)){
           alert("Respon totes les caselles");
@@ -553,7 +616,12 @@
         }
 
         //empaqueta json i guarda com string
-        let payload     = {respostes, opcio_preferida, aigua_que_beu_normalment};
+        let payload={
+          respostes,
+          opcio_preferida,
+          aigua_que_beu_normalment,
+          canviaras_algun_habit_de_consum,
+        };
         let payload_str = JSON.stringify(payload);
 
         //crea request
