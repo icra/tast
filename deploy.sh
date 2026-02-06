@@ -1,6 +1,6 @@
 #check mode debug
 cat index.html | grep "let mode_debug"
-read -p "continuar?"
+read -p "continuar? (enter:sí, ctrl+c:no)"
 
 git add *
 git commit -am 'update'
