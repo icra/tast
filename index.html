@@ -89,7 +89,7 @@
             align-items:center;
           "
         >
-          <div>TAST D'AIGUA</div>
+          <div>TAST AIGUA</div>
           <div>
             <img src="img/logo-icra.png" style="width:60px">
           </div>
@@ -152,30 +152,6 @@
         </div><hr>
 
         <div>
-          <b>
-            <span>4. Canviaries algun dels teus hàbits de consum? </span>
-          </b>
-
-          <table border=0 style="font-size:larger">
-            <tr>
-              <td>
-                <label>
-                  <input type=radio v-model="canviaras_algun_habit_de_consum" :value="true"> Sí
-                </label>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label>
-                  <input type=radio v-model="canviaras_algun_habit_de_consum" :value="false"> No
-                </label>
-              </td>
-            </tr>
-          </table>
-
-        </div><hr>
-
-        <div>
           <button style="font-size:x-large" @click="seccio_actual=2"
             :disabled="opcions.some(n=>n==null) || opcio_preferida==null || aigua_que_beu_normalment==null"
           >SEGÜENT &rarr;</button>
@@ -216,17 +192,48 @@
           <div style="margin-top:10px">
             <b>L'aigua que t'ha agradat més és:</b><br>
             <b lletra_color_blau v-if="opcio_preferida!=null" style="font-size:x-large">
-              Nº {{opcio_preferida+1}}:
               Aigua {{resposta[opcio_preferida]}}
+              (nº {{opcio_preferida+1}})
             </b>
             <b v-else>--</b>
           </div>
+
+          <div style="margin-top:10px">
+            <b>
+              <span>Canviaries l'aigua que beus normalment? </span>
+            </b>
+
+            <table border=0 style="font-size:larger">
+              <tr>
+                <td>
+                  <label>
+                    <input type=radio v-model="canviaras_algun_habit_de_consum" :value="true"> Sí
+                  </label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label>
+                    <input type=radio v-model="canviaras_algun_habit_de_consum" :value="false"> No
+                  </label>
+                </td>
+              </tr>
+            </table>
+          </div><hr>
+
         </div><hr>
 
         <div>
-          <button style="font-size:x-large" @click="submit()" v-if="!has_participat">
-            Enviar resultats
-          </button>
+          <button
+            @click="submit()" v-if="!has_participat"
+            style="
+              font-size:x-large;
+              width:350px;
+              max-width:100vw;
+              padding:1em 1.618em;
+              background:lightgreen;
+            "
+          >Enviar resultats</button>
 
           <div v-if="has_participat">
             <button @click="seccio_actual=3">Veure resultats</button>
@@ -242,7 +249,7 @@
 
         <div>
           <div v-if="taula_resultats">
-            <b>Aigua preferida dels participants ({{resultats.length}})</b><br><br>
+            <b>Aigua preferida dels ({{resultats.length}}) participants</b><br><br>
 
             <div>
               <!--
@@ -533,7 +540,7 @@
       aigua_que_beu_normalment:null,
       opcions:[null,null,null,null],
       opcio_preferida:null, //numero (aigua preferida)
-      canviaras_algun_habit_de_consum:false,
+      canviaras_algun_habit_de_consum:undefined,
 
       //resposta correcta
       resposta:[
