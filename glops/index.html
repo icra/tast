@@ -1,0 +1,303 @@
+<!doctype html><html><head>
+  <meta charset=utf8>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    body{
+      background:rgba(0,100,0,0.1);
+      font-family:Arial;
+    }
+    [center]{
+      text-align:center;
+    }
+    div[opcio]{
+      background:lightblue;
+      padding:1.618em 1em;
+      color:white;
+      border-radius:5px;
+      margin:2px;
+      text-align:center;
+      font-weight:bolder;
+      cursor:pointer;
+      transition:background 0.2s ease;
+      border:2px solid transparent;
+    }
+    div[opcio]:hover{
+      background:lightgreen;
+      border:2px solid green;
+    }
+    div[opcio_seleccionada=true]{
+      color:black;
+      border:2px solid green;
+    }
+    [btn_prev_next_page]{
+      padding:1em 1.618em;
+      background:lightyellow;
+      border:1px solid #ccc;
+      border-radius:5px;
+    }
+    [btn_prev_next_page]:not([disabled]):hover{
+      border:1px solid black;
+    }
+    [btn_prev_next_page_ressaltat=true]{
+      background:lightgreen;
+    }
+  </style>
+</head><body>
+
+<h1>GLOPS &mdash; descobreix l'aigua que beus (esbós inicial)</h1>
+
+<div id=app>
+  <div>
+    <!--pàgina actual seleccionada-->
+    <div v-if="pagina_actual">
+      <p style="font-size:x-large;">
+        <b>{{pagina_actual.text}}</b>
+      </p>
+
+      <!--preguntes-->
+      <div>
+        <div v-for="pregunta in pagina_actual.preguntes">
+          <div
+            style="
+              font-size:larger;
+            "
+          >
+            <span>
+              {{pregunta.text}}
+            </span>
+            <span v-if="pregunta.resposta">&nbsp;<b>{{pregunta.resposta}}</b></span>
+          </div>
+          <div v-if="pregunta.opcions"
+            style="
+              display:grid;
+              grid-template-columns:repeat(6,1fr);
+              align-items:center;
+              margin-bottom:10px;
+            "
+          >
+            <div
+              opcio
+              :opcio_seleccionada="opcio==pregunta.resposta"
+              v-for="opcio in pregunta.opcions"
+              @click="pregunta.resposta = pregunta.resposta==opcio ? '':opcio "
+            >{{opcio}}</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!--botons pàgina anterior i següent-->
+    <div
+      style="
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        position:fixed;
+        bottom:0;
+        background:rgba(250,250,250);
+        border-top:1px solid black;
+        width:100%;
+        padding:2px;
+      "
+    >
+      <button
+        btn_prev_next_page
+        @click="index_pagina_actual--"
+        v-if="index_pagina_actual>0"
+      >
+        &larr; anterior
+      </button>
+      <span style="margin:5px 10px">
+        Pàgina {{index_pagina_actual+1}}/{{pagines.length}}
+      </span>
+      <button
+        btn_prev_next_page
+        @click="index_pagina_actual++"
+        v-if="index_pagina_actual<pagines.length-1"
+        :btn_prev_next_page_ressaltat="pagina_actual.preguntes.every(r=>r.resposta)"
+      >
+        següent &rarr;
+      </button>
+
+      <button v-if="index_pagina_actual==pagines.length-1">
+        FINALITZAR
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let app=Vue.createApp({
+    data(){return{
+      index_pagina_actual:0,
+      pagines:[
+        {
+          text:"Benvinguts",
+          preguntes:[
+            {
+              text:"Quina edat tens?",
+              resposta:"",
+              opcions:[
+                "Menys de 10 anys",
+                "D'11 a 17 anys",
+                "De 18 a 35 anys",
+                "Més de 35 anys",
+              ],
+            },
+            {
+              text:"Ets...",
+              resposta:"",
+              opcions:[
+                "Home",
+                "Dona",
+                "Altres",
+              ],
+            },
+            {
+              text:"Quina aigua beus normalment?",
+              resposta:"",
+              opcions:[
+                "Aigua de l'aixeta",
+                "Aigua de l'aixeta filtrada",
+                "Aigua embotellada",
+                "Altres",
+              ],
+            },
+            {
+              text:"Per què?",
+              resposta:"",
+              opcions:[
+                "És més bona",
+                "És més saludable",
+                "És més barata",
+                "És més ecològica",
+                "Jo no trio l'aigua que bevem a casa",
+              ],
+            },
+          ],
+        },
+        {
+          text:"Percepcions",
+          preguntes:[
+            {
+              text:"Confio en la seguretat de l'aigua de l'aixeta de la meva població",
+              resposta:"",
+              opcions:[
+                "Totalment d'acord",
+                "D'acord",
+                "Ni d'acord ni en desacord",
+                "En desacord",
+                "Totalment en desacord",
+              ],
+            },
+            {
+              text:"La generació de residus (envasos) és important en la decisió sobre quina aigua bec",
+              resposta:"",
+              opcions:[
+                "Totalment d'acord",
+                "D'acord",
+                "Ni d'acord ni en desacord",
+                "En desacord",
+                "Totalment en desacord",
+              ],
+            },
+            {
+              text:"Crec que el tipus d'aigües són distingibles pel gust",
+              resposta:"",
+              opcions:[
+                "Totalment d'acord",
+                "D'acord",
+                "Ni d'acord ni en desacord",
+                "En desacord",
+                "Totalment en desacord",
+              ],
+            },
+          ],
+        },
+        {
+          text:" ",
+          preguntes:[
+            {
+              text:"Estic preparat per fer el tast",
+              resposta:"",
+              opcions:[
+                "Sí",
+              ],
+            },
+            {
+              text:"Ja he acabat de fer el tast",
+              resposta:"",
+              opcions:[
+                "Sí",
+              ],
+            },
+          ],
+        },
+        {
+          text:"Després del tast",
+          preguntes:[
+            {
+              text:"Confio en la seguretat de l'aigua de l'aixeta de la meva població",
+              resposta:"",
+              opcions:[
+                "Totalment d'acord",
+                "D'acord",
+                "Ni d'acord ni en desacord",
+                "En desacord",
+                "Totalment en desacord",
+              ],
+            },
+            {
+              text:"La generació de residus (envasos) és important en la decisió sobre quina aigua bec",
+              resposta:"",
+              opcions:[
+                "Totalment d'acord",
+                "D'acord",
+                "Ni d'acord ni en desacord",
+                "En desacord",
+                "Totalment en desacord",
+              ],
+            },
+            {
+              text:"Crec que el tipus d'aigües són distingibles pel gust",
+              resposta:"",
+              opcions:[
+                "Totalment d'acord",
+                "D'acord",
+                "Ni d'acord ni en desacord",
+                "En desacord",
+                "Totalment en desacord",
+              ],
+            },
+          ],
+        },
+        {
+          text:"Intenció i compromís de canvi",
+          preguntes:[
+            {
+              text:"Després de l'activitat, et planteges canviar els teus hàbits de consum?",
+              resposta:"",
+              opcions:[
+                "Em plantejo reduir el consum d’aigua embotellada",
+                "Em plantejo utilitzar un sistema de filtració",
+                "Em plantejo utilitzar ampolles de vidre enlloc d’ampolles de plàstic",
+                "No, no canviaré els meus hàbits de consum",
+                "No, jo no trio l’aigua que bevem a casa",
+              ],
+            },
+          ],
+        },
+      ],
+    }},
+    methods:{
+      //f(){},
+    },
+    computed:{
+      //f(){},
+      pagina_actual(){
+        return this.pagines[this.index_pagina_actual];
+      },
+    },
+  }).mount("#app");
+</script>
