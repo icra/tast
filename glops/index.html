@@ -3,69 +3,121 @@
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <style>
     body{
-      background:rgba(0,100,0,0.1);
       font-family:Arial;
+      margin:0;
     }
     [center]{
       text-align:center;
     }
     div[opcio]{
-      background:lightblue;
+      background:#bce3f9;
+      border-radius:50px;
+      border:2px solid black;
+
       padding:1.618em 1em;
-      color:white;
-      border-radius:5px;
+      color:black;
+
       margin:2px;
+
       text-align:center;
       font-weight:bolder;
       cursor:pointer;
-      transition:background 0.2s ease;
-      border:2px solid transparent;
     }
     div[opcio]:hover{
-      background:lightgreen;
-      border:2px solid green;
+      background:#0097b2;
     }
     div[opcio_seleccionada=true]{
-      color:black;
-      border:2px solid green;
+      background:#0097b2;
     }
     [btn_prev_next_page]{
-      padding:1em 1.618em;
-      background:lightyellow;
-      border:1px solid #ccc;
-      border-radius:5px;
+      background:#0097b2;
+      color:white;
+      border:2px solid black;
+      border-radius:50%;
+      padding:1em;
+    }
+    [btn_prev_next_page][disabled]{
+      background:#ccc;
     }
     [btn_prev_next_page]:not([disabled]):hover{
-      border:1px solid black;
+      border:2px solid gold;
+      color:gold;
     }
     [btn_prev_next_page_ressaltat=true]{
       background:lightgreen;
     }
+    [pregunta_text]{
+      background:linear-gradient(to right,#89d957,#c9e265);
+      padding:5px;
+      display:inline-block;
+      border-radius:10px;
+    }
   </style>
 </head><body>
 
-<h1>GLOPS &mdash; descobreix l'aigua que beus (esbós inicial)</h1>
 
 <div id=app>
   <div>
-    <!--pàgina actual seleccionada-->
-    <div v-if="pagina_actual">
-      <p style="font-size:x-large;">
+
+    <!--titol-->
+    <div v-if="vista_actual=='titol'" center>
+      <div>
+        [logo GLOPS]
+      </div>
+      <div>
+        Descobreix l'aigua que beus
+      </div>
+      <div
+        style="
+          background:linear-gradient(to right,#0097b2,#7ed957);
+          padding:2em;
+        "
+      >
+        Una experiència interactiva per descobrir què sabem<br>
+        &mdash; i què no sabem &mdash; sobre l'aigua que bevem.
+      </div>
+      <div>
+        [logo icra]
+        [logo fcri]
+      </div>
+      <button @click="vista_actual='preguntes'">començar</button>
+    </div>
+
+    <!--preguntes-->
+    <div v-if="vista_actual=='preguntes' && pagina_actual && index_pagina_actual<pagines.length">
+      <div
+        style="
+          font-size:x-large;
+          color:white;
+          background:linear-gradient(to right,#0097b2,#7ed957);
+          padding:1em 1.618em;
+        "
+      >
         <b>{{pagina_actual.text}}</b>
-      </p>
+      </div>
 
       <!--preguntes-->
-      <div>
-        <div v-for="pregunta in pagina_actual.preguntes">
+      <div
+        style="
+          padding:3em;
+        "
+      >
+        <div v-for="pregunta in pagina_actual.preguntes" style="margin-bottom:35px">
           <div
             style="
-              font-size:larger;
+              font-size:x-large;
             "
           >
-            <span>
+            <span pregunta_text>
               {{pregunta.text}}
             </span>
-            <span v-if="pregunta.resposta">&nbsp;<b>{{pregunta.resposta}}</b></span>
+
+            <span style="font-size:12px">
+              <span v-if="pregunta.resposta">&nbsp;
+                <b v-if="pregunta.multiple">{{Array.from(pregunta.resposta).join(', ')}}</b>
+                <b v-else>{{pregunta.resposta}}</b>
+              </span>
+            </span>
           </div>
           <div v-if="pregunta.opcions"
             style="
@@ -76,53 +128,211 @@
             "
           >
             <div
+              v-if="!pregunta.multiple"
               opcio
               :opcio_seleccionada="opcio==pregunta.resposta"
               v-for="opcio in pregunta.opcions"
               @click="pregunta.resposta = pregunta.resposta==opcio ? '':opcio "
             >{{opcio}}</div>
+
+            <div
+              v-if="pregunta.multiple"
+              opcio
+              v-for="opcio in pregunta.opcions"
+              :opcio_seleccionada="pregunta.resposta.has(opcio)"
+              @click="pregunta.resposta[pregunta.resposta.has(opcio)?'delete':'add'](opcio)"
+            >{{opcio}}</div>
           </div>
         </div>
       </div>
-
     </div>
 
-    <!--botons pàgina anterior i següent-->
+    <!--gotes navegació-->
     <div
+      v-if="vista_actual=='preguntes' && pagina_actual"
       style="
-        display:flex;
-        align-items:center;
-        justify-content:center;
         position:fixed;
         bottom:0;
-        background:rgba(250,250,250);
-        border-top:1px solid black;
         width:100%;
-        padding:2px;
       "
     >
-      <button
-        btn_prev_next_page
-        @click="index_pagina_actual--"
-        v-if="index_pagina_actual>0"
+      <div
+        style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          background:linear-gradient(to right,#0097b2,#7ed957);
+          border-radius:50px;
+          margin:auto;
+          margin-bottom:10px;
+          padding:10px;
+          max-width:90%;
+        "
       >
-        &larr; anterior
-      </button>
-      <span style="margin:5px 10px">
-        Pàgina {{index_pagina_actual+1}}/{{pagines.length}}
-      </span>
-      <button
-        btn_prev_next_page
-        @click="index_pagina_actual++"
-        v-if="index_pagina_actual<pagines.length-1"
-        :btn_prev_next_page_ressaltat="pagina_actual.preguntes.every(r=>r.resposta)"
-      >
-        següent &rarr;
-      </button>
+        <button
+          btn_prev_next_page
+          @click="pregunta_anterior()"
+        >&larr;
+        </button>
 
-      <button v-if="index_pagina_actual==pagines.length-1">
-        FINALITZAR
-      </button>
+        <div style="margin:5px 10px">
+          <div
+            style="
+              display:flex;
+              align-items:center;
+              justify-content:space-around;
+            "
+          >
+            <div v-for="g in pagines.length"
+              center
+              style="
+                width:50px;
+              "
+            >
+              <span v-if="index_pagina_actual+1==g">&#128167;</span><!--gota blava-->
+              <span v-else>&#127778;</span><!--gota grisa-->
+            </div>
+          </div>
+        </div>
+
+        <button
+          btn_prev_next_page
+          @click="pregunta_seguent()"
+          :disabled="!tot_contestat(pagina_actual)"
+          title="contesta totes les preguntes per continuar"
+        >&rarr;</button>
+      </div>
+    </div>
+
+    <div v-if="vista_actual=='comencem'" center>
+      <div
+        style="
+          height:50vh;
+          background:linear-gradient(to right,#0097b2,#7ed957);
+        "
+      ></div>
+      <div
+        style="
+          font-size:xx-large;
+        "
+      >
+        Comencem!
+        <br>
+        <button @click="alert('wip')">
+          &rarr;
+        </button>
+        <br>
+        <button @click="vista_actual='preguntes';index_pagina_actual=pagines.length-1">
+          enrere
+        </button>
+      </div>
+    </div>
+
+    <div v-if="vista_actual=='diagrama_flux'" center>
+      diagrama flux svg aquí
+      <button>anterior</button>
+      <button>següent</button>
+    </div>
+
+    <div v-if="vista_actual=='diagrama_passos_aigua'" center>
+      diagrama passos aigua
+      <button>anterior</button>
+      <button>següent</button>
+    </div>
+
+    <div v-if="vista_actual=='com_escollim_aigua'" center>
+      Com escollim l'aigua que bevem?
+      <button>anterior</button>
+      <button>següent</button>
+    </div>
+
+    <div v-if="vista_actual=='normalment_ens_fixem_en'" center>
+      Normalment ens fixem en
+      <button>anterior</button>
+      <button>següent</button>
+    </div>
+
+    <div v-if="vista_actual=='el_gust'" center>
+      El gust sovint és el motiu principal però...
+      sabries distingir els diferents tipus d'aigua
+      pel seu gust?
+
+      <p>Comencem el tast d'aigües</p>
+
+      <button>anterior</button>
+      <button>següent</button>
+    </div>
+
+    <div v-if="vista_actual=='tast'" center>
+      <div>
+        <table border=1>
+          <tr>
+            <td></td>
+            <td>icona 1</td>
+            <td>icona 2</td>
+            <td>icona 3</td>
+            <td>icona 4</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>aixeta</td>
+            <td>gerra filtrant</td>
+            <td>osmosi</td>
+            <td>embotellada</td>
+          </tr>
+          <tr>
+            <td>B</td>
+            <td>aixeta</td>
+            <td>gerra filtrant</td>
+            <td>osmosi</td>
+            <td>embotellada</td>
+          </tr>
+          <tr>
+            <td>C</td>
+            <td>aixeta</td>
+            <td>gerra filtrant</td>
+            <td>osmosi</td>
+            <td>embotellada</td>
+          </tr>
+          <tr>
+            <td>D</td>
+            <td>aixeta</td>
+            <td>gerra filtrant</td>
+            <td>osmosi</td>
+            <td>embotellada</td>
+          </tr>
+        </table>
+      </div>
+
+      <button>anterior</button>
+      <button>següent</button>
+    </div>
+
+    <div v-if="vista_actual=='quina_tha_agradat_mes'" center>
+      <table>
+        <tr>
+          <td>
+            Quina t'ha agradat més?
+          </td>
+          <td>
+            <button>A</button>
+            <button>B</button>
+            <button>C</button>
+            <button>D</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            I quina menys?
+          </td>
+          <td>
+            <button>A</button>
+            <button>B</button>
+            <button>C</button>
+            <button>D</button>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>
@@ -131,143 +341,110 @@
   let app=Vue.createApp({
     data(){return{
       index_pagina_actual:0,
+
+      vista_actual:"titol",
+
       pagines:[
         {
-          text:"Benvinguts",
+          text:"Unes preguntes ràpides abans de contestar",
           preguntes:[
             {
               text:"Quina edat tens?",
               resposta:"",
               opcions:[
-                "Menys de 10 anys",
-                "D'11 a 17 anys",
-                "De 18 a 35 anys",
-                "Més de 35 anys",
+                "Menys de 12 anys",
+                "De 12 a 17 anys",
+                "De 18 a 34 anys",
+                "De 35 a 64 anys",
+                "65 anys o més",
               ],
             },
             {
-              text:"Ets...",
+              text:"Com t'identifiques?",
               resposta:"",
               opcions:[
-                "Home",
-                "Dona",
-                "Altres",
+                "Noia o dona",
+                "Noi o home",
+                "No binari",
+                "Prefereixo no respondre",
               ],
             },
             {
-              text:"Quina aigua beus normalment?",
+              text:"On vius habitualment?",
               resposta:"",
               opcions:[
+                "Barcelona",
+                "Girona",
+                "Lleida",
+                "Tarragona",
+              ],
+            },
+          ],
+        },
+        {
+          text:"Unes preguntes ràpides abans de contestar",
+          preguntes:[
+            {
+              text:"Quina aigua beus a casa?",
+              resposta:"",
+              opcions:[
+                "Aigua embotellada en plàstic",
+                "Aigua embotellada en vidre",
                 "Aigua de l'aixeta",
-                "Aigua de l'aixeta filtrada",
-                "Aigua embotellada",
+                "Aigua de l'aixeta amb gerra filtrant",
+                "Aigua de l'aixeta filtrada per osmosi",
                 "Altres",
               ],
             },
             {
-              text:"Per què?",
-              resposta:"",
+              text:"Per què la tries? (es pot seleccionar més d'una opció)",
+              multiple:true,
+              resposta:new Set(),
               opcions:[
-                "És més bona",
-                "És més saludable",
-                "És més barata",
-                "És més ecològica",
+                "Pel gust",
+                "Pel preu",
+                "És més segura i saludable",
+                "Per motius ambientals",
                 "Jo no trio l'aigua que bevem a casa",
+                "Per un altre motiu",
               ],
             },
           ],
         },
         {
-          text:"Percepcions",
+          text:"Creus que...",
           preguntes:[
             {
-              text:"Confio en la seguretat de l'aigua de l'aixeta de la meva població",
+              text:"...el tipus d'aigua que beus influeix en l'impacte ambiental (residus, cost energètic)?",
               resposta:"",
               opcions:[
-                "Totalment d'acord",
-                "D'acord",
-                "Ni d'acord ni en desacord",
-                "En desacord",
-                "Totalment en desacord",
+                "Gens d'acord",
+                "Poc d'acord",
+                "Neutral",
+                "Bastant d'acord",
+                "Molt d'acord",
               ],
             },
             {
-              text:"La generació de residus (envasos) és important en la decisió sobre quina aigua bec",
+              text:"...pots confiar en la qualitat de l'aigua de l'aixeta del meu municipi?",
               resposta:"",
               opcions:[
-                "Totalment d'acord",
-                "D'acord",
-                "Ni d'acord ni en desacord",
-                "En desacord",
-                "Totalment en desacord",
+                "Gens d'acord",
+                "Poc d'acord",
+                "Neutral",
+                "Bastant d'acord",
+                "Molt d'acord",
               ],
             },
             {
-              text:"Crec que el tipus d'aigües són distingibles pel gust",
+              text:"...les persones tenim bona capacitat per distingir els tipus d'aigua i el seu gust?",
               resposta:"",
               opcions:[
-                "Totalment d'acord",
-                "D'acord",
-                "Ni d'acord ni en desacord",
-                "En desacord",
-                "Totalment en desacord",
-              ],
-            },
-          ],
-        },
-        {
-          text:" ",
-          preguntes:[
-            {
-              text:"Estic preparat per fer el tast",
-              resposta:"",
-              opcions:[
-                "Sí",
-              ],
-            },
-            {
-              text:"Ja he acabat de fer el tast",
-              resposta:"",
-              opcions:[
-                "Sí",
-              ],
-            },
-          ],
-        },
-        {
-          text:"Després del tast",
-          preguntes:[
-            {
-              text:"Confio en la seguretat de l'aigua de l'aixeta de la meva població",
-              resposta:"",
-              opcions:[
-                "Totalment d'acord",
-                "D'acord",
-                "Ni d'acord ni en desacord",
-                "En desacord",
-                "Totalment en desacord",
-              ],
-            },
-            {
-              text:"La generació de residus (envasos) és important en la decisió sobre quina aigua bec",
-              resposta:"",
-              opcions:[
-                "Totalment d'acord",
-                "D'acord",
-                "Ni d'acord ni en desacord",
-                "En desacord",
-                "Totalment en desacord",
-              ],
-            },
-            {
-              text:"Crec que el tipus d'aigües són distingibles pel gust",
-              resposta:"",
-              opcions:[
-                "Totalment d'acord",
-                "D'acord",
-                "Ni d'acord ni en desacord",
-                "En desacord",
-                "Totalment en desacord",
+                "Gens d'acord",
+                "Poc d'acord",
+                "Neutral",
+                "Bastant d'acord",
+                "Molt d'acord",
               ],
             },
           ],
@@ -282,7 +459,7 @@
                 "Em plantejo reduir el consum d’aigua embotellada",
                 "Em plantejo utilitzar un sistema de filtració",
                 "Em plantejo utilitzar ampolles de vidre enlloc d’ampolles de plàstic",
-                "No, no canviaré els meus hàbits de consum",
+                "No canviaré els meus hàbits de consum",
                 "No, jo no trio l’aigua que bevem a casa",
               ],
             },
@@ -290,13 +467,37 @@
         },
       ],
     }},
+
     methods:{
-      //f(){},
+      alert(txt){
+        alert(txt);
+      },
+
+      pregunta_anterior(){
+        if(this.index_pagina_actual){
+          this.index_pagina_actual--;
+        }else{
+          this.vista_actual="titol";
+        }
+      },
+      pregunta_seguent(){
+        this.index_pagina_actual++;
+
+        if(this.index_pagina_actual>=this.pagines.length){
+          this.vista_actual="comencem";
+        }
+      },
+
+      tot_contestat(pagina){
+        return pagina.preguntes.every(p=>(!p.multiple&&p.resposta)||(p.multiple&&p.resposta.size));
+      },
+
+
     },
     computed:{
       //f(){},
       pagina_actual(){
-        return this.pagines[this.index_pagina_actual];
+        return this.pagines[this.index_pagina_actual]||false;
       },
     },
   }).mount("#app");
