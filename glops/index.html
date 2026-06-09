@@ -6,93 +6,149 @@
       font-family:Arial;
       margin:0;
     }
+    [dark_azure]{
+      color:#006787;
+    }
+
+    [titol_pagina]{
+      color:#00859d;
+      font-size:x-large;
+      padding:1em 1.618em;
+    }
+    [boto_landing]{
+      background:#73b612;
+      border-radius:50px;
+      border:none;
+      color:white;
+      font-weight:bold;
+      padding:0.5em 2em;
+      font-size:x-large;
+      border:2px solid transparent;
+      cursor:pointer;
+    }
+    [boto_landing]:hover{
+      border:2px solid #006787;
+    }
+
+    [fons_normal]{
+      background:url(img/fons.svg);
+      background-repeat:no-repeat;
+      background-position:center;
+      background-size:cover;
+      height:100vh;
+      width:100vw;
+    }
     [center]{
       text-align:center;
     }
     div[opcio]{
-      background:#bce3f9;
+      background:lightgrey;
       border-radius:50px;
-      border:2px solid black;
+      border:2px solid grey;
 
-      padding:1.618em 1em;
+      padding:1em 1.618em;
       color:black;
 
       margin:2px;
 
       text-align:center;
-      font-weight:bolder;
       cursor:pointer;
     }
     div[opcio]:hover{
-      background:#0097b2;
+      background:#bce3f9;
+      border-color:#0097b2;
     }
     div[opcio_seleccionada=true]{
-      background:#0097b2;
+      background:#bce3f9;
+      border-color:#0097b2;
     }
     [btn_prev_next_page]{
-      background:#0097b2;
+      background:#006787;
       color:white;
-      border:2px solid black;
+      font-size:x-large;
+      font-weight:bolder;
+      border:2px solid transparent;
       border-radius:50%;
-      padding:1em;
+      padding:0.5em;
     }
     [btn_prev_next_page][disabled]{
       background:#ccc;
     }
     [btn_prev_next_page]:not([disabled]):hover{
-      border:2px solid gold;
-      color:gold;
+      border:2px solid #bce3f9;
+      color:#bce3f9;
     }
     [btn_prev_next_page_ressaltat=true]{
       background:lightgreen;
     }
     [pregunta_text]{
-      background:linear-gradient(to right,#89d957,#c9e265);
+      color:#006787;
       padding:5px;
       display:inline-block;
       border-radius:10px;
+      font-weight:bold;
     }
   </style>
 </head><body>
 
-
 <div id=app>
   <div>
-
     <!--titol-->
-    <div v-if="vista_actual=='titol'" center>
-      <div>
-        [logo GLOPS]
-      </div>
-      <div>
-        Descobreix l'aigua que beus
-      </div>
+    <div
+      v-if="vista_actual=='titol'"
+      center
+      style="
+        background:url(img/landing.svg);
+        background-repeat:no-repeat;
+        background-size:cover;
+        background-position:center;
+        height:100vh;
+        margin:auto;
+      "
+    >
       <div
         style="
-          background:linear-gradient(to right,#0097b2,#7ed957);
-          padding:2em;
+          position:relative;
+          top:58vh;
         "
       >
-        Una experiència interactiva per descobrir què sabem<br>
-        &mdash; i què no sabem &mdash; sobre l'aigua que bevem.
+        <button
+          @click="vista_actual='preguntes'"
+          boto_landing
+          style="
+          "
+        >
+          <div
+            style="
+              display:flex;
+              align-items:center;
+              justify-content:space-between;
+            "
+          >
+            <div>Comença!</div>
+            <!--fletxa verda-->
+            <div
+              style="
+                background:#b8ff4f;
+                color:#73b612;
+                border-radius:50%;
+                width:28px;
+                padding:5px;
+                margin-left:10px;
+              "
+            >&#10140;
+            </div>
+          </div>
+        </button>
       </div>
-      <div>
-        [logo icra]
-        [logo fcri]
-      </div>
-      <button @click="vista_actual='preguntes'">començar</button>
     </div>
 
     <!--preguntes-->
-    <div v-if="vista_actual=='preguntes' && pagina_actual && index_pagina_actual<pagines.length">
-      <div
-        style="
-          font-size:x-large;
-          color:white;
-          background:linear-gradient(to right,#0097b2,#7ed957);
-          padding:1em 1.618em;
-        "
-      >
+    <div
+      v-if="vista_actual=='preguntes' && pagina_actual && index_pagina_actual<pagines.length"
+      fons_normal
+    >
+      <div titol_pagina center>
         <b>{{pagina_actual.text}}</b>
       </div>
 
@@ -161,7 +217,6 @@
           display:flex;
           align-items:center;
           justify-content:center;
-          background:linear-gradient(to right,#0097b2,#7ed957);
           border-radius:50px;
           margin:auto;
           margin-bottom:10px;
@@ -187,10 +242,14 @@
               center
               style="
                 width:50px;
+                font-size:30px;
               "
             >
-              <span v-if="index_pagina_actual+1==g">&#128167;</span><!--gota blava-->
-              <span v-else>&#127778;</span><!--gota grisa-->
+              <div
+                :style="{color:index_pagina_actual+1==g?'#00b7f1':'#d9d9d9'}"
+              >
+                &#127778;<!--emoji gota-->
+              </div>
             </div>
           </div>
         </div>
@@ -340,13 +399,13 @@
 <script>
   let app=Vue.createApp({
     data(){return{
-      index_pagina_actual:0,
-
+      //vista actual
       vista_actual:"titol",
 
+      index_pagina_actual:0,
       pagines:[
         {
-          text:"Unes preguntes ràpides abans de contestar",
+          text:"UNES PREGUNTES RÀPIDES ABANS DE COMENÇAR...",
           preguntes:[
             {
               text:"Quina edat tens?",
@@ -380,9 +439,8 @@
               ],
             },
           ],
-        },
-        {
-          text:"Unes preguntes ràpides abans de contestar",
+        },{
+          text:"UNES PREGUNTES RÀPIDES ABANS DE COMENÇAR",
           preguntes:[
             {
               text:"Quina aigua beus a casa?",
@@ -410,8 +468,7 @@
               ],
             },
           ],
-        },
-        {
+        },{
           text:"Creus que...",
           preguntes:[
             {
@@ -448,8 +505,7 @@
               ],
             },
           ],
-        },
-        {
+        },{
           text:"Intenció i compromís de canvi",
           preguntes:[
             {
