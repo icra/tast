@@ -2,18 +2,29 @@
   <meta charset=utf8>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <style>
+    :root{
+      --dark-azure:#006787;
+      --vivid-azure:#00859d;
+    }
+    @font-face {
+      font-family:IntroRust;/*set name*/
+      src:url(fonts/IntroRust.otf);
+    }
+    @font-face {
+      font-family:Inter;/*set name*/
+      src:url(fonts/Inter/Inter-VariableFont_opsz,wght.ttf);
+    }
+
     body{
       font-family:Arial;
       margin:0;
     }
-    [dark_azure]{
-      color:#006787;
-    }
 
     [titol_pagina]{
-      color:#00859d;
+      color:var(--vivid-azure);
       font-size:x-large;
       padding:1em 1.618em;
+      font-family:IntroRust;
     }
     [boto_landing]{
       background:#73b612;
@@ -27,11 +38,11 @@
       cursor:pointer;
     }
     [boto_landing]:hover{
-      border:2px solid #006787;
+      border:2px solid var(--dark-azure);
     }
 
     [fons_normal]{
-      background:url(img/fons.svg);
+      background:url(img/sady/fons.svg);
       background-repeat:no-repeat;
       background-position:center;
       background-size:cover;
@@ -53,6 +64,7 @@
 
       text-align:center;
       cursor:pointer;
+      font-family:Inter;
     }
     div[opcio]:hover{
       background:#bce3f9;
@@ -63,7 +75,7 @@
       border-color:#0097b2;
     }
     [btn_prev_next_page]{
-      background:#006787;
+      background:var(--dark-azure);
       color:white;
       font-size:x-large;
       font-weight:bolder;
@@ -82,23 +94,24 @@
       background:lightgreen;
     }
     [pregunta_text]{
-      color:#006787;
+      color:var(--dark-azure);
       padding:5px;
       display:inline-block;
       border-radius:10px;
       font-weight:bold;
+      font-family:IntroRust;
     }
   </style>
 </head><body>
 
 <div id=app>
   <div>
-    <!--titol-->
+    <!--portada-->
     <div
-      v-if="vista_actual=='titol'"
+      v-if="vista_actual=='portada'"
       center
       style="
-        background:url(img/landing.svg);
+        background:url(img/sady/portada.svg);
         background-repeat:no-repeat;
         background-size:cover;
         background-position:center;
@@ -106,12 +119,33 @@
         margin:auto;
       "
     >
+      <!--logo glops-->
+      <div>
+        <img src="img/sady/logo.svg"
+          style="
+            margin-top:-10vh;
+            width:85vh;
+          "
+        >
+      </div>
+
+      <!--boto començar-->
       <div
         style="
           position:relative;
-          top:58vh;
+          top:-30vh;
         "
       >
+        <div center
+          style="
+            color:var(--dark-azure);
+            font-size:xxx-large;
+            font-family:IntroRust;
+            margin-bottom:2vh;
+          "
+        >Descobreix l'aigua que beus
+        </div>
+
         <button
           @click="vista_actual='preguntes'"
           boto_landing
@@ -164,7 +198,7 @@
               font-size:x-large;
             "
           >
-            <span pregunta_text>
+            <span pregunta_text >
               {{pregunta.text}}
             </span>
 
@@ -400,7 +434,7 @@
   let app=Vue.createApp({
     data(){return{
       //vista actual
-      vista_actual:"titol",
+      vista_actual:"portada",
 
       index_pagina_actual:0,
       pagines:[
@@ -533,7 +567,7 @@
         if(this.index_pagina_actual){
           this.index_pagina_actual--;
         }else{
-          this.vista_actual="titol";
+          this.vista_actual="portada";
         }
       },
       pregunta_seguent(){
