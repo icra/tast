@@ -5,6 +5,7 @@
     :root{
       --dark-azure:#006787;
       --vivid-azure:#00859d;
+      --blau-clar:#bce3f9;
     }
     @font-face {
       font-family:IntroRust;/*set name*/
@@ -74,6 +75,17 @@
       background:#bce3f9;
       border-color:#0097b2;
     }
+    img[opcio_imatge]{
+      width:200px;
+      border:1px solid #ccc;
+    }
+    img[opcio_imatge]:hover{
+      border:1px solid var(--blau-clar);
+    }
+    img[opcio_imatge][opcio_imatge_seleccionada=true]{
+      background:var(--blau-clar);
+    }
+
     [btn_prev_next_page]{
       background:var(--dark-azure);
       color:white;
@@ -103,6 +115,7 @@
     }
   </style>
 </head><body>
+web en construcció (juny-juliol 2026)
 
 <div id=app>
   <div>
@@ -111,7 +124,7 @@
       v-if="vista_actual=='portada'"
       center
       style="
-        background:url(img/sady/portada.svg);
+        background:url(img/sady/portada2.svg);
         background-repeat:no-repeat;
         background-size:cover;
         background-position:center;
@@ -182,56 +195,153 @@
       v-if="vista_actual=='preguntes' && pagina_actual && index_pagina_actual<pagines.length"
       fons_normal
     >
-      <div titol_pagina center>
-        <b>{{pagina_actual.text}}</b>
+      <!--logo glops i titol pagina-->
+      <div
+        style="
+          display:flex;
+        "
+      >
+        <div>
+          <img src="img/sady/logo.svg"
+            style="
+              width:10vw;
+              margin-left:1vw;
+              margin-top:-2vw;
+            "
+          >
+        </div>
+        <div titol_pagina center>
+          <b>{{pagina_actual.text}}</b>
+        </div>
       </div>
 
       <!--preguntes-->
-      <div
-        style="
-          padding:3em;
-        "
-      >
-        <div v-for="pregunta in pagina_actual.preguntes" style="margin-bottom:35px">
-          <div
-            style="
-              font-size:x-large;
-            "
+      <div style="padding:3em">
+        <div v-if="pagina_actual.tipus=='12345'">
+          <table
+            style="border-collapse:collapse"
           >
-            <span pregunta_text >
-              {{pregunta.text}}
-            </span>
+            <tr style="font-family:Inter">
+              <td></td>
+              <td></td>
+              <td center style="width:80px">Gens d'acord</td>
+              <td center style="width:80px">Poc d'acord</td>
+              <td center style="width:80px">Ni d'acord ni en desacord</td>
+              <td center style="width:80px">Bastant d'acord</td>
+              <td center style="width:80px">Molt d'acord</td>
+            </tr>
+            <tbody v-for="pregunta in pagina_actual.preguntes">
+              <tr
+                style="
+                  background:white;
+                  border-radius:20px;
+                  border:1px solid #ccc;
+                  box-shadow:5px 5px 10px #ccc;
+                "
+              >
+                <td>
+                  <div>
+                    <img :src="pregunta.src" style="width:150px">
+                  </div>
+                </td>
+                <td>
+                  <div v-html="pregunta.text" style="font-family:Inter"></div>
+                </td>
+                <td v-for="i in 5">
+                  <div
+                    style="
+                      width:50px;
+                      height:50px;
+                      border-radius:50%;
+                      border:1px solid var(--dark-azure);
 
-            <span style="font-size:12px">
-              <span v-if="pregunta.resposta">&nbsp;
-                <b v-if="pregunta.multiple">{{Array.from(pregunta.resposta).join(', ')}}</b>
-                <b v-else>{{pregunta.resposta}}</b>
+                      font-weight:bolder;
+                      font-size:20px;
+                      color:var(--dark-azure);
+
+                      margin:auto;
+
+                      align-content:center;
+                      text-align:center;
+                    "
+                  >
+                    {{i}}
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan=99 style="height:20px">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div v-else>
+          <div v-for="pregunta in pagina_actual.preguntes" style="margin-bottom:35px">
+            <div center
+              style="
+                font-size:x-large;
+              "
+            >
+              <span pregunta_text >
+                {{pregunta.text}}
               </span>
-            </span>
-          </div>
-          <div v-if="pregunta.opcions"
-            style="
-              display:grid;
-              grid-template-columns:repeat(6,1fr);
-              align-items:center;
-              margin-bottom:10px;
-            "
-          >
-            <div
-              v-if="!pregunta.multiple"
-              opcio
-              :opcio_seleccionada="opcio==pregunta.resposta"
-              v-for="opcio in pregunta.opcions"
-              @click="pregunta.resposta = pregunta.resposta==opcio ? '':opcio "
-            >{{opcio}}</div>
 
-            <div
-              v-if="pregunta.multiple"
-              opcio
-              v-for="opcio in pregunta.opcions"
-              :opcio_seleccionada="pregunta.resposta.has(opcio)"
-              @click="pregunta.resposta[pregunta.resposta.has(opcio)?'delete':'add'](opcio)"
-            >{{opcio}}</div>
+              <span style="font-size:12px">
+                <span v-if="pregunta.resposta">&nbsp;
+                  <b v-if="pregunta.multiple">{{Array.from(pregunta.resposta).join(', ')}}</b>
+                  <b v-else>{{pregunta.resposta}}</b>
+                </span>
+              </span>
+            </div>
+
+            <div v-if="pregunta.opcions">
+              <div v-if="pregunta.id">
+                <div v-if="pregunta.id=='quina_aigua_beus_a_casa'"
+                  style="
+                    display:grid;
+                    grid-template-columns:repeat(6,1fr);
+                  "
+                >
+                  <div v-for="op in pregunta.opcions" center>
+                    <img :src="op.src"
+                      opcio_imatge
+                      :opcio_imatge_seleccionada="pregunta.resposta==op.text"
+                    >
+                    <div opcio
+                      :opcio_seleccionada="op.text==pregunta.resposta"
+                      style="font-family:Inter"
+                      @click="pregunta.resposta = pregunta.resposta==op.text ? '':op.text"
+                    >{{op.text}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-else
+                style="
+                  display:grid;
+                  grid-template-columns:repeat(6,1fr);
+                  align-items:center;
+                  margin-bottom:10px;
+                "
+              >
+                <div
+                  v-if="!pregunta.multiple"
+                  opcio
+                  :opcio_seleccionada="opcio==pregunta.resposta"
+                  v-for="opcio in pregunta.opcions"
+                  @click="pregunta.resposta = pregunta.resposta==opcio ? '':opcio "
+                >{{opcio}}</div>
+                <div
+                  v-if="pregunta.multiple"
+                  opcio
+                  v-for="opcio in pregunta.opcions"
+                  :opcio_seleccionada="pregunta.resposta.has(opcio)"
+                  @click="pregunta.resposta[pregunta.resposta.has(opcio)?'delete':'add'](opcio)"
+                >{{opcio}}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -291,7 +401,9 @@
         <button
           btn_prev_next_page
           @click="pregunta_seguent()"
-          :disabled="!tot_contestat(pagina_actual)"
+
+          :disabled="false && !tot_contestat(pagina_actual)"
+
           title="contesta totes les preguntes per continuar"
         >&rarr;</button>
       </div>
@@ -462,6 +574,10 @@
                 "Prefereixo no respondre",
               ],
             },
+          ],
+        },{
+          text:"",
+          preguntes:[
             {
               text:"On vius habitualment?",
               resposta:"",
@@ -477,19 +593,20 @@
           text:"UNES PREGUNTES RÀPIDES ABANS DE COMENÇAR",
           preguntes:[
             {
+              id:"quina_aigua_beus_a_casa",
               text:"Quina aigua beus a casa?",
               resposta:"",
               opcions:[
-                "Aigua embotellada en plàstic",
-                "Aigua embotellada en vidre",
-                "Aigua de l'aixeta",
-                "Aigua de l'aixeta amb gerra filtrant",
-                "Aigua de l'aixeta filtrada per osmosi",
-                "Altres",
+                {text:"Aigua de l'aixeta"                    , src:"img/sady/quina_aigua_beus_a_casa/aixeta.svg"} ,
+                {text:"Aigua de l'aixeta filtrada per osmosi", src:"img/sady/quina_aigua_beus_a_casa/aixeta_filtrada_osmosis.svg"} ,
+                {text:"Aigua de l'aixeta amb gerra filtrant" , src:"img/sady/quina_aigua_beus_a_casa/aixeta_gerra_filtrant.svg"} ,
+                {text:"Aigua embotellada en plàstic"         , src:"img/sady/quina_aigua_beus_a_casa/embotellada_plastic.svg"} ,
+                {text:"Aigua embotellada en vidre"           , src:"img/sady/quina_aigua_beus_a_casa/embotellada_vidre.svg"} ,
+                {text:"Altres"                               , src:"img/sady/quina_aigua_beus_a_casa/altres.svg"} ,
               ],
             },
             {
-              text:"Per què la tries? (es pot seleccionar més d'una opció)",
+              text:"Per què la tries? (resposta múltiple)",
               multiple:true,
               resposta:new Set(),
               opcions:[
@@ -503,39 +620,43 @@
             },
           ],
         },{
+          tipus:"12345",
           text:"Creus que...",
           preguntes:[
             {
-              text:"...el tipus d'aigua que beus influeix en l'impacte ambiental (residus, cost energètic)?",
+              src:"img/sady/creus_que/fulles_verdes.svg",
+              text:"...l'elecció del tipus d'aigua que beus influeix en el seu impacte ambiental (residus, cost energètic...)?",
               resposta:"",
               opcions:[
-                "Gens d'acord",
-                "Poc d'acord",
-                "Neutral",
-                "Bastant d'acord",
-                "Molt d'acord",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
               ],
             },
             {
-              text:"...pots confiar en la qualitat de l'aigua de l'aixeta del meu municipi?",
+              src:"img/sady/creus_que/gota_blava.svg",
+              text:"...pots confiar en la qualitat de l'aigua de l'aixeta del teu municipi?",
               resposta:"",
               opcions:[
-                "Gens d'acord",
-                "Poc d'acord",
-                "Neutral",
-                "Bastant d'acord",
-                "Molt d'acord",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
               ],
             },
             {
+              src:"img/sady/creus_que/persones_taronges.svg",
               text:"...les persones tenim bona capacitat per distingir els tipus d'aigua i el seu gust?",
               resposta:"",
               opcions:[
-                "Gens d'acord",
-                "Poc d'acord",
-                "Neutral",
-                "Bastant d'acord",
-                "Molt d'acord",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
               ],
             },
           ],
@@ -591,4 +712,7 @@
       },
     },
   }).mount("#app");
+
+  app.vista_actual="preguntes";
+  app.index_pagina_actual=3;
 </script>
