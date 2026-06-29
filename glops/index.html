@@ -3,9 +3,20 @@
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <style>
     :root{
-      --dark-azure:#006787;
-      --vivid-azure:#00859d;
-      --blau-clar:#bce3f9;
+      --dark_azure:   #006787;
+      --vivid_azure:  #00859d;
+
+      --blau_clar:    #bce3f9;
+      --verd_clar:    #b7e8a2;
+      --taronja_clar: #fdc29d;
+      --lila_clar:    #d3befe;
+
+      --blau_clar_intens:    #00abe8;
+      --taronja_clar_intens: #ff914d;
+      --verd_clar_intens:    #7ed957;
+      --lila_clar_intens:    #8c52ff;
+
+      --verd_intens: #73b612;
     }
     @font-face {
       font-family:IntroRust;/*set name*/
@@ -16,19 +27,94 @@
       src:url(fonts/Inter/Inter-VariableFont_opsz,wght.ttf);
     }
 
+    table{border-collapse:collapse}
+
+    /*per infografia*/
+    [blau_clar]{   background:var(--blau_clar)}
+    [taronja_clar]{background:var(--taronja_clar)}
+    [verd_clar]{   background:var(--verd_clar)}
+    [lila_clar]{   background:var(--lila_clar)}
+
+    /*per_on_passa_aigua*/
+    img[img_200px]{
+      display:block;
+      width:200px;
+      margin:auto;
+      margin-bottom:20px;
+    }
+    #per_on_passa_aigua table td{
+      padding:0;
+      font-weight:bold;
+    }
+    #per_on_passa_aigua [card]{
+      background:white;
+      border-radius:20px;
+      padding:1em 0.618em;
+      width:250px;
+      height:325px;
+      margin:auto;
+      margin-bottom:20px;
+    }
+    #per_on_passa_aigua [card_blava]{
+      border:1px solid        var(--blau_clar);
+      box-shadow:5px 5px 10px var(--blau_clar);
+    }
+    #per_on_passa_aigua [card_lila]{
+      border:1px solid        var(--lila_clar);
+      box-shadow:5px 5px 10px var(--lila_clar);
+    }
+
+    #normalment_ens_fixem_en img{
+      display:block;
+      margin:auto;
+      width:300px;
+    }
+    #normalment_ens_fixem_en [card]{
+      background:white;
+      border-radius:20px;
+      padding:1em 0.618em;
+      margin:auto;
+      margin-bottom:20px;
+      border:1px solid        var(--blau_clar);
+      box-shadow:5px 5px 10px var(--blau_clar);
+      font-weight:bold;
+      font-size:xx-large;
+    }
+    #el_gust [card]{
+      background:#e5f5ff;
+      border-radius:20px;
+      border:1px solid var(--blau_clar_intens);
+      box-shadow:5px 5px 10px var(--blau_clar);
+      font-size:xx-large;
+      font-weight:bold;
+      margin-bottom:20px;
+      padding:1em 0.618em;
+      width:400px;
+    }
+    #el_gust [card_text]{
+      background:white;
+      border-radius:20px;
+      border:1px solid var(--blau_clar);
+      box-shadow:5px 5px 10px var(--blau_clar);
+      font-size:x-large;
+      margin:auto;
+      margin-bottom:20px;
+      padding:1em 0.618em;
+    }
+
     body{
       font-family:Arial;
       margin:0;
     }
 
     [titol_pagina]{
-      color:var(--vivid-azure);
+      color:var(--vivid_azure);
       font-size:x-large;
       padding:1em 1.618em;
       font-family:IntroRust;
     }
     [boto_landing]{
-      background:#73b612;
+      background:var(--verd_intens);
       border-radius:50px;
       border:none;
       color:white;
@@ -39,7 +125,22 @@
       cursor:pointer;
     }
     [boto_landing]:hover{
-      border:2px solid var(--dark-azure);
+      border:2px solid var(--dark_azure);
+    }
+    [boto_comencem]{
+      border:5px solid white;
+      border-radius:55px;
+      background:var(--verd_intens);
+      color:white;
+      font-weight:bolder;
+      font-size:xxx-large;
+      box-shadow:2px 2px 10px #ccc;
+
+      padding:0.618em 1em;
+    }
+    [boto_comencem]:hover{
+      border-color:var(--dark_azure);
+      color:var(--dark_azure);
     }
 
     [fons_normal]{
@@ -54,11 +155,12 @@
       text-align:center;
     }
     div[opcio]{
-      background:lightgrey;
-      border-radius:50px;
-      border:2px solid grey;
+      background:white;
+      border-radius:10px;
+      border:1px solid grey;
+      box-shadow:2px 2px 10px #ccc;
 
-      padding:1em 1.618em;
+      padding:1em 0.618em;
       color:black;
 
       margin:2px;
@@ -67,27 +169,25 @@
       cursor:pointer;
       font-family:Inter;
     }
-    div[opcio]:hover{
-      background:#bce3f9;
-      border-color:#0097b2;
-    }
+    div[opcio]:hover,
     div[opcio_seleccionada=true]{
       background:#bce3f9;
       border-color:#0097b2;
     }
+
     img[opcio_imatge]{
       width:200px;
       border:1px solid #ccc;
     }
     img[opcio_imatge]:hover{
-      border:1px solid var(--blau-clar);
+      border:1px solid var(--blau_clar);
     }
     img[opcio_imatge][opcio_imatge_seleccionada=true]{
-      background:var(--blau-clar);
+      background:var(--blau_clar);
     }
 
     [btn_prev_next_page]{
-      background:var(--dark-azure);
+      background:var(--dark_azure);
       color:white;
       font-size:x-large;
       font-weight:bolder;
@@ -106,184 +206,197 @@
       background:lightgreen;
     }
     [pregunta_text]{
-      color:var(--dark-azure);
+      color:var(--dark_azure);
       padding:5px;
       display:inline-block;
       border-radius:10px;
       font-weight:bold;
       font-family:IntroRust;
     }
+
+    #infografia_quina_aigua_bevem img{
+      width:100px;
+    }
+    .fletxa{
+      width: 100px;
+      height: 90px;
+      background: #b8dff3;
+      clip-path: polygon(
+        0 0,
+        88% 0,
+        100% 50%,
+        88% 100%,
+        0 100%
+      );
+    }
   </style>
 </head><body>
-web en construcció (juny-juliol 2026)
 
 <div id=app>
-  <div>
-    <!--portada-->
+  <!--portada-->
+  <div
+    v-if="vista_actual=='portada'"
+    center
+    style="
+      background:url(img/sady/portada2.svg);
+      background-repeat:no-repeat;
+      background-size:cover;
+      background-position:center;
+      height:100vh;
+      margin:auto;
+    "
+  >
+    <!--logo glops-->
+    <div>
+      <img src="img/sady/logo.svg"
+        style="
+          margin-top:-10vh;
+          width:85vh;
+        "
+      >
+    </div>
+
+    <!--boto començar-->
     <div
-      v-if="vista_actual=='portada'"
-      center
       style="
-        background:url(img/sady/portada2.svg);
-        background-repeat:no-repeat;
-        background-size:cover;
-        background-position:center;
-        height:100vh;
-        margin:auto;
+        position:relative;
+        top:-30vh;
       "
     >
-      <!--logo glops-->
+      <div center
+        style="
+          color:var(--dark_azure);
+          font-size:xxx-large;
+          font-family:IntroRust;
+          margin-bottom:2vh;
+        "
+      >Descobreix l'aigua que beus
+      </div>
+
+      <button
+        @click="vista_actual='preguntes';index_pagina_actual=0"
+        boto_landing
+      >
+        <div
+          style="
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+          "
+        >
+          <div>Comença!</div>
+          <!--fletxa verda-->
+          <div
+            style="
+              background:#b8ff4f;
+              color:var(--verd_intens);
+              border-radius:50%;
+              width:28px;
+              padding:5px;
+              margin-left:10px;
+            "
+          >&#10140;
+          </div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!--preguntes-->
+  <div
+    v-if="vista_actual=='preguntes' && pagina_actual && index_pagina_actual<pagines.length"
+    fons_normal
+  >
+    <!--logo glops i titol pagina-->
+    <div
+      style="
+        display:flex;
+      "
+    >
       <div>
         <img src="img/sady/logo.svg"
           style="
-            margin-top:-10vh;
-            width:85vh;
+            width:10vw;
+            margin-left:1vw;
+            margin-top:-2vw;
           "
         >
       </div>
-
-      <!--boto començar-->
-      <div
-        style="
-          position:relative;
-          top:-30vh;
-        "
-      >
-        <div center
-          style="
-            color:var(--dark-azure);
-            font-size:xxx-large;
-            font-family:IntroRust;
-            margin-bottom:2vh;
-          "
-        >Descobreix l'aigua que beus
-        </div>
-
-        <button
-          @click="vista_actual='preguntes'"
-          boto_landing
-          style="
-          "
-        >
-          <div
-            style="
-              display:flex;
-              align-items:center;
-              justify-content:space-between;
-            "
-          >
-            <div>Comença!</div>
-            <!--fletxa verda-->
-            <div
-              style="
-                background:#b8ff4f;
-                color:#73b612;
-                border-radius:50%;
-                width:28px;
-                padding:5px;
-                margin-left:10px;
-              "
-            >&#10140;
-            </div>
-          </div>
-        </button>
+      <div titol_pagina center>
+        <b>{{pagina_actual.text}}</b>
       </div>
     </div>
 
     <!--preguntes-->
-    <div
-      v-if="vista_actual=='preguntes' && pagina_actual && index_pagina_actual<pagines.length"
-      fons_normal
-    >
-      <!--logo glops i titol pagina-->
-      <div
-        style="
-          display:flex;
-        "
-      >
-        <div>
-          <img src="img/sady/logo.svg"
-            style="
-              width:10vw;
-              margin-left:1vw;
-              margin-top:-2vw;
-            "
-          >
-        </div>
-        <div titol_pagina center>
-          <b>{{pagina_actual.text}}</b>
-        </div>
-      </div>
-
-      <!--preguntes-->
-      <div style="padding:3em">
-        <div v-if="pagina_actual.tipus=='12345'">
-          <table
-            style="border-collapse:collapse"
-          >
-            <tr style="font-family:Inter">
-              <td></td>
-              <td></td>
-              <td center style="width:80px">Gens d'acord</td>
-              <td center style="width:80px">Poc d'acord</td>
-              <td center style="width:80px">Ni d'acord ni en desacord</td>
-              <td center style="width:80px">Bastant d'acord</td>
-              <td center style="width:80px">Molt d'acord</td>
-            </tr>
-            <tbody v-for="pregunta in pagina_actual.preguntes">
-              <tr
-                style="
-                  background:white;
-                  border-radius:20px;
-                  border:1px solid #ccc;
-                  box-shadow:5px 5px 10px #ccc;
-                "
-              >
-                <td>
-                  <div>
-                    <img :src="pregunta.src" style="width:150px">
-                  </div>
-                </td>
-                <td>
-                  <div v-html="pregunta.text" style="font-family:Inter"></div>
-                </td>
-                <td v-for="i in 5">
-                  <div
-                    style="
-                      width:50px;
-                      height:50px;
-                      border-radius:50%;
-                      border:1px solid var(--dark-azure);
-
-                      font-weight:bolder;
-                      font-size:20px;
-                      color:var(--dark-azure);
-
-                      margin:auto;
-
-                      align-content:center;
-                      text-align:center;
-                    "
-                  >
-                    {{i}}
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan=99 style="height:20px">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div v-else>
-          <div v-for="pregunta in pagina_actual.preguntes" style="margin-bottom:35px">
-            <div center
+    <div style="padding:3em">
+      <div v-if="pagina_actual.tipus=='12345'">
+        <table
+          style="border-collapse:collapse;margin:auto"
+        >
+          <tr style="font-family:Inter">
+            <td></td>
+            <td></td>
+            <td center style="width:80px">Gens d'acord</td>
+            <td center style="width:80px">Poc d'acord</td>
+            <td center style="width:80px">Ni d'acord ni en desacord</td>
+            <td center style="width:80px">Bastant d'acord</td>
+            <td center style="width:80px">Molt d'acord</td>
+          </tr>
+          <tbody v-for="pregunta in pagina_actual.preguntes">
+            <tr
               style="
-                font-size:x-large;
+                background:white;
+                border-radius:20px;
+                border:1px solid #ccc;
+                box-shadow:5px 5px 10px #ccc;
               "
             >
+              <td>
+                <div>
+                  <img :src="pregunta.src" style="width:150px">
+                </div>
+              </td>
+              <td>
+                <div v-html="pregunta.text" style="font-family:Inter"></div>
+              </td>
+              <td v-for="i in 5">
+                <div
+                  style="
+                    width:50px;
+                    height:50px;
+                    border-radius:50%;
+                    border:1px solid var(--dark_azure);
+
+                    font-weight:bolder;
+                    font-size:20px;
+                    color:var(--dark_azure);
+
+                    margin:auto;
+
+                    align-content:center;
+                    text-align:center;
+
+                    cursor:pointer
+                  "
+                  :opcio_seleccionada="pregunta.resposta==i"
+                  @click="pregunta.resposta = i"
+                >
+                  {{i}}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan=99 style="height:20px">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div v-else>
+        <div v-for="pregunta in pagina_actual.preguntes" style="margin-bottom:35px">
+          <div v-if="pregunta.visible==undefined || pregunta.visible()" >
+            <div center style="font-size:x-large;">
               <span pregunta_text >
                 {{pregunta.text}}
               </span>
@@ -298,22 +411,56 @@ web en construcció (juny-juliol 2026)
 
             <div v-if="pregunta.opcions">
               <div v-if="pregunta.id">
-                <div v-if="pregunta.id=='quina_aigua_beus_a_casa'"
-                  style="
-                    display:grid;
-                    grid-template-columns:repeat(6,1fr);
-                  "
-                >
-                  <div v-for="op in pregunta.opcions" center>
-                    <img :src="op.src"
-                      opcio_imatge
-                      :opcio_imatge_seleccionada="pregunta.resposta==op.text"
+                <div v-if="pregunta.id=='quina_aigua_beus_a_casa'">
+                  <div
+                    style="
+                      display:grid;
+                      grid-template-columns:repeat(6,1fr);
+                    "
+                  >
+                    <div v-for="op in pregunta.opcions" center>
+                      <img :src="op.src"
+                        opcio_imatge
+                        :opcio_imatge_seleccionada="pregunta.resposta==op.text"
+                        @click="pregunta.resposta = pregunta.resposta==op.text ? '':op.text"
+                        style="cursor:pointer"
+                      >
+                      <div opcio
+                        :opcio_seleccionada="op.text==pregunta.resposta"
+                        style="font-family:Inter"
+                        @click="pregunta.resposta = pregunta.resposta==op.text ? '':op.text"
+                      >{{op.text}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div v-if="pregunta.id=='quina_edat_tens'" center>
+                  <div
+                    style="
+                      display:grid;
+                      grid-template-columns:repeat(5,1fr);
+                      align-items:center;
+                      margin:auto;
+                      margin-bottom:10px;
+                    "
+                  >
+                    <div
+                      v-for="op in pregunta.opcions"
+                      @click="pregunta.resposta = pregunta.resposta==op ? '':op"
+                      style="cursor:pointer"
                     >
-                    <div opcio
-                      :opcio_seleccionada="op.text==pregunta.resposta"
-                      style="font-family:Inter"
-                      @click="pregunta.resposta = pregunta.resposta==op.text ? '':op.text"
-                    >{{op.text}}
+                      <div v-if="pregunta.resposta!=op">
+                        <img src="img/sady/edat.svg" style="width:150px;">
+                      </div>
+                      <div v-if="pregunta.resposta==op">
+                        <img src="img/sady/edat-seleccionada.svg" style="width:150px;">
+                      </div>
+                      <div opcio
+                        :opcio_seleccionada="op==pregunta.resposta"
+                        style="font-family:Inter"
+                      >{{op}}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -321,8 +468,9 @@ web en construcció (juny-juliol 2026)
               <div v-else
                 style="
                   display:grid;
-                  grid-template-columns:repeat(6,1fr);
+                  grid-template-columns:repeat(4,1fr);
                   align-items:center;
+                  margin:auto;
                   margin-bottom:10px;
                 "
               >
@@ -346,198 +494,628 @@ web en construcció (juny-juliol 2026)
         </div>
       </div>
     </div>
+  </div>
 
-    <!--gotes navegació-->
+  <div v-if="vista_actual=='comencem'" center>
     <div
-      v-if="vista_actual=='preguntes' && pagina_actual"
       style="
-        position:fixed;
-        bottom:0;
-        width:100%;
+        background:url(img/sady/portada2.svg);
+        background-repeat:no-repeat;
+        background-size:cover;
+        background-position:center;
+        height:100vh;
+        margin:auto;
       "
     >
       <div
         style="
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          border-radius:50px;
-          margin:auto;
-          margin-bottom:10px;
-          padding:10px;
-          max-width:90%;
+          position:relative;
+          top:40vh;
         "
       >
         <button
-          btn_prev_next_page
-          @click="pregunta_anterior()"
-        >&larr;
-        </button>
-
-        <div style="margin:5px 10px">
-          <div
+          @click="vista_actual='infografia_quina_aigua_bevem'"
+          boto_comencem
+        >
+          COMENCEM
+          <!--fletxa verda-->
+          <span
             style="
-              display:flex;
-              align-items:center;
-              justify-content:space-around;
+              display:inline-block;
+              background:white;
+              color:var(--verd_intens);
+              border-radius:50%;
+              width:64px;
+              padding:5px;
+              margin-left:10px;
             "
-          >
-            <div v-for="g in pagines.length"
-              center
+          >&#10140;
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!--infografia quina aigua bevem-->
+  <div
+    fons_normal
+    v-if="vista_actual=='infografia_quina_aigua_bevem'"
+    id="infografia_quina_aigua_bevem"
+  >
+    <div>
+      <div pregunta_text center
+        style="
+          display:block;
+          font-size:xxx-large;
+        "
+      >
+        quina aigua bevem normalment a casa?
+      </div>
+
+      <table border=1
+        style="
+          margin:auto;
+          border-collapse:collapse;
+          width:80%;
+          font-family:Inter;
+        "
+      >
+        <tr>
+          <td colspan=7 style="color:#666">Procedència aproximada de l'aigua que bevem <sup>*</sup></td>
+        </tr>
+        <tr>
+          <td colspan=2 blau_clar>
+            44%
+            Xarxa pública abastament
+          </td>
+          <td blau_clar></td>
+          <td blau_clar></td>
+          <td blau_clar></td>
+          <td blau_clar>20%</td>
+          <td blau_clar></td>
+          <td>
+            <img src="img/sady/infografia_quina_aigua_bevem/aixeta.svg">
+          </td>
+          <td>
+            <div
               style="
-                width:50px;
-                font-size:30px;
+                display:inline-block;
+                background:white;
+                border:1px solid var(--blau_clar);
+                border-radius:10px;
+                padding:0.618em 1em;
+                box-shadow:2px 2px 10px var(--blau_clar);
+              "
+            >
+              Aigua de l'<b style="color:var(--blau_clar_intens)">aixeta</b>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td verd_clar></td>
+          <td colspan=2 taronja_clar>24%</td>
+          <td taronja_clar></td>
+          <td>
+            <img src="img/sady/infografia_quina_aigua_bevem/gerra.svg">
+          </td>
+          <td>
+            <div
+              style="
+                display:inline-block;
+                background:white;
+                border:1px solid var(--taronja_clar);
+                border-radius:10px;
+                box-shadow:2px 2px 10px var(--taronja_clar);
+
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                align-items:center;
               "
             >
               <div
-                :style="{color:index_pagina_actual+1==g?'#00b7f1':'#d9d9d9'}"
+                style="
+                  padding:0.618em 1em;
+                "
               >
-                &#127778;<!--emoji gota-->
+                Aigua de l'aixeta passada per una <b style="color:var(--taronja_clar_intens)">gerra filtrant</b> amb carbó actiu
+              </div>
+              <div
+                style="
+                  background:var(--taronja_clar);
+                  padding:0.618em 1em;
+                  border-radius:10px;
+                "
+              >
+                <b>Redueix el clor</b>
+                i reté algus compostos orgànics, la qual cosa
+                sol millorar l'olor i el gust de l'aigua, però no elimina les sals dissoltes.
               </div>
             </div>
-          </div>
-        </div>
-
-        <button
-          btn_prev_next_page
-          @click="pregunta_seguent()"
-
-          :disabled="false && !tot_contestat(pagina_actual)"
-
-          title="contesta totes les preguntes per continuar"
-        >&rarr;</button>
-      </div>
-    </div>
-
-    <div v-if="vista_actual=='comencem'" center>
-      <div
-        style="
-          height:50vh;
-          background:linear-gradient(to right,#0097b2,#7ed957);
-        "
-      ></div>
-      <div
-        style="
-          font-size:xx-large;
-        "
-      >
-        Comencem!
-        <br>
-        <button @click="alert('wip')">
-          &rarr;
-        </button>
-        <br>
-        <button @click="vista_actual='preguntes';index_pagina_actual=pagines.length-1">
-          enrere
-        </button>
-      </div>
-    </div>
-
-    <div v-if="vista_actual=='diagrama_flux'" center>
-      diagrama flux svg aquí
-      <button>anterior</button>
-      <button>següent</button>
-    </div>
-
-    <div v-if="vista_actual=='diagrama_passos_aigua'" center>
-      diagrama passos aigua
-      <button>anterior</button>
-      <button>següent</button>
-    </div>
-
-    <div v-if="vista_actual=='com_escollim_aigua'" center>
-      Com escollim l'aigua que bevem?
-      <button>anterior</button>
-      <button>següent</button>
-    </div>
-
-    <div v-if="vista_actual=='normalment_ens_fixem_en'" center>
-      Normalment ens fixem en
-      <button>anterior</button>
-      <button>següent</button>
-    </div>
-
-    <div v-if="vista_actual=='el_gust'" center>
-      El gust sovint és el motiu principal però...
-      sabries distingir els diferents tipus d'aigua
-      pel seu gust?
-
-      <p>Comencem el tast d'aigües</p>
-
-      <button>anterior</button>
-      <button>següent</button>
-    </div>
-
-    <div v-if="vista_actual=='tast'" center>
-      <div>
-        <table border=1>
-          <tr>
-            <td></td>
-            <td>icona 1</td>
-            <td>icona 2</td>
-            <td>icona 3</td>
-            <td>icona 4</td>
-          </tr>
-          <tr>
-            <td>A</td>
-            <td>aixeta</td>
-            <td>gerra filtrant</td>
-            <td>osmosi</td>
-            <td>embotellada</td>
-          </tr>
-          <tr>
-            <td>B</td>
-            <td>aixeta</td>
-            <td>gerra filtrant</td>
-            <td>osmosi</td>
-            <td>embotellada</td>
-          </tr>
-          <tr>
-            <td>C</td>
-            <td>aixeta</td>
-            <td>gerra filtrant</td>
-            <td>osmosi</td>
-            <td>embotellada</td>
-          </tr>
-          <tr>
-            <td>D</td>
-            <td>aixeta</td>
-            <td>gerra filtrant</td>
-            <td>osmosi</td>
-            <td>embotellada</td>
-          </tr>
-        </table>
-      </div>
-
-      <button>anterior</button>
-      <button>següent</button>
-    </div>
-
-    <div v-if="vista_actual=='quina_tha_agradat_mes'" center>
-      <table>
-        <tr>
-          <td>
-            Quina t'ha agradat més?
-          </td>
-          <td>
-            <button>A</button>
-            <button>B</button>
-            <button>C</button>
-            <button>D</button>
           </td>
         </tr>
         <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td verd_clar></td>
+          <td verd_clar></td>
+          <td verd_clar></td>
+          <td verd_clar></td>
           <td>
-            I quina menys?
+            <img src="img/sady/infografia_quina_aigua_bevem/osmosi.svg">
           </td>
           <td>
-            <button>A</button>
-            <button>B</button>
-            <button>C</button>
-            <button>D</button>
+            <div
+              style="
+                display:inline-block;
+                background:white;
+                border:1px solid var(--verd_clar);
+                border-radius:10px;
+                box-shadow:2px 2px 10px var(--verd_clar);
+
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                align-items:center;
+              "
+            >
+              <div
+                style="
+                  padding:0.618em 1em;
+                "
+              >
+                Aigua de l'aixeta passada per una <b style="color:var(--verd_clar_intens)">filtre d'osmosi inversa</b>
+              </div>
+              <div
+                style="
+                  background:var(--verd_clar);
+                  padding:0.618em 1em;
+                  border-radius:10px;
+                "
+              >
+                <b>Redueix molts compostos químics i sals</b>
+                dissoltes (sovint també el clor) produint una aigua molt més baixa en minerals.
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td lila_clar colspan=2>
+            55%
+            Distribuidors:
+            supermercats, botigues...
+          </td>
+          <td lila_clar></td>
+          <td lila_clar></td>
+          <td lila_clar></td>
+          <td lila_clar></td>
+          <td lila_clar></td>
+          <td>
+            <img src="img/sady/infografia_quina_aigua_bevem/ampolla.svg">
+          </td>
+          <td>
+            <div
+              style="
+                display:inline-block;
+                background:white;
+                border:1px solid var(--lila_clar);
+                border-radius:10px;
+                padding:0.618em 1em;
+                box-shadow:2px 2px 10px var(--lila_clar);
+              "
+            >
+              Aigua <b style="color:var(--lila_clar_intens)">envasada (o embotellada)</b> en plàstic o vidre
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="background:#ccc">1% Altres</td>
+        </tr>
+        <tr>
+          <td colspan=8>
+          </td>
+          <td>
+            <code><i>
+              * Dades per l'Àrea Metropolitana de Barcelona: extrets de Pole et al. 2026 Environmental and Sustainability Indicators
+            </i></code>
           </td>
         </tr>
       </table>
+
+      <div center>
+        <button @click="vista_actual='comencem'">anterior</button>
+        <button @click="vista_actual='per_on_passa_aigua'">següent</button>
+      </div>
+
+    </div>
+
+    <!--temporal-->
+    <div center style="margin-top:30px;">
+      captura pantalla
+    </div>
+    <img src="img/sady/infografia_quina_aigua_bevem/tot.png"
+      style="width:55%;border:1px solid #ccc;margin:auto;display:block"
+    >
+
+  </div>
+
+  <div v-if="vista_actual=='per_on_passa_aigua'" center id=per_on_passa_aigua fons_normal>
+    <div>
+      <div pregunta_text center style="font-size:xxx-large">
+        Per on passa l'aigua abans d'arribar a casa?
+      </div>
+
+      <table style="width:90%;margin:auto;margin-top:20px;font-family:Inter">
+        <tr style="font-size:larger;font-weight:bold">
+          <td>Origen</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>Controls de qualitat</td>
+          <td></td>
+          <td>Distribució</td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td>
+            <div card card_blava>
+              <img src="img/sady/per_on_passa_aigua/embassament.svg" img_200px>
+              Embassaments,<br> rius i aqüífers, i en<br> alguns casos el mar (dessalinització)
+            </div>
+          </td>
+          <td><img src="img/arrow-right-blau-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+
+          <td>
+            <div card card_blava>
+              <img src="img/sady/per_on_passa_aigua/potabilitzadora.svg" img_200px>
+              Potabilització,<br> incloent diversos<br> processos:
+              filtració,<br> desinfecció, etc.
+            </div>
+          </td>
+          <td><img src="img/arrow-right-blau-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+
+          <td>
+            <div card card_blava>
+              <img src="img/sady/per_on_passa_aigua/control.svg" img_200px>
+              Controls a les estacions<br> de tractament d'aigua<br> potable
+              i als sistemes<br> de distribució
+            </div>
+          </td>
+          <td><img src="img/arrow-right-blau-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+
+          <td>
+            <div card card_blava>
+              <img src="img/sady/per_on_passa_aigua/distribucio.svg" img_200px>
+              Xarxa pública<br> d'abastament
+            </div>
+          </td>
+          <td><img src="img/arrow-right-blau-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+
+          <td>
+            <div 
+              style="
+                background:var(--blau_clar_intens);
+                color:white;
+                border-radius:30px;
+                padding:1em;
+                box-shadow:5px 5px 10px #ccc;
+                width:450px;
+              "
+            >
+              <div
+                style="
+                  background:white;
+                  color:var(--blau_clar_intens);
+                  border-radius:30px;
+
+                  display:flex;
+                  justify-content:center;
+                  align-items:center;
+                "
+              >
+                <img src="img/sady/per_on_passa_aigua/aigua-aixeta.svg" img_200px style="margin:0">
+                <B style="font-size:x-large">AIGUA DE<br> L'AIXETA</B>
+              </div>
+              <div style="font-size:x-large;padding:1em">
+                Aigua d'origens<br> diversos tractada<br> i controlada
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <div card card_lila>
+              <img src="img/sady/per_on_passa_aigua/aquifer.svg" img_200px>
+              Aqüífers i manantials
+            </div>
+          </td>
+          <td><img src="img/arrow-right-lila-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+
+          <td>
+            <div card card_lila>
+              <img src="img/sady/per_on_passa_aigua/envasat.svg" img_200px> Envasat
+            </div>
+          </td>
+          <td><img src="img/arrow-right-lila-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+
+          <td>
+            <div card card_lila>
+              <img src="img/sady/per_on_passa_aigua/control.svg" img_200px> Control de qualitat
+            </div>
+          </td>
+          <td><img src="img/arrow-right-lila-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+
+          <td>
+            <div card card_lila>
+              <img src="img/sady/per_on_passa_aigua/camio.svg" img_200px> Transport i distribució
+            </div>
+          </td>
+          <td><img src="img/arrow-right-lila-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+
+          <td>
+            <div 
+              style="
+                background:var(--lila_clar_intens);
+                color:white;
+                border-radius:30px;
+                padding:1em;
+
+                box-shadow:5px 5px 10px #ccc;
+                width:450px;
+              "
+            >
+              <div
+                style="
+                  background:white;
+                  color:var(--lila_clar_intens);
+                  border-radius:30px;
+
+                  display:flex;
+                  justify-content:center;
+                  align-items:center;
+                "
+              >
+                <img src="img/sady/per_on_passa_aigua/aigua-embotellada.svg" img_200px style="margin:0">
+                <B style="font-size:x-large">AIGUA<br> EMBOTELLADA</B>
+              </div>
+              <div style="font-size:x-large;padding:1em">
+                Aigua d'origens<br> diversos tractada<br> i controlada
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div center>
+      <button @click="vista_actual='infografia_quina_aigua_bevem'">anterior</button>
+      <button @click="vista_actual='com_escollim_aigua'">següent</button>
+    </div>
+  </div>
+
+  <div v-if="vista_actual=='com_escollim_aigua'" center fons_normal>
+    <div>
+      <div
+        style="
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          margin-top:10em;
+        "
+      >
+        <div>
+          <img src="img/sady/com_escollim_aigua/interrogant.svg" style="width:400px">
+        </div>
+        <div center style="font-size:xxx-large;font-family:IntroRust">
+          <div style="color:var(--dark_azure)">Com escollim</div>
+          <div style="color:var(--blau_clar_intens)">
+            <img src="img/sady/com_escollim_aigua/gotes-esquerra.svg" style="width:35px"> l'aigua
+            <img src="img/sady/com_escollim_aigua/gotes-dreta.svg"    style="width:35px">
+          </div>
+          <div style="color:var(--dark_azure)">que bevem?</div>
+        </div>
+      </div>
+    </div>
+
+    <div center>
+      <button @click="vista_actual='per_on_passa_aigua'">anterior</button>
+      <button @click="vista_actual='normalment_ens_fixem_en'">següent</button>
+    </div>
+  </div>
+
+  <div v-if="vista_actual=='normalment_ens_fixem_en'" center fons_normal id=normalment_ens_fixem_en>
+    <div style="padding-top:2em;">
+      <table border=0 style="width:90%;font-family:Inter;margin:auto;">
+        <tr>
+          <td>
+            <div card @click="vista_actual='el_gust'">
+              <img src="img/sady/normalment_ens_fixem_en/gota-llengua.svg">
+              <div>EL GUST</div>
+            </div>
+            <div card>
+              <img src="img/sady/normalment_ens_fixem_en/gota-monedes.svg">
+              <div>EL COST ECONÒMIC</div>
+            </div>
+          </td>
+
+          <td style="vertical-align:middle">
+            <div style="font-family:IntroRust;color:var(--dark_azure);font-size:xxx-large">
+              NORMALMENT<br> ENS FIXEM EN...
+            </div>
+          </td>
+
+          <td>
+            <div card>
+              <img src="img/sady/normalment_ens_fixem_en/gota-escut-verd.svg">
+              <div>LA SALUT I SEGURETAT</div>
+            </div>
+            <div card>
+              <img src="img/sady/normalment_ens_fixem_en/gota-fulla-planeta.svg">
+              <div>L'IMPACTE AMBIENTAL</div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div center>
+      <button @click="vista_actual='com_escollim_aigua'">anterior</button>
+      <button @click="vista_actual='portada'">següent</button>
+    </div>
+  </div>
+
+  <div v-if="vista_actual=='el_gust'" center fons_normal id=el_gust>
+    <div
+      style="
+        display:flex;
+        justify-content:center;
+        padding-top:2em;
+      "
+    >
+      <div card style="margin-right:3em" @click="vista_actual='normalment_ens_fixem_en'">
+        <img src="img/sady/gota_llengua.svg" style="width:300px">
+        <div>EL GUST</div>
+      </div>
+
+      <div style="margin-top:2em">
+        <div card_text>
+          <b style="color:var(--verd_intens)">El gust</b> sovint és el motiu principal però...
+        </div>
+        <div>
+          <div
+            style="
+              background:var(--vivid_azure);
+              width:3em;
+              padding:10px;
+              border-radius:50%;
+              margin:auto;
+              margin-bottom:10px;
+              transform:rotate(90deg);
+            "
+          >
+            <img src="img/arrow-right-white.svg" style="width:3em;display:block">
+          </div>
+        </div>
+
+        <div card_text>
+          Sabries distingir els diferents tipus d'<b style="color:var(--blau_clar_intens);">aigua</b>
+          pel<br> seu gust?
+        </div>
+        <div>
+          <div
+            style="
+              background:var(--vivid_azure);
+              width:3em;
+              padding:10px;
+              border-radius:50%;
+              margin:auto;
+              margin-bottom:10px;
+              transform:rotate(90deg);
+            "
+          >
+            <img src="img/arrow-right-white.svg" style="width:3em;display:block">
+          </div>
+        </div>
+
+        <div>
+          <button
+            style="
+              background:var(--blau_clar_intens);
+              color:white;
+              border-radius:60px;
+              padding:0.618em;
+              border:none;
+              font-size:xx-large;
+              font-weight:bold;
+
+              display:flex;
+              align-items:center;
+            "
+          >
+            <div>
+              COMENCEM EL TAST D'AIGÜES
+            </div>
+
+            <!--fletxa blava-->
+            <div
+              style="
+                background:white;
+                border-radius:50%;
+                padding:10px;
+                margin-left:10px;
+              "
+            >
+              <img src="img/arrow-right-blau-clar.svg" style="width:1.5em;display:block">
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--gotes navegació-->
+  <div
+    v-if="vista_actual=='preguntes' && pagina_actual"
+    style="
+      position:fixed;
+      bottom:0;
+      width:100%;
+    "
+  >
+    <div
+      style="
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:50px;
+        margin:auto;
+        margin-bottom:10px;
+        padding:10px;
+        max-width:90%;
+      "
+    >
+      <button
+        btn_prev_next_page
+        @click="pregunta_anterior()"
+      >&larr;
+      </button>
+
+      <div style="margin:5px 10px">
+        <div
+          style="
+            display:flex;
+            align-items:center;
+            justify-content:space-around;
+          "
+        >
+          <div v-for="g in pagines.length"
+            center
+            style="
+              width:50px;
+              font-size:30px;
+            "
+          >
+            <div
+              :style="{color:index_pagina_actual+1==g?'#00b7f1':'#d9d9d9'}"
+            >
+              &#127778;<!--emoji gota-->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        btn_prev_next_page
+        @click="pregunta_seguent()"
+
+        :disabled="false && !tot_contestat(pagina_actual)"
+
+        title="contesta totes les preguntes per continuar"
+      >&rarr;</button>
     </div>
   </div>
 </div>
@@ -554,6 +1132,7 @@ web en construcció (juny-juliol 2026)
           text:"UNES PREGUNTES RÀPIDES ABANS DE COMENÇAR...",
           preguntes:[
             {
+              id:"quina_edat_tens",
               text:"Quina edat tens?",
               resposta:"",
               opcions:[
@@ -566,6 +1145,19 @@ web en construcció (juny-juliol 2026)
             },
             {
               text:"Com t'identifiques?",
+              visible:function(){
+                let resposta_pregunta_edat = app.pagines[0].preguntes[0].resposta;
+                if(resposta_pregunta_edat){
+                  if([
+                    "De 18 a 34 anys",
+                    "De 35 a 64 anys",
+                    "65 anys o més",
+                  ].indexOf(resposta_pregunta_edat)>=0){
+                    return true;
+                  }
+                }
+                return false;
+              },
               resposta:"",
               opcions:[
                 "Noia o dona",
@@ -627,13 +1219,7 @@ web en construcció (juny-juliol 2026)
               src:"img/sady/creus_que/fulles_verdes.svg",
               text:"...l'elecció del tipus d'aigua que beus influeix en el seu impacte ambiental (residus, cost energètic...)?",
               resposta:"",
-              opcions:[
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-              ],
+              opcions:["1", "2", "3", "4", "5"],
             },
             {
               src:"img/sady/creus_que/gota_blava.svg",
@@ -680,9 +1266,7 @@ web en construcció (juny-juliol 2026)
     }},
 
     methods:{
-      alert(txt){
-        alert(txt);
-      },
+      alert(txt){alert(txt)},
 
       pregunta_anterior(){
         if(this.index_pagina_actual){
@@ -698,12 +1282,9 @@ web en construcció (juny-juliol 2026)
           this.vista_actual="comencem";
         }
       },
-
       tot_contestat(pagina){
         return pagina.preguntes.every(p=>(!p.multiple&&p.resposta)||(p.multiple&&p.resposta.size));
       },
-
-
     },
     computed:{
       //f(){},
@@ -714,5 +1295,5 @@ web en construcció (juny-juliol 2026)
   }).mount("#app");
 
   app.vista_actual="preguntes";
-  app.index_pagina_actual=3;
+  app.index_pagina_actual=0;
 </script>
