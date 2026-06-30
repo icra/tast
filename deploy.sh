@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #check if mode debug s'ha desactivat abans de fer deploy
-cat index.html | grep "let mode_debug"
-read -p "continuar (Y/n)? " continuar
-if [[ $continuar == "n" ]]; then exit; fi
+#cat index.html | grep "let mode_debug"
+#read -p "continuar (Y/n)? " continuar
+#if [[ $continuar == "n" ]]; then exit; fi
 
 git add *
 git commit -am 'update'
