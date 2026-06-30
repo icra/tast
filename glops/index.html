@@ -5,6 +5,7 @@
     :root{
       --dark_azure:   #006787;
       --vivid_azure:  #00859d;
+      --light_azure:  #e5f5ff;
 
       --blau_clar:    #bce3f9;
       --verd_clar:    #b7e8a2;
@@ -34,6 +35,7 @@
     [taronja_clar]{background:var(--taronja_clar)}
     [verd_clar]{   background:var(--verd_clar)}
     [lila_clar]{   background:var(--lila_clar)}
+
 
     /*per_on_passa_aigua*/
     img[img_200px]{
@@ -79,9 +81,14 @@
       box-shadow:5px 5px 10px var(--blau_clar);
       font-weight:bold;
       font-size:xx-large;
+      cursor:pointer;
     }
+    #normalment_ens_fixem_en [card]:hover{
+      background:var(--light_azure);
+    }
+
     #el_gust [card]{
-      background:#e5f5ff;
+      background:var(--light_azure);
       border-radius:20px;
       border:1px solid var(--blau_clar_intens);
       box-shadow:5px 5px 10px var(--blau_clar);
@@ -154,10 +161,15 @@
     [center]{
       text-align:center;
     }
+    [left]{
+      text-align:left;
+    }
+
+    /*botons respondre*/
     div[opcio]{
       background:white;
       border-radius:10px;
-      border:1px solid grey;
+      border:1px solid #ccc;
       box-shadow:2px 2px 10px #ccc;
 
       padding:1em 0.618em;
@@ -168,11 +180,15 @@
       text-align:center;
       cursor:pointer;
       font-family:Inter;
+
+      display:grid;
+      align-items:center;
+      grid-template-columns:1fr 3fr;
     }
     div[opcio]:hover,
     div[opcio_seleccionada=true]{
-      background:#bce3f9;
-      border-color:#0097b2;
+      background:var(--light_azure);
+      border-color:var(--blau_clar);
     }
 
     img[opcio_imatge]{
@@ -186,14 +202,33 @@
       background:var(--blau_clar);
     }
 
+    div[opcio] div[opcio_rodona]{
+      background:white;
+      border:2px solid var(--vivid_azure);
+      width:30px;
+      height:30px;
+      border-radius:50%;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:auto;
+    }
+    div[opcio] div[opcio_rodona] div[opcio_rodona_marcada]{
+      background:var(--vivid_azure);
+      width:20px;
+      height:20px;
+      border-radius:50%;
+    }
+
     [btn_prev_next_page]{
       background:var(--dark_azure);
-      color:white;
-      font-size:x-large;
-      font-weight:bolder;
       border:2px solid transparent;
       border-radius:50%;
-      padding:0.5em;
+      width:40px;
+      height:40px;
+      align-items:center;
+      cursor:pointer;
     }
     [btn_prev_next_page][disabled]{
       background:#ccc;
@@ -205,6 +240,12 @@
     [btn_prev_next_page_ressaltat=true]{
       background:lightgreen;
     }
+    [btn_prev_next_page] img{
+      display:block;
+      margin:auto;
+      width:20px;
+    }
+
     [pregunta_text]{
       color:var(--dark_azure);
       padding:5px;
@@ -308,11 +349,7 @@
     fons_normal
   >
     <!--logo glops i titol pagina-->
-    <div
-      style="
-        display:flex;
-      "
-    >
+    <div style="display:flex">
       <div>
         <img src="img/sady/logo.svg"
           style="
@@ -328,8 +365,10 @@
     </div>
 
     <!--preguntes-->
-    <div style="padding:3em">
+    <div style="padding:0 8em">
       <div v-if="pagina_actual.tipus=='12345'">
+        <p center style="font-family:Inter">Valora del 1 al 5 segons el teu grau d'acord</p>
+
         <table
           style="border-collapse:collapse;margin:auto"
         >
@@ -342,16 +381,21 @@
             <td center style="width:80px">Bastant d'acord</td>
             <td center style="width:80px">Molt d'acord</td>
           </tr>
+
           <tbody v-for="pregunta in pagina_actual.preguntes">
             <tr
               style="
                 background:white;
                 border-radius:20px;
-                border:1px solid #ccc;
                 box-shadow:5px 5px 10px #ccc;
               "
             >
-              <td>
+              <td
+                style="
+                  border-top-left-radius: 20px;
+                  border-bottom-left-radius: 20px;
+                "
+              >
                 <div>
                   <img :src="pregunta.src" style="width:150px">
                 </div>
@@ -384,6 +428,14 @@
                   {{i}}
                 </div>
               </td>
+              <td
+                style="
+                  border-top-right-radius: 20px;
+                  border-bottom-right-radius: 20px;
+                  color:white;
+                "
+              >&emsp;
+              </td>
             </tr>
             <tr>
               <td colspan=99 style="height:20px">
@@ -405,67 +457,84 @@
                 <span v-if="pregunta.resposta">&nbsp;
                   <b v-if="pregunta.multiple">{{Array.from(pregunta.resposta).join(', ')}}</b>
                   <b v-else>{{pregunta.resposta}}</b>
+
+                  <span v-if="pregunta.resposta_municipi">
+                    ({{pregunta.resposta_municipi}})
+                  </span>
                 </span>
               </span>
             </div>
 
             <div v-if="pregunta.opcions">
-              <div v-if="pregunta.id">
-                <div v-if="pregunta.id=='quina_aigua_beus_a_casa'">
-                  <div
-                    style="
-                      display:grid;
-                      grid-template-columns:repeat(6,1fr);
-                    "
-                  >
-                    <div v-for="op in pregunta.opcions" center>
-                      <img :src="op.src"
-                        opcio_imatge
-                        :opcio_imatge_seleccionada="pregunta.resposta==op.text"
-                        @click="pregunta.resposta = pregunta.resposta==op.text ? '':op.text"
-                        style="cursor:pointer"
-                      >
-                      <div opcio
-                        :opcio_seleccionada="op.text==pregunta.resposta"
-                        style="font-family:Inter"
-                        @click="pregunta.resposta = pregunta.resposta==op.text ? '':op.text"
-                      >{{op.text}}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div v-if="pregunta.id=='quina_edat_tens'" center>
-                  <div
-                    style="
-                      display:grid;
-                      grid-template-columns:repeat(5,1fr);
-                      align-items:center;
-                      margin:auto;
-                      margin-bottom:10px;
-                    "
-                  >
-                    <div
-                      v-for="op in pregunta.opcions"
-                      @click="pregunta.resposta = pregunta.resposta==op ? '':op"
+              <div v-if="pregunta.id=='quina_aigua_beus_a_casa'">
+                <div
+                  style="
+                    display:grid;
+                    grid-template-columns:repeat(6,1fr);
+                  "
+                >
+                  <div v-for="op in pregunta.opcions" center>
+                    <img :src="op.src"
+                      opcio_imatge
+                      :opcio_imatge_seleccionada="pregunta.resposta==op.text"
+                      @click="pregunta.resposta = pregunta.resposta==op.text ? '':op.text"
                       style="cursor:pointer"
                     >
-                      <div v-if="pregunta.resposta!=op">
-                        <img src="img/sady/edat.svg" style="width:150px;">
+                    <div opcio
+                      :opcio_seleccionada="op.text==pregunta.resposta"
+                      style="font-family:Inter"
+                      @click="pregunta.resposta = pregunta.resposta==op.text ? '':op.text"
+                    >
+                      <div opcio_rodona>
+                        <div v-if="op.text==pregunta.resposta"
+                          opcio_rodona_marcada
+                        ></div>
                       </div>
-                      <div v-if="pregunta.resposta==op">
-                        <img src="img/sady/edat-seleccionada.svg" style="width:150px;">
-                      </div>
-                      <div opcio
-                        :opcio_seleccionada="op==pregunta.resposta"
-                        style="font-family:Inter"
-                      >{{op}}
-                      </div>
+
+                      <div left>{{op.text}}</div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div v-else
+
+              <div v-if="pregunta.id=='quina_edat_tens'" center>
+                <div
+                  style="
+                    display:grid;
+                    grid-template-columns:repeat(5,1fr);
+                    align-items:center;
+                    margin:auto;
+                    margin-bottom:10px;
+                  "
+                >
+                  <div
+                    v-for="op in pregunta.opcions"
+                    @click="pregunta.resposta = pregunta.resposta==op ? '':op"
+                    style="cursor:pointer"
+                  >
+                    <div v-if="pregunta.resposta!=op">
+                      <img src="img/sady/edat.svg" style="width:150px;">
+                    </div>
+                    <div v-if="pregunta.resposta==op">
+                      <img src="img/sady/edat-seleccionada.svg" style="width:150px;">
+                    </div>
+
+                    <div
+                      opcio
+                      :opcio_seleccionada="op==pregunta.resposta"
+                    >
+                      <div opcio_rodona>
+                        <div v-if="op==pregunta.resposta"
+                          opcio_rodona_marcada
+                        ></div>
+                      </div>
+                      <div left>{{op}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="!pregunta.id || pregunta.id=='on_vius_habitualment'"
                 style="
                   display:grid;
                   grid-template-columns:repeat(4,1fr);
@@ -479,15 +548,54 @@
                   opcio
                   :opcio_seleccionada="opcio==pregunta.resposta"
                   v-for="opcio in pregunta.opcions"
-                  @click="pregunta.resposta = pregunta.resposta==opcio ? '':opcio "
-                >{{opcio}}</div>
+                  @click="
+                    pregunta.resposta=pregunta.resposta==opcio?'':opcio;
+                    if(pregunta.resposta_municipi){pregunta.resposta_municipi='';}
+                  "
+                >
+                  <div opcio_rodona>
+                    <div v-if="opcio==pregunta.resposta"
+                      opcio_rodona_marcada
+                    ></div>
+                  </div>
+                  <div left>{{opcio}}</div>
+                </div>
                 <div
                   v-if="pregunta.multiple"
                   opcio
                   v-for="opcio in pregunta.opcions"
                   :opcio_seleccionada="pregunta.resposta.has(opcio)"
-                  @click="pregunta.resposta[pregunta.resposta.has(opcio)?'delete':'add'](opcio)"
-                >{{opcio}}</div>
+                  @click="
+                    pregunta.resposta[pregunta.resposta.has(opcio)?'delete':'add'](opcio);
+                  "
+                >
+                  <div opcio_rodona>
+                    <div v-if="pregunta.resposta.has(opcio)"
+                      opcio_rodona_marcada
+                    ></div>
+                  </div>
+                  <div left>{{opcio}}</div>
+                </div>
+              </div>
+
+              <div v-if="pregunta.id=='on_vius_habitualment'" center>
+                <div v-if="municipis && pregunta.resposta">
+                  <div v-if="get_municipis_filtrats">
+                    <input v-model="pregunta.resposta_municipi" list=municipis
+                      placeholder="Selecciona o escriu municipi"
+                      style="
+                        font-size:x-large;
+                        width:400px;
+                      "
+                    >
+                    <button @click="pregunta.resposta_municipi=''" :disabled="!pregunta.resposta_municipi"
+                      style="font-size:x-large"
+                    >X</button>
+                    <datalist id=municipis>
+                      <option v-for="mun in get_municipis_filtrats">{{mun}}</option>
+                    </datalist>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -550,6 +658,10 @@
         "
       >
         quina aigua bevem normalment a casa?
+      </div>
+
+      <div center>
+        <b>en construcció</b>
       </div>
 
       <table border=1
@@ -723,12 +835,6 @@
           </td>
         </tr>
       </table>
-
-      <div center>
-        <button @click="vista_actual='comencem'">anterior</button>
-        <button @click="vista_actual='per_on_passa_aigua'">següent</button>
-      </div>
-
     </div>
 
     <!--temporal-->
@@ -890,11 +996,6 @@
         </tr>
       </table>
     </div>
-
-    <div center>
-      <button @click="vista_actual='infografia_quina_aigua_bevem'">anterior</button>
-      <button @click="vista_actual='com_escollim_aigua'">següent</button>
-    </div>
   </div>
 
   <div v-if="vista_actual=='com_escollim_aigua'" center fons_normal>
@@ -919,11 +1020,6 @@
           <div style="color:var(--dark_azure)">que bevem?</div>
         </div>
       </div>
-    </div>
-
-    <div center>
-      <button @click="vista_actual='per_on_passa_aigua'">anterior</button>
-      <button @click="vista_actual='normalment_ens_fixem_en'">següent</button>
     </div>
   </div>
 
@@ -961,11 +1057,6 @@
         </tr>
       </table>
     </div>
-
-    <div center>
-      <button @click="vista_actual='com_escollim_aigua'">anterior</button>
-      <button @click="vista_actual='portada'">següent</button>
-    </div>
   </div>
 
   <div v-if="vista_actual=='el_gust'" center fons_normal id=el_gust>
@@ -976,7 +1067,13 @@
         padding-top:2em;
       "
     >
-      <div card style="margin-right:3em" @click="vista_actual='normalment_ens_fixem_en'">
+      <div card
+        @click="vista_actual='normalment_ens_fixem_en'"
+        style="
+          margin-right:3em;
+          cursor:pointer;
+        "
+      >
         <img src="img/sady/gota_llengua.svg" style="width:300px">
         <div>EL GUST</div>
       </div>
@@ -1025,15 +1122,17 @@
           <button
             style="
               background:var(--blau_clar_intens);
-              color:white;
+              border:8px solid white;
               border-radius:60px;
-              padding:0.618em;
-              border:none;
+              color:white;
               font-size:xx-large;
               font-weight:bold;
+              padding:0.618em;
+              box-shadow:1px 1px 5px #ccc;
 
               display:flex;
               align-items:center;
+
             "
           >
             <div>
@@ -1059,7 +1158,12 @@
 
   <!--gotes navegació-->
   <div
-    v-if="vista_actual=='preguntes' && pagina_actual"
+    v-if="(vista_actual=='preguntes'&&pagina_actual)||
+      vista_actual=='infografia_quina_aigua_bevem'||
+      vista_actual=='per_on_passa_aigua'||
+      vista_actual=='com_escollim_aigua'||
+      vista_actual=='normalment_ens_fixem_en'
+    "
     style="
       position:fixed;
       bottom:0;
@@ -1081,7 +1185,8 @@
       <button
         btn_prev_next_page
         @click="pregunta_anterior()"
-      >&larr;
+      >
+        <img src="img/arrow-right-white.svg" style="transform:rotate(180deg)">
       </button>
 
       <div style="margin:5px 10px">
@@ -1092,7 +1197,7 @@
             justify-content:space-around;
           "
         >
-          <div v-for="g in pagines.length"
+          <div v-for="g in get_gotes_navegacio.n_gotes"
             center
             style="
               width:50px;
@@ -1100,7 +1205,9 @@
             "
           >
             <div
-              :style="{color:index_pagina_actual+1==g?'#00b7f1':'#d9d9d9'}"
+              :style="{
+                color:get_gotes_navegacio.gota_actual+1==g?'#00b7f1':'#d9d9d9'
+              }"
             >
               &#127778;<!--emoji gota-->
             </div>
@@ -1111,11 +1218,11 @@
       <button
         btn_prev_next_page
         @click="pregunta_seguent()"
-
         :disabled="false && !tot_contestat(pagina_actual)"
-
         title="contesta totes les preguntes per continuar"
-      >&rarr;</button>
+      >
+        <img src="img/arrow-right-white.svg">
+      </button>
     </div>
   </div>
 </div>
@@ -1126,6 +1233,7 @@
       //vista actual
       vista_actual:"portada",
 
+      //preguntes
       index_pagina_actual:0,
       pagines:[
         {
@@ -1168,11 +1276,13 @@
             },
           ],
         },{
-          text:"",
+          text:"UNES PREGUNTES RÀPIDES ABANS DE COMENÇAR...",
           preguntes:[
             {
+              id:"on_vius_habitualment",
               text:"On vius habitualment?",
               resposta:"",
+              resposta_municipi:"",
               opcions:[
                 "Barcelona",
                 "Girona",
@@ -1182,7 +1292,7 @@
             },
           ],
         },{
-          text:"UNES PREGUNTES RÀPIDES ABANS DE COMENÇAR",
+          text:"UNES PREGUNTES RÀPIDES ABANS DE COMENÇAR...",
           preguntes:[
             {
               id:"quina_aigua_beus_a_casa",
@@ -1217,13 +1327,13 @@
           preguntes:[
             {
               src:"img/sady/creus_que/fulles_verdes.svg",
-              text:"...l'elecció del tipus d'aigua que beus influeix en el seu impacte ambiental (residus, cost energètic...)?",
+              text:"...l'elecció del tipus d'aigua que beus influeix en el seu<br> <b style='color:var(--verd_intens)'>impacte ambiental</b> (residus, cost energètic...)?",
               resposta:"",
               opcions:["1", "2", "3", "4", "5"],
             },
             {
               src:"img/sady/creus_que/gota_blava.svg",
-              text:"...pots confiar en la qualitat de l'aigua de l'aixeta del teu municipi?",
+              text:"...pots confiar en la <b style='color:var(--blau_clar_intens)'>qualitat de l'aigua de l'aixeta</b> del<br> teu municipi?",
               resposta:"",
               opcions:[
                 "1",
@@ -1235,7 +1345,7 @@
             },
             {
               src:"img/sady/creus_que/persones_taronges.svg",
-              text:"...les persones tenim bona capacitat per distingir els tipus d'aigua i el seu gust?",
+              text:"...les persones tenim bona <b style='color:var(--taronja_clar_intens)'>capacitat per distingir</b> els<br> tipus d'aigua i el seu gust?",
               resposta:"",
               opcions:[
                 "1",
@@ -1246,54 +1356,117 @@
               ],
             },
           ],
-        },{
-          text:"Intenció i compromís de canvi",
-          preguntes:[
-            {
-              text:"Després de l'activitat, et planteges canviar els teus hàbits de consum?",
-              resposta:"",
-              opcions:[
-                "Em plantejo reduir el consum d’aigua embotellada",
-                "Em plantejo utilitzar un sistema de filtració",
-                "Em plantejo utilitzar ampolles de vidre enlloc d’ampolles de plàstic",
-                "No canviaré els meus hàbits de consum",
-                "No, jo no trio l’aigua que bevem a casa",
-              ],
-            },
-          ],
         },
       ],
+      municipis:null, //fetch "municipis.json"
+
+      //vistes navegació (gotes) ordenades
+      vistes:[
+        "comencem",
+        "infografia_quina_aigua_bevem",
+        "per_on_passa_aigua",
+        "com_escollim_aigua",
+        "normalment_ens_fixem_en",
+      ],
+
     }},
 
     methods:{
       alert(txt){alert(txt)},
 
       pregunta_anterior(){
-        if(this.index_pagina_actual){
-          this.index_pagina_actual--;
+        if(this.vista_actual=="preguntes"){
+          if(this.index_pagina_actual){
+            this.index_pagina_actual--;
+          }else{
+            this.vista_actual="portada";
+          }
         }else{
-          this.vista_actual="portada";
+          //index vista actual
+          let index = this.vistes.indexOf(this.vista_actual);
+          if(index){
+            this.vista_actual = this.vistes[index-1];
+          }
         }
       },
       pregunta_seguent(){
-        this.index_pagina_actual++;
-
-        if(this.index_pagina_actual>=this.pagines.length){
-          this.vista_actual="comencem";
+        if(this.vista_actual=="preguntes"){
+          this.index_pagina_actual++;
+          if(this.index_pagina_actual>=this.pagines.length){
+            this.vista_actual="comencem";
+          }
+        }else{
+          //index vista actual
+          let index = this.vistes.indexOf(this.vista_actual);
+          if(index && index!=this.vistes.length-1){
+            this.vista_actual = this.vistes[index+1];
+          }else{
+            this.vista_actual="portada";
+          }
         }
       },
       tot_contestat(pagina){
         return pagina.preguntes.every(p=>(!p.multiple&&p.resposta)||(p.multiple&&p.resposta.size));
       },
     },
+
     computed:{
       //f(){},
       pagina_actual(){
         return this.pagines[this.index_pagina_actual]||false;
       },
+
+      get_municipis_filtrats(){
+        if(!this.municipis) return false;
+
+        let preguntes=[];
+        this.pagines.forEach(pag=>{
+          preguntes=[...preguntes,...pag.preguntes];
+        });
+
+        let preg = preguntes.find(p=>p.id=='on_vius_habitualment');
+        if(!preg) return false;
+
+        let prov = preg.resposta;
+        if(!prov) return false;
+
+        let provincies={
+          "Barcelona":"08",
+          "Girona":"17",
+          "Lleida":"25",
+          "Tarragona":"43",
+        };
+        let codi = provincies[prov]||false;
+        if(!codi) return false;
+
+        return this.municipis.filter(m=>m.codi.startsWith(codi)).map(m=>m.nom);
+      },
+
+      get_gotes_navegacio(){
+        let n_gotes     = this.pagines.length+this.vistes.length;
+        let gota_actual = null;
+        if(this.vista_actual=='preguntes'){
+          gota_actual=this.index_pagina_actual;
+        }else{
+          gota_actual=this.pagines.length+this.vistes.indexOf(this.vista_actual);
+        }
+
+        return{
+          gota_actual,
+          n_gotes,
+        };
+
+      },
+    },
+
+    async mounted(){
+      let res = await fetch("municipis.json");
+      let arr = await res.json();
+      this.municipis=arr;
     },
   }).mount("#app");
 
-  app.vista_actual="preguntes";
+  app.vista_actual="portada";
+  //app.vista_actual="preguntes";
   app.index_pagina_actual=0;
 </script>
