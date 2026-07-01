@@ -29,6 +29,57 @@
     }
 
     table{border-collapse:collapse}
+    td{padding:0;}
+
+    [flex]{
+      display:flex;
+      align-items:center;
+    }
+
+    /*tast aigues*/
+    #tast_aigues [instruccions_numero]{
+      align-items:center;
+      background:var(--vivid_azure);
+      border-radius:50%;
+      color:white;
+      display:flex;
+      font-weight:bold;
+      justify-content:center;
+      text-align:center;
+
+      width:20px;
+      height:20px;
+      margin-right:10px;
+    }
+    #tast_aigues [lletra]{
+      align-items:center;
+      background:var(--vivid_azure);
+      border-radius:50%;
+      color:white;
+      display:flex;
+      font-size:larger;
+      font-weight:bold;
+      justify-content:center;
+      text-align:center;
+
+      width:40px;
+      height:40px;
+    }
+    #tast_aigues [opcio_aigua]{
+      background:white;
+      border-radius:20px;
+      border:2px solid transparent;
+      text-align:center;
+      padding:0.5em 2em;
+      box-shadow:2px 2px 5px #ccc;
+      margin:5px 10px;
+      cursor:pointer;
+    }
+    #tast_aigues [opcio_aigua]:hover,
+    #tast_aigues [opcio_aigua][seleccionada=true]{
+      background:var(--blau_clar);
+      border:2px solid var(--blau_clar_intens);
+    }
 
     /*per infografia*/
     [blau_clar]{   background:var(--blau_clar)}
@@ -36,6 +87,27 @@
     [verd_clar]{   background:var(--verd_clar)}
     [lila_clar]{   background:var(--lila_clar)}
 
+    [alt100px]{
+      height:100px;
+      width:50px;
+    }
+    [alt50px]{
+      height:50px;
+      width:50px;
+    }
+    .fletxa{
+      width: 100px;
+      clip-path: polygon(
+        0 0,
+        88% 0,
+        100% 50%,
+        88% 100%,
+        0 100%
+      );
+    }
+    #infografia_quina_aigua_bevem img{
+      height:95px;
+    }
 
     /*per_on_passa_aigua*/
     img[img_200px]{
@@ -255,21 +327,6 @@
       font-family:IntroRust;
     }
 
-    #infografia_quina_aigua_bevem img{
-      width:100px;
-    }
-    .fletxa{
-      width: 100px;
-      height: 90px;
-      background: #b8dff3;
-      clip-path: polygon(
-        0 0,
-        88% 0,
-        100% 50%,
-        88% 100%,
-        0 100%
-      );
-    }
   </style>
 </head><body>
 
@@ -656,35 +713,62 @@
           display:block;
           font-size:xxx-large;
         "
-      >
-        quina aigua bevem normalment a casa?
+      >quina aigua bevem normalment a casa?
       </div>
 
-      <div center>
-        <b>en construcció</b>
-      </div>
-
-      <table border=1
+      <table border=0
         style="
           margin:auto;
           border-collapse:collapse;
           width:80%;
           font-family:Inter;
+          margin-top:3em;
         "
       >
         <tr>
-          <td colspan=7 style="color:#666">Procedència aproximada de l'aigua que bevem <sup>*</sup></td>
+          <td colspan=7 style="color:#666">Procedència aproximada de l'aigua que bevem<sup>*</sup></td>
         </tr>
         <tr>
-          <td colspan=2 blau_clar>
-            44%
-            Xarxa pública abastament
+          <td>
+            <div blau_clar
+              style="
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                font-weight:bold;
+                gap:10px;
+                height:100px;
+              "
+            >
+              <div style="font-size:x-large">44%</div>
+              <div>Xarxa pública<br> d'abastament</div>
+            </div>
           </td>
-          <td blau_clar></td>
-          <td blau_clar></td>
-          <td blau_clar></td>
-          <td blau_clar>20%</td>
-          <td blau_clar></td>
+          <td>
+            <div alt50px blau_clar></div>
+            <div alt50px verd_clar></div>
+          </td>
+          <td>
+            <div alt50px blau_clar></div>
+            <div alt50px taronja_clar></div>
+          </td>
+          <td>
+            <div blau_clar alt50px
+              style="
+                align-items:center;
+                display:flex;
+                justify-content:center;
+                font-size:larger;
+              "
+            >
+              20%
+            </div>
+            <div alt50px></div>
+          </td>
+          <td>
+            <div class=fletxa blau_clar alt50px></div>
+            <div alt50px></div>
+          </td>
           <td>
             <img src="img/sady/infografia_quina_aigua_bevem/aixeta.svg">
           </td>
@@ -705,11 +789,27 @@
         </tr>
         <tr>
           <td></td>
-          <td></td>
-          <td></td>
           <td verd_clar></td>
-          <td colspan=2 taronja_clar>24%</td>
-          <td taronja_clar></td>
+          <td taronja_clar>
+            <div taronja_clar alt50px></div>
+            <div alt50px style="background:white"></div>
+          </td>
+          <td>
+            <div taronja_clar alt50px
+              style="
+                align-items:center;
+                display:flex;
+                justify-content:center;
+                font-size:larger;
+              "
+            >12%
+            </div>
+            <div alt50px></div>
+          </td>
+          <td>
+            <div class=fletxa alt50px taronja_clar></div>
+            <div alt50px></div>
+          </td>
           <td>
             <img src="img/sady/infografia_quina_aigua_bevem/gerra.svg">
           </td>
@@ -750,12 +850,30 @@
         </tr>
         <tr>
           <td></td>
-          <td></td>
-          <td></td>
-          <td verd_clar></td>
-          <td verd_clar></td>
-          <td verd_clar></td>
-          <td verd_clar></td>
+          <td>
+            <div alt50px verd_clar></div>
+            <div alt50px></div>
+          </td>
+          <td>
+            <div alt50px verd_clar></div>
+            <div alt50px></div>
+          </td>
+          <td>
+            <div verd_clar alt50px
+              style="
+                align-items:center;
+                display:flex;
+                justify-content:center;
+                font-size:larger;
+              "
+            >12%
+            </div>
+            <div alt50px></div>
+          </td>
+          <td>
+            <div class=fletxa verd_clar alt50px></div>
+            <div alt50px></div>
+          </td>
           <td>
             <img src="img/sady/infografia_quina_aigua_bevem/osmosi.svg">
           </td>
@@ -794,16 +912,28 @@
           </td>
         </tr>
         <tr>
-          <td lila_clar colspan=2>
-            55%
-            Distribuidors:
-            supermercats, botigues...
+          <td colspan=4>
+            <div lila_clar
+              style="
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                font-weight:bold;
+                gap:5px;
+                height:100px;
+                padding-left:15px;
+              "
+            >
+              <div style="font-size:x-large">55%</div>
+              <div>
+                Distribuidors:<br>
+                supermercats, botigues...
+              </div>
+            </div>
           </td>
-          <td lila_clar></td>
-          <td lila_clar></td>
-          <td lila_clar></td>
-          <td lila_clar></td>
-          <td lila_clar></td>
+          <td>
+            <div class=fletxa lila_clar alt100px></div>
+          </td>
           <td>
             <img src="img/sady/infografia_quina_aigua_bevem/ampolla.svg">
           </td>
@@ -823,11 +953,23 @@
           </td>
         </tr>
         <tr>
-          <td style="background:#ccc">1% Altres</td>
-        </tr>
-        <tr>
-          <td colspan=8>
+          <td>
+            <div
+              style="
+                display:flex;
+                align-items:center;
+                font-weight:bold;
+                gap:5px;
+                padding:1em;
+                margin:1em 0;
+                background:#ccc;
+              "
+            >
+              <div style="font-size:larger">1%</div>
+              <div>Altres</div>
+            </div>
           </td>
+          <td colspan=5></td>
           <td>
             <code><i>
               * Dades per l'Àrea Metropolitana de Barcelona: extrets de Pole et al. 2026 Environmental and Sustainability Indicators
@@ -836,15 +978,6 @@
         </tr>
       </table>
     </div>
-
-    <!--temporal-->
-    <div center style="margin-top:30px;">
-      captura pantalla
-    </div>
-    <img src="img/sady/infografia_quina_aigua_bevem/tot.png"
-      style="width:55%;border:1px solid #ccc;margin:auto;display:block"
-    >
-
   </div>
 
   <div v-if="vista_actual=='per_on_passa_aigua'" center id=per_on_passa_aigua fons_normal>
@@ -1156,13 +1289,76 @@
     </div>
   </div>
 
+  <div v-if="vista_actual=='tast_aigues'" fons_normal center style="font-family:Inter" id=tast_aigues>
+    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
+      tast d'aigües
+    </div>
+    <div left
+      style="
+        background:white;
+        border-radius:20px;
+        border:1px solid var(--blau_clar);
+        padding:1em;
+        box-shadow:5px 5px 15px var(--blau_clar);
+
+        display:flex;
+        gap:10px;
+        align-items:center;
+        width:50%;
+        margin:auto;
+        margin-top:2em;
+      "
+    >
+      <div>
+        <img src="img/sady/tast_aigues/llista.svg" style="width:100px">
+      </div>
+      <div style="font-size:larger;">
+        <div style="color:var(--vivid_azure);font-weight:bold">INSTRUCCIONS</div>
+        <div flex><code instruccions_numero>1</code> Agafa un got</div>
+        <div flex><code instruccions_numero>2</code> Serveix-te i tasta les 4 aigües (A-D)</div>
+        <div flex><code instruccions_numero>3</code> Selecciona quina aigua creus que correspon a cada una</div>
+      </div>
+    </div>
+    <div>
+      <table border=1 style="margin:auto;margin-top:2em">
+        <tr>
+          <td></td>
+          <td><img src="img/sady/tast_aigues/aixeta.svg" style="width:100px"></td>
+          <td><img src="img/sady/tast_aigues/gerra.svg" style="width:100px"></td>
+          <td><img src="img/sady/tast_aigues/osmosi.svg" style="width:100px"></td>
+          <td><img src="img/sady/tast_aigues/ampolla.svg" style="width:100px"></td>
+        </tr>
+        <tr v-for="lletra in Object.keys(tast)">
+          <td>
+            <div lletra>{{lletra}}</div>
+          </td>
+          <td
+            v-for="opcio in [
+              'Aixeta',
+              'Gerra filtrant',
+              'Osmosi',
+              'Embotellada',
+            ]"
+          >
+            <div opcio_aigua :seleccionada="tast[lletra]==opcio"
+              @click="
+                tast[lletra]= tast[lletra]==opcio ? null : opcio
+              "
+            >{{opcio}}</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
   <!--gotes navegació-->
   <div
     v-if="(vista_actual=='preguntes'&&pagina_actual)||
       vista_actual=='infografia_quina_aigua_bevem'||
       vista_actual=='per_on_passa_aigua'||
       vista_actual=='com_escollim_aigua'||
-      vista_actual=='normalment_ens_fixem_en'
+      vista_actual=='normalment_ens_fixem_en'||
+      vista_actual=='tast_aigues'
     "
     style="
       position:fixed;
@@ -1359,6 +1555,13 @@
         },
       ],
       municipis:null, //fetch "municipis.json"
+      tast:{
+        A:null,
+        B:null,
+        C:null,
+        D:null,
+      },
+
 
       //vistes navegació (gotes) ordenades
       vistes:[
@@ -1367,6 +1570,7 @@
         "per_on_passa_aigua",
         "com_escollim_aigua",
         "normalment_ens_fixem_en",
+        "tast_aigues",
       ],
 
     }},
@@ -1467,6 +1671,6 @@
   }).mount("#app");
 
   app.vista_actual="portada";
-  //app.vista_actual="preguntes";
+  app.vista_actual="tast_aigues";//debug
   app.index_pagina_actual=0;
 </script>
