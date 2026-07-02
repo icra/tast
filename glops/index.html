@@ -6,6 +6,7 @@
       --dark_azure:   #006787;
       --vivid_azure:  #00859d;
       --light_azure:  #e5f5ff;
+      --intens_azure: #00b7f1;
 
       --blau_clar:    #bce3f9;
       --verd_clar:    #b7e8a2;
@@ -179,6 +180,39 @@
       margin:auto;
       margin-bottom:20px;
       padding:1em 0.618em;
+    }
+
+    #els_teus_resultats [lletra]{
+      align-items:center;
+      background:var(--vivid_azure);
+      border-radius:50%;
+      color:white;
+      display:flex;
+      font-size:larger;
+      font-weight:bold;
+      justify-content:center;
+      text-align:center;
+
+      width:40px;
+      height:40px;
+    }
+    #els_teus_resultats [opcio_aigua]{
+      background:white;
+      border-radius:20px;
+      border:2px solid transparent;
+      text-align:center;
+      padding:0.5em 2em;
+      box-shadow:2px 2px 5px #ccc;
+      margin:5px 10px;
+    }
+    #els_teus_resultats [opcio_aigua][resposta_correcta=true]{
+      background:#7ecd43;
+    }
+    #els_teus_resultats [opcio_aigua][resposta_incorrecta=true]{
+      background:#ff5f5f;
+    }
+    #els_teus_resultats [opcio_aigua][resposta_bona=true]{
+      background:#e7ffc5;
     }
 
     body{
@@ -702,11 +736,7 @@
   </div>
 
   <!--infografia quina aigua bevem-->
-  <div
-    fons_normal
-    v-if="vista_actual=='infografia_quina_aigua_bevem'"
-    id="infografia_quina_aigua_bevem"
-  >
+  <div v-if="vista_actual=='infografia_quina_aigua_bevem'" fons_normal id="infografia_quina_aigua_bevem">
     <div>
       <div pregunta_text center
         style="
@@ -1357,6 +1387,186 @@
     </div>
   </div>
 
+  <div v-if="vista_actual=='tast_aigues_2'" fons_normal center style="font-family:Inter">
+    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
+      tast d'aigües
+    </div>
+
+    <div
+      v-for="direccio_dit in ['up','down']"
+      style="
+        background:white;
+        border-radius:20px;
+        border:1px solid var(--blau_clar);
+        padding:1em;
+        box-shadow:5px 5px 15px var(--blau_clar);
+
+        gap:10px;
+        width:50%;
+        margin:auto;
+        margin-top:2em;
+
+        display:grid;
+        grid-template-columns:1fr 2fr 1fr 1fr 1fr 1fr;
+        align-items:center;
+      "
+    >
+      <div>
+        <img :src="`img/sady/tast_aigues_2/thumb-${direccio_dit}.svg`" style="width:100px">
+      </div>
+      <div style="font-size:x-large">
+        <div v-if="direccio_dit=='up'">
+          Quina t'ha agradat més?
+        </div>
+        <div v-else>
+          I quina menys?
+        </div>
+      </div>
+      <div
+        v-for="lletra in Object.keys(tast)"
+        style="
+          width:50px;
+          height:50px;
+          border-radius:50%;
+          border:1px solid var(--dark_azure);
+          font-weight:bolder;
+          font-size:20px;
+          color:var(--dark_azure);
+          align-content:center;
+          text-align:center;
+          cursor:pointer;
+          margin-left:1em;
+        "
+        :opcio_seleccionada="tast_thumb[direccio_dit]==lletra"
+        @click="tast_thumb[direccio_dit]=lletra"
+      >{{lletra}}
+      </div>
+    </div>
+  </div>
+
+  <div v-if="vista_actual=='els_teus_resultats'" fons_normal center style="font-family:Inter"
+    id=els_teus_resultats
+  >
+    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
+      els teus resultats
+    </div>
+
+    <div center>
+      <table border=0 style="margin:auto;margin-top:2em">
+        <tr>
+          <td></td>
+          <td><img src="img/sady/tast_aigues/aixeta.svg" style="width:100px"></td>
+          <td><img src="img/sady/tast_aigues/gerra.svg" style="width:100px"></td>
+          <td><img src="img/sady/tast_aigues/osmosi.svg" style="width:100px"></td>
+          <td><img src="img/sady/tast_aigues/ampolla.svg" style="width:100px"></td>
+        </tr>
+        <tr v-for="lletra in Object.keys(tast)">
+          <td>
+            <div lletra>{{lletra}}</div>
+          </td>
+          <td
+            v-for="opcio in [
+              'Aixeta',
+              'Gerra filtrant',
+              'Osmosi',
+              'Embotellada',
+            ]"
+          >
+            <div
+              opcio_aigua
+              :resposta_correcta="tast[lletra]==opcio && tast[lletra]==tast_respostes_correctes[lletra]"
+              :resposta_incorrecta="tast[lletra]==opcio && tast[lletra]!=tast_respostes_correctes[lletra]"
+              :resposta_bona="tast[lletra]!=opcio && tast_respostes_correctes[lletra]==opcio"
+            >{{opcio}}</div>
+          </td>
+          <td>
+            <img src="img/sady/els_teus_resultats/tick-verd.svg" style="width:50px"
+              v-if="tast[lletra]==tast_respostes_correctes[lletra]"
+            >
+            <img src="img/sady/els_teus_resultats/creu-vermella.svg" style="width:50px"
+              v-else
+            >
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div
+      style="
+        background:white;
+        border:2px solid var(--intens_azure);
+        border-radius:20px;
+        box-shadow:5px 5px 20px var(--blau_clar);
+
+        padding:2em;
+        font-size:larger;
+
+        width:15%;
+
+        margin:auto;
+        margin-top:1em;
+      "
+    >
+      N'has encertat
+      <div
+        style="
+          color:var(--vivid_azure);
+          font-size:larger;
+          font-weight:bold;
+        "
+      >
+        {{respostes_correctes}}
+        de
+        {{Object.keys(tast).length}}
+      </div>
+    </div>
+  </div>
+
+  <div v-if="vista_actual=='tots_els_resultats'" fons_normal center style="font-family:Inter">
+    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
+      Resultats de tots els participants
+    </div>
+
+    <div
+      style="
+        margin-top:2em;
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+      "
+    >
+      <div>
+        <div style="font-family:IntroRust;color:var(--dark_azure);font-size:x-large;">
+          Distingim bé les aigües?
+        </div>
+        <div>
+          n participacions = X
+        </div>
+        <div>
+          gràfic
+        </div>
+
+        <div>
+          x% ha encertat l'aigua de l'aixeta
+        </div>
+        <div>
+          y% ha encertat l'aigua de l'aixeta
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:IntroRust;color:var(--dark_azure);font-size:x-large;">
+          Quina aigua ens agrada més?
+        </div>
+        <div>
+          gràfic
+        </div>
+        <div>
+          icones aigues
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!--gotes navegació-->
   <div
     v-if="(vista_actual=='preguntes'&&pagina_actual)||
@@ -1364,7 +1574,10 @@
       vista_actual=='per_on_passa_aigua'||
       vista_actual=='com_escollim_aigua'||
       vista_actual=='normalment_ens_fixem_en'||
-      vista_actual=='tast_aigues'
+      vista_actual=='tast_aigues'||
+      vista_actual=='tast_aigues_2'||
+      vista_actual=='els_teus_resultats'||
+      vista_actual=='tots_els_resultats'
     "
     style="
       position:fixed;
@@ -1561,13 +1774,22 @@
         },
       ],
       municipis:null, //fetch "municipis.json"
-      tast:{
+      tast:{ //respostes_usuari
         A:null,
         B:null,
         C:null,
         D:null,
       },
-
+      tast_thumb:{
+        up:null,
+        down:null,
+      },
+      tast_respostes_correctes:{
+        A:"Embotellada",
+        B:"Aixeta",
+        C:"Osmosi",
+        D:"Gerra filtrant",
+      },
 
       //vistes navegació (gotes) ordenades
       vistes:[
@@ -1577,13 +1799,13 @@
         "com_escollim_aigua",
         "normalment_ens_fixem_en",
         "tast_aigues",
+        "tast_aigues_2",
+        "els_teus_resultats",
+        "tots_els_resultats",
       ],
-
     }},
 
     methods:{
-      alert(txt){alert(txt)},
-
       pregunta_anterior(){
         if(this.vista_actual=="preguntes"){
           if(this.index_pagina_actual){
@@ -1665,7 +1887,16 @@
           gota_actual,
           n_gotes,
         };
+      },
 
+      respostes_correctes(){
+        let n=0;
+        Object.keys(this.tast).forEach(lletra=>{
+          if(this.tast[lletra]==this.tast_respostes_correctes[lletra]){
+            n++;
+          }
+        });
+        return n;
       },
     },
 
@@ -1677,6 +1908,6 @@
   }).mount("#app");
 
   app.vista_actual="portada";
-  app.vista_actual="tast_aigues";//debug
+  app.vista_actual="tots_els_resultats";//debug
   app.index_pagina_actual=0;
 </script>
