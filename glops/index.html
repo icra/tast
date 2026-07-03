@@ -29,12 +29,34 @@
       src:url(fonts/Inter/Inter-VariableFont_opsz,wght.ttf);
     }
 
+    /*general*/
     table{border-collapse:collapse}
     td{padding:0;}
-
     [flex]{
       display:flex;
       align-items:center;
+    }
+
+    /*el_gust_de_laigua*/
+    #el_gust_de_laigua [cantonada_clicable]{
+      background:white;
+      border:2px solid transparent;
+      padding:0.618em 1em;
+      border-radius:10px;
+      box-shadow:5px 5px 10px var(--blau_clar);
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+
+      font-family:Inter;
+      cursor:pointer;
+      font-size:larger;
+    }
+    #el_gust_de_laigua [cantonada_clicable]:hover{
+      background:var(--blau_clar);
+      border:2px solid var(--blau_clar_intens);
     }
 
     /*tast aigues*/
@@ -142,7 +164,7 @@
     #normalment_ens_fixem_en img{
       display:block;
       margin:auto;
-      width:300px;
+      width:200px;
     }
     #normalment_ens_fixem_en [card]{
       background:white;
@@ -155,6 +177,7 @@
       font-weight:bold;
       font-size:xx-large;
       cursor:pointer;
+      font-family:Inter;
     }
     #normalment_ens_fixem_en [card]:hover{
       background:var(--light_azure);
@@ -1187,7 +1210,7 @@
   </div>
 
   <div v-if="vista_actual=='normalment_ens_fixem_en'" center fons_normal id=normalment_ens_fixem_en>
-    <div style="padding-top:2em;">
+    <div style="padding-top:4em;">
       <table border=0 style="width:90%;font-family:Inter;margin:auto;">
         <tr>
           <td>
@@ -1295,6 +1318,8 @@
 
               display:flex;
               align-items:center;
+
+              cursor:pointer;
             "
             @click="vista_actual='tast_aigues'"
           >
@@ -1567,17 +1592,98 @@
     </div>
   </div>
 
+  <div v-if="vista_actual=='identificar_correctament_aigua_es_dificil'" fons_normal>
+    <div center style="
+      font-size:xxx-large;
+      font-family:IntroRust;
+      padding-top:4em;
+      "
+    >
+      <div style="color:var(--dark_azure)">Identificar correctament</div>
+      <div>
+        <span style="color:var(--dark_azure)">el</span>
+        <span style="color:var(--blau_clar_intens)">&nbsp;tipus d'aigua&nbsp;</span>
+        <span style="color:var(--dark_azure)">és més</span>
+      </div>
+      <div style="color:var(--dark_azure)">
+        difícil del que sembla
+      </div>
+    </div>
+
+    <div center>
+      <button>
+        aquí sabràs per què
+        &rarr;
+      </button>
+    </div>
+  </div>
+
+  <div v-if="vista_actual=='el_gust_de_laigua'" fons_normal
+    id=el_gust_de_laigua
+    style="padding-top:4em"
+  >
+    <table border=0 style="margin:auto;max-width:80%;">
+      <tr>
+        <td>
+          <div cantonada_clicable>
+            <img src="img/sady/i.svg" style="width:50px">
+            <div>Té gust l'aigua?</div>
+          </div>
+        </td>
+
+        <td></td>
+        <td>
+          <div cantonada_clicable>
+            <img src="img/sady/i.svg" style="width:50px">
+            <div>La mineralització</div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <div center
+            style="
+              font-family:IntroRust;
+              font-size:xx-large;
+              color:var(--dark_azure);
+            "
+          >
+            El gust<br> de l'aigua
+          </div>
+          <div center>
+            <img src="img/sady/gota_llengua.svg"
+              style="width:100px"
+            >
+          </div>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <div cantonada_clicable>
+            <img src="img/sady/i.svg" style="width:50px">
+            El gust del clor
+          </div>
+        </td>
+        <td></td>
+        <td>
+          <div cantonada_clicable>
+            <img src="img/sady/i.svg" style="width:50px">
+            Temperatura i gust
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
   <!--gotes navegació-->
   <div
     v-if="(vista_actual=='preguntes'&&pagina_actual)||
-      vista_actual=='infografia_quina_aigua_bevem'||
-      vista_actual=='per_on_passa_aigua'||
-      vista_actual=='com_escollim_aigua'||
-      vista_actual=='normalment_ens_fixem_en'||
-      vista_actual=='tast_aigues'||
-      vista_actual=='tast_aigues_2'||
-      vista_actual=='els_teus_resultats'||
-      vista_actual=='tots_els_resultats'
+      (
+        vistes.includes(vista_actual)&&
+        vista_actual!='comencem'
+      )
     "
     style="
       position:fixed;
@@ -1802,6 +1908,10 @@
         "tast_aigues_2",
         "els_teus_resultats",
         "tots_els_resultats",
+
+        //nous
+        "identificar_correctament_aigua_es_dificil",
+        "el_gust_de_laigua",
       ],
     }},
 
@@ -1908,6 +2018,6 @@
   }).mount("#app");
 
   app.vista_actual="portada";
-  app.vista_actual="tots_els_resultats";//debug
+  app.vista_actual="normalment_ens_fixem_en";//debug
   app.index_pagina_actual=0;
 </script>
