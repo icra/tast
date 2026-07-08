@@ -1,5 +1,4 @@
 reunio 6-juliol-2026
-  - treure la de "normalment ens fixem en"
   - a partir del tast treure fletxa anar enrera
   - guardar resultats automàticament clicar "següent" (on?)
   - resolució tablets: 2880 x 1800

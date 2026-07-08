@@ -19,6 +19,9 @@
       --lila_clar_intens:    #8c52ff;
 
       --verd_intens: #73b612;
+
+      --blau_clar_palid: #f2faff;
+      --lila_clar_palid: #f7f3ff;
     }
     @font-face {
       font-family:IntroRust;/*set name*/
@@ -54,6 +57,8 @@
       font-family:Inter;
       cursor:pointer;
       font-size:larger;
+
+      width:360px;
     }
     [cantonada_clicable]:hover,
     [cantonada_clicable][seleccionada=true]{
@@ -68,6 +73,11 @@
       box-shadow:1px 1px 10px #ccc;
       border-radius:20px;
       margin:auto;
+      width:500px;
+      cursor:pointer;
+    }
+    [text_visible]:hover{
+      background:var(--light_azure);
     }
     [text_visible] b{
       color:var(--dark_azure);
@@ -262,8 +272,9 @@
       font-size:x-large;
       padding:1em 1.618em;
       font-family:IntroRust;
+      padding-bottom:0;
     }
-    [boto_landing]{
+    [boto_portada]{
       background:var(--verd_intens);
       border-radius:50px;
       border:none;
@@ -274,7 +285,7 @@
       border:2px solid transparent;
       cursor:pointer;
     }
-    [boto_landing]:hover{
+    [boto_portada]:hover{
       border:2px solid var(--dark_azure);
     }
     [boto_comencem]{
@@ -337,13 +348,11 @@
 
     img[opcio_imatge]{
       width:150px;
-      border:1px solid #ccc;
+      cursor:pointer;
+      border:1px solid transparent;
     }
     img[opcio_imatge]:hover{
       border:1px solid var(--blau_clar);
-    }
-    img[opcio_imatge][opcio_imatge_seleccionada=true]{
-      background:var(--blau_clar);
     }
 
     div[opcio] div[opcio_rodona]{
@@ -405,7 +414,7 @@
   <!--portada-->
   <div v-if="vista_actual=='portada'" center
     style="
-      background:url(img/sady/portada2.svg);
+      background:url(img/sady/portada.svg);
       background-repeat:no-repeat;
       background-size:cover;
       background-position:center;
@@ -442,7 +451,7 @@
 
       <button
         @click="vista_actual='preguntes';index_pagina_actual=0"
-        boto_landing
+        boto_portada
       >
         <div
           style="
@@ -491,9 +500,11 @@
     </div>
 
     <!--preguntes-->
-    <div style="padding:0 6em">
+    <div style="padding:0 5em">
       <div v-if="pagina_actual.tipus=='12345'">
-        <p center style="font-family:Inter;font-size:larger">Valora del 1 al 5 segons el teu grau d'acord</p>
+        <div center style="font-family:Inter;font-size:larger;margin-bottom:2em">
+          Valora del 1 al 5 segons el teu grau d'acord
+        </div>
 
         <table
           style="border-collapse:collapse;margin:auto"
@@ -592,7 +603,7 @@
             </div>
 
             <div v-if="pregunta.opcions">
-              <div v-if="pregunta.id=='quina_aigua_beus_a_casa'">
+              <div v-show="pregunta.id=='quina_aigua_beus_a_casa'">
                 <div
                   style="
                     display:grid;
@@ -600,12 +611,17 @@
                   "
                 >
                   <div v-for="op in pregunta.opcions" center>
-                    <img :src="op.src"
-                      opcio_imatge
-                      :opcio_imatge_seleccionada="pregunta.resposta==op.text"
-                      @click="pregunta.resposta = pregunta.resposta==op.text ? '':op.text"
-                      style="cursor:pointer"
-                    >
+                    <div v-show="pregunta.resposta==op.text">
+                      <img :src="op.src_seleccionada" opcio_imatge
+                        @click="pregunta.resposta=''"
+                      >
+                    </div>
+                    <div v-show="pregunta.resposta!=op.text">
+                      <img :src="op.src" opcio_imatge
+                        @click="pregunta.resposta=op.text"
+                      >
+                    </div>
+
                     <div opcio
                       :opcio_seleccionada="op.text==pregunta.resposta"
                       style="font-family:Inter"
@@ -638,10 +654,10 @@
                     @click="pregunta.resposta = pregunta.resposta==op ? '':op"
                     style="cursor:pointer"
                   >
-                    <div v-if="pregunta.resposta!=op">
+                    <div v-show="pregunta.resposta!=op">
                       <img src="img/sady/edat.svg" style="width:150px;">
                     </div>
-                    <div v-if="pregunta.resposta==op">
+                    <div v-show="pregunta.resposta==op">
                       <img src="img/sady/edat-seleccionada.svg" style="width:150px;">
                     </div>
 
@@ -733,7 +749,7 @@
   <div v-if="vista_actual=='comencem'" center>
     <div
       style="
-        background:url(img/sady/portada2.svg);
+        background:url(img/sady/portada.svg);
         background-repeat:no-repeat;
         background-size:cover;
         background-position:center;
@@ -807,6 +823,7 @@
                 font-weight:bold;
                 gap:10px;
                 height:100px;
+                padding:0 10px;
               "
             >
               <div style="font-size:x-large">44%</div>
@@ -1200,6 +1217,7 @@
     </div>
   </div>
 
+  <!--eliminada-->
   <div v-if="vista_actual=='com_escollim_aigua'" center fons_normal>
     <div>
       <div
@@ -1225,6 +1243,7 @@
     </div>
   </div>
 
+  <!--eliminada-->
   <div v-if="vista_actual=='normalment_ens_fixem_en'" center fons_normal id=normalment_ens_fixem_en>
     <div style="padding-top:4em;">
       <table border=0 style="width:90%;font-family:Inter;margin:auto;">
@@ -1262,19 +1281,18 @@
   </div>
 
   <div v-if="vista_actual=='el_gust'" center fons_normal id=el_gust>
+    <div style="padding-top:2em"></div>
+    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
+      Com escollim l'aigua que bevem?
+    </div>
+
     <div
       style="
         display:flex;
         justify-content:center;
-        padding-top:2em;
       "
     >
-      <div card
-        style="
-          margin-right:3em;
-          cursor:pointer;
-        "
-      >
+      <div card style="margin-right:3em">
         <img src="img/sady/gota_llengua.svg" style="width:300px">
         <div>EL GUST</div>
       </div>
@@ -1484,9 +1502,7 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='els_teus_resultats'" fons_normal center style="font-family:Inter"
-    id=els_teus_resultats
-  >
+  <div v-if="vista_actual=='els_teus_resultats'" fons_normal center style="font-family:Inter" id=els_teus_resultats>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       els teus resultats
     </div>
@@ -1662,310 +1678,562 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='el_gust_de_laigua'" fons_normal style="padding-top:4em">
-    <table border=0 style="margin:auto;max-width:80%;">
-      <tr>
-        <td>
-          <div cantonada_clicable
-            @click="el_gust_de_laigua_text_visible='te_gust_laigua'"
-            :seleccionada="el_gust_de_laigua_text_visible=='te_gust_laigua'"
-          >
-            <img src="img/sady/i.svg" style="width:50px">
-            <div>Té gust l'aigua?</div>
-          </div>
-        </td>
-
-        <td></td>
-        <td>
-          <div cantonada_clicable
-            @click="el_gust_de_laigua_text_visible='la_mineralitzacio'"
-            :seleccionada="el_gust_de_laigua_text_visible=='la_mineralitzacio'"
-          >
-            <img src="img/sady/i.svg" style="width:50px">
-            <div>La mineralització</div>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>
-          <div
-            v-if="!el_gust_de_laigua_text_visible"
-          >
-            <div center
-              style="
-                font-family:IntroRust;
-                font-size:xx-large;
-                color:var(--dark_azure);
-              "
+  <div v-if="vista_actual=='el_gust_de_laigua'" fons_normal>
+    <div style="padding-top:4em">
+      <table border=0 style="margin:auto;width:70%;">
+        <tr>
+          <td>
+            <div cantonada_clicable
+              @click="set_text_gust_aigua('te_gust_laigua')"
+              :seleccionada="el_gust_de_laigua_text_visible=='te_gust_laigua'"
             >
-              El gust<br> de l'aigua
+              <img src="img/sady/i.svg" style="width:50px">
+              <div>Té gust l'aigua?</div>
             </div>
-            <div center>
-              <img src="img/sady/gota_llengua.svg"
-                style="width:100px"
-              >
-            </div>
-          </div>
+          </td>
 
-          <!--text seleccionat-->
-          <div>
-            <div text_visible v-if="el_gust_de_laigua_text_visible=='te_gust_laigua'">
-              <div flex style="justify-content:space-between">
-                <b>Té gust l'aigua?</b>
-                <button @click="el_gust_de_laigua_text_visible=null">X</button>
-              </div>
-              <p>
-                L'aigua conté petites quantitats de sals minerals, gasos i altres
-                substàncies naturals o procedents del tractament.
-                Per això, encara que no sol tenir un gust fort, podem notar-hi matisos:
-                salat, amarg, metàl·lic, terrós o de clor.
-              </p>
+          <td></td>
+          <td>
+            <div cantonada_clicable
+              @click="set_text_gust_aigua('la_mineralitzacio')"
+              :seleccionada="el_gust_de_laigua_text_visible=='la_mineralitzacio'"
+            >
+              <img src="img/sady/i.svg" style="width:50px">
+              <div>La mineralització</div>
             </div>
-            <div text_visible v-if="el_gust_de_laigua_text_visible=='la_mineralitzacio'">
-              <div flex style="justify-content:space-between">
-                <b>La mineralització</b>
-                <button @click="el_gust_de_laigua_text_visible=null">X</button>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <div
+              v-show="!el_gust_de_laigua_text_visible"
+              style="width:500px"
+            >
+              <div center
+                style="
+                  font-family:IntroRust;
+                  font-size:xx-large;
+                  color:var(--dark_azure);
+                "
+              >
+                El gust<br> de l'aigua
               </div>
-              <p>
-                Quan l’aigua passa per roques, sediments, rius o aqüífers, dissol
-                petites quantitats de minerals com calci, magnesi, sodi, bicarbonats,
-                sulfats o clorurs. La mineralització indica la quantitat total de sals
-                minerals dissoltes. En funció d’aquesta quantitat, en les aigües
-                minerals envasades es parla d’aigües de mineralització molt dèbil,
-                dèbil, mitjana o forta.
-              </p>
-              <p>
-                El grau de mineralització afecta el gust de l’aigua, perquè els
-                minerals poden potenciar o modificar la percepció del sabor. Una aigua
-                més mineralitzada, però, no és necessàriament més saludable. La duresa
-                de l’aigua està relacionada amb la mineralització, però no és
-                exactament el mateix. Una aigua és dura quan conté quantitats elevades
-                de calci i magnesi. Això pot fer que deixi més calç i que tingui un
-                gust diferent, però no vol dir que no sigui segura.
-              </p>
-            </div>
-            <div text_visible v-if="el_gust_de_laigua_text_visible=='el_gust_del_clor'">
-              <div flex style="justify-content:space-between">
-                <b>El gust del clor</b>
-                <button @click="el_gust_de_laigua_text_visible=null">X</button>
+              <div center>
+                <img src="img/sady/gota_llengua.svg"
+                  style="width:100px"
+                >
               </div>
-              <p>
-                L’aigua de xarxa es desinfecta sovint amb compostos clorats per evitar
-                el creixement de microorganismes mentre circula fins a l’aixeta.
-              </p>
-              <p>
-                Això pot deixar una olor o un gust característic, però aquest gust no
-                vol dir que l’aigua no sigui segura.
-              </p>
-              <p>
-                Si el gust de clor molesta, es pot deixar reposar l’aigua una estona en
-                una gerra i l’olor sol disminuir notablement.
-              </p>
             </div>
-            <div text_visible v-if="el_gust_de_laigua_text_visible=='temperatura_i_gust'">
-              <div flex style="justify-content:space-between">
-                <b>Temperatura i gust</b>
-                <button @click="el_gust_de_laigua_text_visible=null">X</button>
+
+            <!--text seleccionat-->
+            <div>
+              <div text_visible
+                v-if="el_gust_de_laigua_text_visible=='te_gust_laigua'"
+                @click="el_gust_de_laigua_text_visible=null"
+              >
+                <div flex style="justify-content:space-between">
+                  <b>Té gust l'aigua?</b>
+                </div>
+                <p>
+                  L'aigua conté petites quantitats de sals minerals, gasos i altres
+                  substàncies naturals o procedents del tractament.
+                  Per això, encara que no sol tenir un gust fort, podem notar-hi matisos:
+                  salat, amarg, metàl·lic, terrós o de clor.
+                </p>
               </div>
-              <p>
-                La temperatura afecta la nostra percepció sensorial. Quan bevem aigua
-                freda percebem menys gustos i olors: el fred amaga part del sabor. A
-                temperatura ambient, en canvi, és més fàcil notar-ne els matisos.
-              </p>
+
+              <div text_visible
+                v-if="el_gust_de_laigua_text_visible=='la_mineralitzacio'"
+                @click="el_gust_de_laigua_text_visible=null"
+              >
+                <div flex style="justify-content:space-between">
+                  <b>La mineralització</b>
+                </div>
+                <p>
+                  Quan l’aigua passa per roques, sediments, rius o aqüífers, dissol
+                  petites quantitats de minerals com calci, magnesi, sodi, bicarbonats,
+                  sulfats o clorurs. La mineralització indica la quantitat total de sals
+                  minerals dissoltes. En funció d’aquesta quantitat, en les aigües
+                  minerals envasades es parla d’aigües de mineralització molt dèbil,
+                  dèbil, mitjana o forta.
+                </p>
+                <p>
+                  El grau de mineralització afecta el gust de l’aigua, perquè els
+                  minerals poden potenciar o modificar la percepció del sabor. Una aigua
+                  més mineralitzada, però, no és necessàriament més saludable. La duresa
+                  de l’aigua està relacionada amb la mineralització, però no és
+                  exactament el mateix. Una aigua és dura quan conté quantitats elevades
+                  de calci i magnesi. Això pot fer que deixi més calç i que tingui un
+                  gust diferent, però no vol dir que no sigui segura.
+                </p>
+              </div>
+
+              <div text_visible
+                v-if="el_gust_de_laigua_text_visible=='el_gust_del_clor'"
+                @click="el_gust_de_laigua_text_visible=null"
+              >
+                <div flex style="justify-content:space-between">
+                  <b>El gust del clor</b>
+                </div>
+                <p>
+                  L’aigua de xarxa es desinfecta sovint amb compostos clorats per evitar
+                  el creixement de microorganismes mentre circula fins a l’aixeta.
+                </p>
+                <p>
+                  Això pot deixar una olor o un gust característic, però aquest gust no
+                  vol dir que l’aigua no sigui segura.
+                </p>
+                <p>
+                  Si el gust de clor molesta, es pot deixar reposar l’aigua una estona en
+                  una gerra i l’olor sol disminuir notablement.
+                </p>
+              </div>
+
+              <div text_visible
+                v-if="el_gust_de_laigua_text_visible=='temperatura_i_gust'"
+                @click="el_gust_de_laigua_text_visible=null"
+              >
+                <div flex style="justify-content:space-between">
+                  <b>Temperatura i gust</b>
+                </div>
+                <p>
+                  La temperatura afecta la nostra percepció sensorial. Quan bevem aigua
+                  freda percebem menys gustos i olors: el fred amaga part del sabor. A
+                  temperatura ambient, en canvi, és més fàcil notar-ne els matisos.
+                </p>
+              </div>
             </div>
-          </div>
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>
-          <div cantonada_clicable
-            @click="el_gust_de_laigua_text_visible='el_gust_del_clor'"
-            :seleccionada="el_gust_de_laigua_text_visible=='el_gust_del_clor'"
-          >
-            <img src="img/sady/i.svg" style="width:50px">
-            El gust del clor
-          </div>
-        </td>
-        <td></td>
-        <td>
-          <div cantonada_clicable
-            @click="el_gust_de_laigua_text_visible='temperatura_i_gust'"
-            :seleccionada="el_gust_de_laigua_text_visible=='temperatura_i_gust'"
-          >
-            <img src="img/sady/i.svg" style="width:50px">
-            Temperatura i gust
-          </div>
-        </td>
-      </tr>
-    </table>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <div cantonada_clicable
+              @click="set_text_gust_aigua('el_gust_del_clor')"
+              :seleccionada="el_gust_de_laigua_text_visible=='el_gust_del_clor'"
+            >
+              <img src="img/sady/i.svg" style="width:50px">
+              El gust del clor
+            </div>
+          </td>
+          <td></td>
+          <td>
+            <div cantonada_clicable
+              @click="set_text_gust_aigua('temperatura_i_gust')"
+              :seleccionada="el_gust_de_laigua_text_visible=='temperatura_i_gust'"
+            >
+              <img src="img/sady/i.svg" style="width:50px">
+              Temperatura i gust
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 
-  <div v-if="vista_actual=='laigua_segura_i_saludable'" fons_normal style="padding-top:4em">
-    <table border=0 style="margin:auto;max-width:80%;">
-      <tr>
-        <td>
-          <div cantonada_clicable
-            @click="       laigua_segura_i_saludable_text_visible= 'que_vol_dir_que_una_aigua_sigui_segura'"
-            :seleccionada="laigua_segura_i_saludable_text_visible=='que_vol_dir_que_una_aigua_sigui_segura'"
-          >
-            <img src="img/sady/i.svg" style="width:50px">
-            <div>Què vol dir que una aigua sigui segura?</div>
-          </div>
-        </td>
+  <div v-if="vista_actual=='laigua_segura_i_saludable'" fons_normal>
+    <div style="padding-top:4em">
+      <table border=0 style="margin:auto;width:70%">
+        <tr>
+          <td>
+            <div cantonada_clicable
+              @click="set_text_aigua_segura('que_vol_dir_que_una_aigua_sigui_segura')"
+              :seleccionada="laigua_segura_i_saludable_text_visible=='que_vol_dir_que_una_aigua_sigui_segura'"
+            >
+              <img src="img/sady/i.svg" style="width:50px">
+              <div>Què vol dir que una aigua sigui segura?</div>
+            </div>
+          </td>
 
-        <td></td>
-        <td>
-          <div cantonada_clicable
-            @click="       laigua_segura_i_saludable_text_visible= 'com_es_controla_laigua_que_consumim'"
-            :seleccionada="laigua_segura_i_saludable_text_visible=='com_es_controla_laigua_que_consumim'"
-          >
-            <img src="img/sady/i.svg" style="width:50px">
-            <div>Com es controla l'aigua que consumim?</div>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>
-          <div
-            v-if="!laigua_segura_i_saludable_text_visible"
-          >
-            <div center
+          <td></td>
+          <td>
+            <div cantonada_clicable
+              @click="set_text_aigua_segura('com_es_controla_laigua_que_consumim')"
+              :seleccionada="laigua_segura_i_saludable_text_visible=='com_es_controla_laigua_que_consumim'"
+            >
+              <img src="img/sady/i.svg" style="width:50px">
+              <div>Com es controla l'aigua que consumim?</div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td></td>
+          <td>
+            <div
+              v-show="!laigua_segura_i_saludable_text_visible"
+              style="width:500px"
+            >
+              <div center
+                style="
+                  font-family:IntroRust;
+                  font-size:xx-large;
+                  color:var(--dark_azure);
+                "
+              >
+                L'aigua<br>segura i<br>saludable
+              </div>
+              <div center>
+                <img src="img/sady/normalment_ens_fixem_en/gota-escut-verd.svg"
+                  style="width:100px"
+                >
+              </div>
+            </div>
+
+            <!--text seleccionat-->
+            <div>
+              <div text_visible
+                v-if="laigua_segura_i_saludable_text_visible=='que_vol_dir_que_una_aigua_sigui_segura'"
+                @click="laigua_segura_i_saludable_text_visible=null"
+              >
+                <div flex style="justify-content:space-between">
+                  <b>Què vol dir que una aigua sigui segura?</b>
+                </div>
+                <p>
+                  Una aigua segura, o apta per al consum, és aquella que es pot
+                  beure sense representar un risc per a la salut segons els
+                  controls sanitaris establerts.
+                </p>
+                <p>
+                  El gust, el color o l’olor poden donar pistes, però no són
+                  suficients per saber si una aigua és segura. La seguretat es
+                  comprova amb controls microbiològics, químics i de qualitat:
+                  presència d’<i>Escherichia coli</i>, enterococs, nitrats, metalls,
+                  pesticides, pH, terbolesa o conductivitat, entre d’altres. Una
+                  aigua segura no ha de tenir necessàriament el gust que més ens
+                  agrada. I, al revés, una aigua amb bon gust no sempre és
+                  segura.
+                </p>
+              </div>
+
+              <div text_visible
+                v-if="laigua_segura_i_saludable_text_visible=='com_es_controla_laigua_que_consumim'"
+                @click="laigua_segura_i_saludable_text_visible=null"
+              >
+                <div flex style="justify-content:space-between">
+                  <b>Com es controla que l'aigua que consumim?</b>
+                </div>
+                <p>
+                  L’aigua de l’aixeta de xarxa pública està sotmesa a controls al
+                  llarg del sistema de subministrament: captació, tractament,
+                  dipòsits, xarxa de distribució i, segons el cas, punts de
+                  consum. La informació sobre la qualitat de l’aigua es pot
+                  consultar a través del SINAC, del municipi o de l’operador
+                  d’aigua. Si no hi ha cap avís sanitari, l’aigua de l’aixeta és
+                  una opció segura i saludable per a la majoria de persones.
+                </p>
+                <p>
+                  L’aigua envasada també està regulada i controlada per garantir
+                  que que compleix la normativa vigent i que conserva les
+                  característiques declarades. Les fonts naturals no integrades
+                  en una xarxa controlada són un cas diferent: poden canviar amb
+                  la pluja, la sequera, l’activitat agrícola o altres factors. Si
+                  no hi ha control sanitari actualitzat, poden no ser segures
+                  encara que tinguin bon gust.
+                </p>
+              </div>
+
+              <div text_visible
+                v-if="laigua_segura_i_saludable_text_visible=='conservar_laigua_de_manera_segura'"
+                @click="laigua_segura_i_saludable_text_visible=null"
+              >
+                <div flex style="justify-content:space-between">
+                  <b>Conservar l'aigua de manera segura</b>
+                </div>
+                <p>
+                  Encara que l’aigua sigui apta en sortir de l’aixeta, es pot
+                  deteriorar si es guarda malament. Es recomana guardar-la en
+                  recipients nets, tapats, en un lloc fresc i protegits de la
+                  llum solar directa. En el cas d’ampolles i recipients
+                  reutilitzables, cal rentar-los sovint i substituir-los si
+                  acumulen olor, floridura, una capa viscosa o moltes ratllades.
+                </p>
+                <p>
+                  En general els nivells de microplàstics i nanoplàstics són
+                  superiors en l’aigua envasada en plàstic que en l’aigua de
+                  l’aixeta, però es desconeix si això és rellevant. Actualment
+                  s’estan investigant els possibles riscos per a la salut
+                  d’aquests compostos. En general es recomana no deixar ampolles
+                  de plàstic al sol o a prop de fonts de calor durant períodes
+                  prolongats.
+                </p>
+              </div>
+
+              <div text_visible
+                v-if="laigua_segura_i_saludable_text_visible=='filtres_domestics_i_seguretat'"
+                @click="laigua_segura_i_saludable_text_visible=null"
+              >
+                <div flex style="justify-content:space-between">
+                  <b>Filtres domèstics i seguretat</b>
+                </div>
+                <p>
+                  Els filtres de carbó actiu o els sistemes d’osmosi poden
+                  canviar el gust de l’aigua o reduir alguns compostos, però no
+                  són imprescindibles perquè l’aigua de xarxa pública sigui
+                  segura.
+                </p>
+                <p>
+                  Si s’utilitzen, cal mantenir-los bé: canviar cartutxos, netejar
+                  gerres o dipòsits i seguir les instruccions del fabricant.
+                </p>
+                <p>
+                  Un filtre mal mantingut pot empitjorar la qualitat de l’aigua.
+                </p>
+              </div>
+            </div>
+          </td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td>
+            <div cantonada_clicable
+              @click="set_text_aigua_segura('conservar_laigua_de_manera_segura')"
+              :seleccionada="laigua_segura_i_saludable_text_visible=='conservar_laigua_de_manera_segura'"
+            >
+              <img src="img/sady/i.svg" style="width:50px">
+              Conservar l'aigua de manera segura
+            </div>
+          </td>
+          <td></td>
+          <td>
+            <div cantonada_clicable
+              @click="set_text_aigua_segura('filtres_domestics_i_seguretat')"
+              :seleccionada="laigua_segura_i_saludable_text_visible=='filtres_domestics_i_seguretat'"
+            >
+              <img src="img/sady/i.svg" style="width:50px">
+              Filtres domèstics i seguretat
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div v-if="vista_actual=='quina_es_la_opcio_mes_cara'" fons_normal center>
+    <div style="padding-top:1em"></div>
+    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
+      Quina és la opció més cara?
+    </div>
+
+    <div
+      style="
+        background:white;
+        padding:2em;
+        border-radius:20px;
+        border:1px solid var(--blau_clar);
+        width:70%;
+        margin:auto;
+      "
+    >
+      <div
+        style="
+          display:flex;
+          justify-content:right;
+        "
+      >
+        <div
+          style="
+            background:var(--lila_clar_palid);
+            padding:1em;
+            border-radius:20px;
+            border:1px solid var(--lila_clar_intens);
+          "
+        >
+          <div flex>
+            <img src="img/sady/normalment_ens_fixem_en/gota-monedes.svg"
               style="
-                font-family:IntroRust;
-                font-size:xx-large;
-                color:var(--dark_azure);
+                width:100px;
+                display:block;
               "
             >
-              L'aigua<br>segura i<br>saludable
-            </div>
-            <div center>
-              <img src="img/sady/normalment_ens_fixem_en/gota-escut-verd.svg"
-                style="width:100px"
-              >
+            <div>
+              <div><b style="color:var(--lila_clar_intens)">L'aigua embotellada<br>és l'opció més cara,</b></div>
+              especialment quan<br>
+              s'adquireix en envasos<br> de petit volum.
             </div>
           </div>
+        </div>
+      </div>
 
-          <!--text seleccionat-->
+      <img src="img/sady/grafic_opcio_mes_cara.svg" style="width:70%">
+
+      <div
+        style="
+          border:1px solid var(--blau_clar);
+          border-radius:10px;
+          padding:1em 2em;
+          background:var(--blau_clar_palid);
+          box-shadow:1px 1px 10px #ccc;
+          font-size:larger;
+        "
+      >
+        <b>Càlcul orientatiu per a un consum de 730 L/any per persona (2L/dia).<br></b>
+        Els valors poden variar segons el municipi, el sistema de filtració i el preu de mercat.
+      </div>
+    </div>
+  </div>
+
+  <div v-if="vista_actual=='quina_es_la_petjada_ambiental'" fons_normal center>
+    <div style="padding-top:1em"></div>
+    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
+      Quina és la petjada ambiental en un any?
+    </div>
+
+    <div
+      style="
+        background:white;
+        padding:2em;
+        border-radius:20px;
+        border:1px solid var(--blau_clar);
+        width:70%;
+        margin:auto;
+      "
+    >
+      <div
+        style="
+          display:flex;
+          align-items:center;
+          gap:1em;
+          padding-left:17em;
+        "
+      >
+        <div flex center
+          style="
+            border:1px solid var(--blau_clar);
+            padding:0.618em;
+            box-shadow:1px 1px 10px #ccc;
+            border-radius:10px;
+          "
+        >
+          <div style="margin-right:5px">
+            <img src="img/sady/i.svg" style="width:50px">
+          </div>
           <div>
-            <div text_visible v-if="laigua_segura_i_saludable_text_visible=='que_vol_dir_que_una_aigua_sigui_segura'">
-              <div flex style="justify-content:space-between">
-                <b>Què vol dir que una aigua sigui segura?</b>
-                <button @click="laigua_segura_i_saludable_text_visible=null">X</button>
-              </div>
-              <p>
-                Una aigua segura, o apta per al consum, és aquella que es pot
-                beure sense representar un risc per a la salut segons els
-                controls sanitaris establerts.
-              </p>
-              <p>
-                El gust, el color o l’olor poden donar pistes, però no són
-                suficients per saber si una aigua és segura. La seguretat es
-                comprova amb controls microbiològics, químics i de qualitat:
-                presència d’<i>Escherichia coli</i>, enterococs, nitrats, metalls,
-                pesticides, pH, terbolesa o conductivitat, entre d’altres. Una
-                aigua segura no ha de tenir necessàriament el gust que més ens
-                agrada. I, al revés, una aigua amb bon gust no sempre és
-                segura.
-              </p>
-            </div>
-
-            <div text_visible v-if="laigua_segura_i_saludable_text_visible=='com_es_controla_laigua_que_consumim'">
-              <div flex style="justify-content:space-between">
-                <b>Com es controla que l'aigua que consumim?</b>
-                <button @click="laigua_segura_i_saludable_text_visible=null">X</button>
-              </div>
-              <p>
-                L’aigua de l’aixeta de xarxa pública està sotmesa a controls al
-                llarg del sistema de subministrament: captació, tractament,
-                dipòsits, xarxa de distribució i, segons el cas, punts de
-                consum. La informació sobre la qualitat de l’aigua es pot
-                consultar a través del SINAC, del municipi o de l’operador
-                d’aigua. Si no hi ha cap avís sanitari, l’aigua de l’aixeta és
-                una opció segura i saludable per a la majoria de persones.
-              </p>
-              <p>
-                L’aigua envasada també està regulada i controlada per garantir
-                que que compleix la normativa vigent i que conserva les
-                característiques declarades. Les fonts naturals no integrades
-                en una xarxa controlada són un cas diferent: poden canviar amb
-                la pluja, la sequera, l’activitat agrícola o altres factors. Si
-                no hi ha control sanitari actualitzat, poden no ser segures
-                encara que tinguin bon gust.
-              </p>
-            </div>
-
-            <div text_visible v-if="laigua_segura_i_saludable_text_visible=='conservar_laigua_de_manera_segura'">
-              <div flex style="justify-content:space-between">
-                <b>Conservar l'aigua de manera segura</b>
-                <button @click="laigua_segura_i_saludable_text_visible=null">X</button>
-              </div>
-              <p>
-                Encara que l’aigua sigui apta en sortir de l’aixeta, es pot
-                deteriorar si es guarda malament. Es recomana guardar-la en
-                recipients nets, tapats, en un lloc fresc i protegits de la
-                llum solar directa. En el cas d’ampolles i recipients
-                reutilitzables, cal rentar-los sovint i substituir-los si
-                acumulen olor, floridura, una capa viscosa o moltes ratllades.
-              </p>
-              <p>
-                En general els nivells de microplàstics i nanoplàstics són
-                superiors en l’aigua envasada en plàstic que en l’aigua de
-                l’aixeta, però es desconeix si això és rellevant. Actualment
-                s’estan investigant els possibles riscos per a la salut
-                d’aquests compostos. En general es recomana no deixar ampolles
-                de plàstic al sol o a prop de fonts de calor durant períodes
-                prolongats.
-              </p>
-            </div>
-
-            <div text_visible v-if="laigua_segura_i_saludable_text_visible=='filtres_domestics_i_seguretat'">
-              <div flex style="justify-content:space-between">
-                <b>Filtres domèstics i seguretat</b>
-                <button @click="laigua_segura_i_saludable_text_visible=null">X</button>
-              </div>
-              <p>
-                Els filtres de carbó actiu o els sistemes d’osmosi poden
-                canviar el gust de l’aigua o reduir alguns compostos, però no
-                són imprescindibles perquè l’aigua de xarxa pública sigui
-                segura.
-              </p>
-              <p>
-                Si s’utilitzen, cal mantenir-los bé: canviar cartutxos, netejar
-                gerres o dipòsits i seguir les instruccions del fabricant.
-              </p>
-              <p>
-                Un filtre mal mantingut pot empitjorar la qualitat de l’aigua.
-              </p>
-            </div>
+            Quina és la generació de residus de cada opció?
           </div>
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>
-          <div cantonada_clicable
-            @click="laigua_segura_i_saludable_text_visible='conservar_laigua_de_manera_segura'"
-            :seleccionada="laigua_segura_i_saludable_text_visible=='conservar_laigua_de_manera_segura'"
+        </div>
+
+        <div flex
+          style="
+            background:var(--lila_clar_palid);
+            padding:1em;
+            border-radius:20px;
+            border:1px solid var(--lila_clar_intens);
+          "
+        >
+          <img src="img/sady/per_on_passa_aigua/camio.svg"
+            style="
+              width:100px;
+              display:block;
+            "
           >
-            <img src="img/sady/i.svg" style="width:50px">
-            Conservar l'aigua de manera segura
+          <div>
+            <b style="color:var(--lila_clar_intens)">L'aigua embotellada és la que presenta major impacte ambiental</b>
+            perquè implica la fabricació d'envasos, transport i gestió de residus.
           </div>
-        </td>
-        <td></td>
-        <td>
-          <div cantonada_clicable
-            @click="laigua_segura_i_saludable_text_visible='filtres_domestics_i_seguretat'"
-            :seleccionada="laigua_segura_i_saludable_text_visible=='filtres_domestics_i_seguretat'"
-          >
-            <img src="img/sady/i.svg" style="width:50px">
-            Filtres domèstics i seguretat
+        </div>
+      </div>
+
+      <img src="img/sady/grafic_petjada_ambiental.svg" style="width:70%">
+
+      <div
+        style="
+          border:1px solid var(--blau_clar);
+          border-radius:10px;
+          padding:1em 2em;
+          background:var(--blau_clar_palid);
+          box-shadow:1px 1px 10px #ccc;
+          font-size:larger;
+        "
+      >
+        <b>Càlcul orientatiu per a un consum de 2L persona/dia<br></b>
+        Dades obtingudes de l'article científic <i>Prole et al. 2026 Expo Sci Environ Epidemiol.</i>
+      </div>
+    </div>
+
+    <div flex
+      style="
+        border:2px solid var(--blau_clar_intens);
+        background:var(--blau_clar_palid);
+        padding:2em 1em;
+        border-radius:20px;
+        justify-content:center;
+        gap:4em;
+        width:80%;
+        margin:auto;
+        align-items:start;
+      "
+    >
+      <div>
+        <div><b>Aigua aixeta</b></div>
+        <div>
+          0 ampolles de plàstic
+        </div>
+        <div>
+          <img src="img/sady/quina_es_la_petjada_ambiental/zero-ampolles.svg" style="width:50px">
+        </div>
+      </div>
+
+      <div>
+        <div><b>Aigua filtrada i osmosi</b></div>
+        <div>
+          recanvis de filtres i cartutxs
+        </div>
+        <div>
+          <div v-for="j in 2">
+            <img src="img/sady/quina_es_la_petjada_ambiental/gerra.svg" style="width:40px" v-for="i in 3">
           </div>
-        </td>
-      </tr>
-    </table>
+
+          <div>
+            <img src="img/sady/quina_es_la_petjada_ambiental/osmosi.svg" style="width:60px" v-for="j in 2">
+          </div>
+        </div>
+      </div>
+
+
+      <div>
+        <div><b>Aigua embotellada</b></div>
+        <div>
+          <b style="color:#ca151c">487</b>
+          ampolles de plàstic (1.5L)
+        </div>
+        <div
+          style="
+            color:var(--lila_clar_intens);
+            font-weight:bold;
+          "
+        >x20 vegades més plàstic!
+        </div>
+        <div>
+          <div flex>
+            <img src="img/sady/quina_es_la_petjada_ambiental/ampolla.png" style="width:15px" v-for="i in 7">
+          </div>
+          <div v-for="j in 12">
+            <div><img src="img/sady/quina_es_la_petjada_ambiental/ampolla.png" style="width:15px" v-for="i in 40"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div v-if="vista_actual=='preguntes_finals'" fons_normal center>
+    <div style="padding-top:1em"></div>
+    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
+      Unes preguntes ràpides per acabar
+    </div>
+
+    <p>
+      Aquestes són les resposta que has donat abans de l'activitat.<br>
+      Ara pots respondre diferent si la teva opinió ha canviat.
+    </p>
+
+    <div flex style="justify-content:center">
+      <div>Resposta prèvia</div>
+      <div>&emsp;</div>
+      <div>Resposta actual</div>
+    </div>
   </div>
 
   <!--gotes navegació-->
@@ -2112,12 +2380,33 @@
               text:"Quina aigua beus a casa?",
               resposta:"",
               opcions:[
-                {text:"Aigua de l'aixeta"                    , src:"img/sady/quina_aigua_beus_a_casa/aixeta.svg"} ,
-                {text:"Aigua de l'aixeta filtrada per osmosi", src:"img/sady/quina_aigua_beus_a_casa/aixeta_filtrada_osmosis.svg"} ,
-                {text:"Aigua de l'aixeta amb gerra filtrant" , src:"img/sady/quina_aigua_beus_a_casa/aixeta_gerra_filtrant.svg"} ,
-                {text:"Aigua embotellada en plàstic"         , src:"img/sady/quina_aigua_beus_a_casa/embotellada_plastic.svg"} ,
-                {text:"Aigua embotellada en vidre"           , src:"img/sady/quina_aigua_beus_a_casa/embotellada_vidre.svg"} ,
-                {text:"Altres"                               , src:"img/sady/quina_aigua_beus_a_casa/altres.svg"} ,
+                {
+                  text:            "Aigua de l'aixeta",
+                  src:             "img/sady/quina_aigua_beus_a_casa/aixeta.svg",
+                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/aixeta-seleccionada.svg",
+                },
+                {
+                  text:            "Aigua de l'aixeta filtrada per osmosi",
+                  src:             "img/sady/quina_aigua_beus_a_casa/osmosi.svg",
+                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/osmosi-seleccionada.svg",
+                },
+                {
+                  text:            "Aigua de l'aixeta amb gerra filtrant",
+                  src:             "img/sady/quina_aigua_beus_a_casa/gerra.svg",
+                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/gerra-seleccionada.svg",
+                },
+                {text:"Aigua embotellada en plàstic",
+                  src:             "img/sady/quina_aigua_beus_a_casa/plastic.svg",
+                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/plastic-seleccionada.svg",
+                } ,
+                {text:"Aigua embotellada en vidre",
+                  src:             "img/sady/quina_aigua_beus_a_casa/vidre.svg",
+                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/vidre-seleccionada.svg",
+                } ,
+                {text:"Altres",
+                  src:             "img/sady/quina_aigua_beus_a_casa/altres.svg",
+                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/altres-seleccionada.svg",
+                } ,
               ],
             },
             {
@@ -2142,31 +2431,22 @@
               src:"img/sady/creus_que/fulles_verdes.svg",
               text:"...l'elecció del tipus d'aigua que beus influeix en el seu<br> <b style='color:var(--verd_intens)'>impacte ambiental</b> (residus, cost energètic...)?",
               resposta:"",
-              opcions:["1", "2", "3", "4", "5"],
+              resposta_post:"",
+              opcions:["1","2","3","4","5"],
             },
             {
               src:"img/sady/creus_que/gota_blava.svg",
               text:"...pots confiar en la <b style='color:var(--blau_clar_intens)'>qualitat de l'aigua de l'aixeta</b> del<br> teu municipi?",
               resposta:"",
-              opcions:[
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-              ],
+              resposta_post:"",
+              opcions:["1","2","3","4","5"],
             },
             {
               src:"img/sady/creus_que/persones_taronges.svg",
               text:"...les persones tenim bona <b style='color:var(--taronja_clar_intens)'>capacitat per distingir</b> els<br> tipus d'aigua i el seu gust?",
               resposta:"",
-              opcions:[
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-              ],
+              resposta_post:"",
+              opcions:["1","2","3","4","5"],
             },
           ],
         },
@@ -2194,7 +2474,6 @@
         "comencem",
         "infografia_quina_aigua_bevem",
         "per_on_passa_aigua",
-        "com_escollim_aigua",
         "el_gust",
         "tast_aigues",
         "tast_aigues_2",
@@ -2205,6 +2484,9 @@
         "identificar_correctament_aigua_es_dificil",
         "el_gust_de_laigua",
         "laigua_segura_i_saludable",
+        "quina_es_la_opcio_mes_cara",
+        "quina_es_la_petjada_ambiental",
+        "preguntes_finals",
       ],
 
       el_gust_de_laigua_text_visible:null,
@@ -2245,6 +2527,23 @@
       },
       tot_contestat(pagina){
         return pagina.preguntes.every(p=>(!p.multiple&&p.resposta)||(p.multiple&&p.resposta.size));
+      },
+
+      set_text_gust_aigua(nou_valor){
+        let actual = this.el_gust_de_laigua_text_visible;
+        if(actual==nou_valor){
+          this.el_gust_de_laigua_text_visible=null;
+        }else{
+          this.el_gust_de_laigua_text_visible=nou_valor;
+        }
+      },
+      set_text_aigua_segura(nou_valor){
+        let actual = this.laigua_segura_i_saludable_text_visible;
+        if(actual==nou_valor){
+          this.laigua_segura_i_saludable_text_visible=null;
+        }else{
+          this.laigua_segura_i_saludable_text_visible=nou_valor;
+        }
       },
     },
 
@@ -2314,6 +2613,6 @@
   }).mount("#app");
 
   app.vista_actual="portada";
-  app.vista_actual="el_gust_de_laigua";//debug
+  //app.vista_actual="infografia_quina_aigua_bevem";//debug
   app.index_pagina_actual=0;
 </script>
