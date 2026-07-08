@@ -67,7 +67,6 @@
     }
     [text_visible]{
       background:white;
-      padding:1em 0.618em;
       font-family:Inter;
       border:1px solid var(--blau_clar_intens);
       box-shadow:1px 1px 10px #ccc;
@@ -75,6 +74,9 @@
       margin:auto;
       width:500px;
       cursor:pointer;
+
+      padding:1em 1.618em;
+
     }
     [text_visible]:hover{
       background:var(--light_azure);
@@ -340,19 +342,28 @@
       align-items:center;
       grid-template-columns:1fr 3fr;
     }
+
+    /*llegenda preguntes finals*/
+    [item_llegenda]{
+      border-radius:50%;
+      padding:1em;
+      border:1px solid var(--dark_azure);
+      color:var(--dark_azure);
+    }
+
+    div[opcio_seleccionada_pre=true]{
+      background:#e7ffc5;
+      border-color:var(--verd_clar_intens);
+    }
     div[opcio]:hover,
     div[opcio_seleccionada=true]{
-      background:var(--light_azure);
-      border-color:var(--blau_clar);
+      background:var(--blau_clar);
+      border-color:var(--blau_clar_intens);
     }
 
     img[opcio_imatge]{
       width:150px;
       cursor:pointer;
-      border:1px solid transparent;
-    }
-    img[opcio_imatge]:hover{
-      border:1px solid var(--blau_clar);
     }
 
     div[opcio] div[opcio_rodona]{
@@ -480,7 +491,7 @@
 
   <!--preguntes-->
   <div
-    v-if="vista_actual=='preguntes' && pagina_actual && index_pagina_actual<pagines.length"
+    v-show="vista_actual=='preguntes' && pagina_actual && index_pagina_actual<pagines.length"
     fons_normal
   >
     <!--logo glops i titol pagina-->
@@ -763,9 +774,11 @@
           top:40vh;
         "
       >
-        <button @click="vista_actual='preguntes';index_pagina_actual=pagines.length-1">
-          enrere
-        </button>
+        <div>
+          <button @click="vista_actual='preguntes';index_pagina_actual=pagines.length-1">
+            enrere (debug)
+          </button>
+        </div>
 
         <button
           @click="vista_actual='infografia_quina_aigua_bevem'"
@@ -791,7 +804,7 @@
   </div>
 
   <!--infografia quina aigua bevem-->
-  <div v-if="vista_actual=='infografia_quina_aigua_bevem'" fons_normal id="infografia_quina_aigua_bevem">
+  <div v-show="vista_actual=='infografia_quina_aigua_bevem'" fons_normal id="infografia_quina_aigua_bevem">
     <div>
       <div pregunta_text center
         style="
@@ -1066,7 +1079,7 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='per_on_passa_aigua'" center id=per_on_passa_aigua fons_normal>
+  <div v-show="vista_actual=='per_on_passa_aigua'" center id=per_on_passa_aigua fons_normal>
     <div>
       <div pregunta_text center style="font-size:xxx-large">
         Per on passa l'aigua abans d'arribar a casa?
@@ -1377,7 +1390,7 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='tast_aigues'" fons_normal center style="font-family:Inter" id=tast_aigues>
+  <div v-show="vista_actual=='tast_aigues'" fons_normal center style="font-family:Inter" id=tast_aigues>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       tast d'aigües
     </div>
@@ -2225,14 +2238,113 @@
     </div>
 
     <p>
-      Aquestes són les resposta que has donat abans de l'activitat.<br>
+      Aquestes són les respostes que has donat abans del tast.<br>
       Ara pots respondre diferent si la teva opinió ha canviat.
     </p>
 
     <div flex style="justify-content:center">
-      <div>Resposta prèvia</div>
+      <div>Llegenda</div>
       <div>&emsp;</div>
-      <div>Resposta actual</div>
+      <div>
+        <div opcio_seleccionada_pre=true item_llegenda >
+          <div>Resposta</div>
+          <div>anterior</div>
+        </div>
+      </div>
+      <div>&emsp;</div>
+      <div>
+        <div opcio_seleccionada=true item_llegenda>
+          <div>Resposta</div>
+          <div>nova</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <table
+        style="border-collapse:collapse;margin:auto"
+      >
+        <tr style="font-family:Inter">
+          <td></td>
+          <td></td>
+          <td center style="width:80px">Gens d'acord</td>
+          <td center style="width:80px">Poc d'acord</td>
+          <td center style="width:80px">Ni d'acord ni en desacord</td>
+          <td center style="width:80px">Bastant d'acord</td>
+          <td center style="width:80px">Molt d'acord</td>
+        </tr>
+
+        <tbody v-for="pregunta in pagines.find(pag=>pag.tipus=='12345').preguntes">
+          <tr
+            style="
+              background:white;
+              border-radius:20px;
+              box-shadow:5px 5px 10px #ccc;
+            "
+          >
+            <td
+              style="
+                border-top-left-radius: 20px;
+                border-bottom-left-radius: 20px;
+              "
+            >
+              <div>
+                <img :src="pregunta.src" style="width:150px">
+              </div>
+            </td>
+            <td>
+              <div v-html="pregunta.text" style="font-family:Inter"></div>
+            </td>
+            <td v-for="i in 5">
+              <div
+                style="
+                  width:50px;
+                  height:50px;
+                  border-radius:50%;
+                  border:1px solid var(--dark_azure);
+
+                  font-weight:bolder;
+                  font-size:20px;
+                  color:var(--dark_azure);
+
+                  margin:auto;
+
+                  align-content:center;
+                  text-align:center;
+
+                  cursor:pointer
+                "
+                :opcio_seleccionada_pre="pregunta.resposta==i"
+                :opcio_seleccionada="pregunta.resposta_post==i"
+                @click="pregunta.resposta_post=i"
+              >
+                {{i}}
+              </div>
+            </td>
+            <td
+              style="
+                border-top-right-radius: 20px;
+                border-bottom-right-radius: 20px;
+                color:white;
+              "
+            >&emsp;
+            </td>
+          </tr>
+          <tr>
+            <td colspan=99 style="height:20px">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div v-if="vista_actual=='final'" fons_normal center>
+    <div style="padding-top:20em"></div>
+    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
+      <div>Has arribat al final!</div>
+      <div style="margin:2em"></div>
+      <div>Gràcies per participar!</div>
     </div>
   </div>
 
@@ -2487,6 +2599,7 @@
         "quina_es_la_opcio_mes_cara",
         "quina_es_la_petjada_ambiental",
         "preguntes_finals",
+        "final",
       ],
 
       el_gust_de_laigua_text_visible:null,
@@ -2613,6 +2726,6 @@
   }).mount("#app");
 
   app.vista_actual="portada";
-  //app.vista_actual="infografia_quina_aigua_bevem";//debug
+  app.vista_actual="preguntes_finals";//debug
   app.index_pagina_actual=0;
 </script>
