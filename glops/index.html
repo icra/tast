@@ -1,6 +1,6 @@
 <!doctype html><html><head>
   <meta charset=utf8>
-  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="lib/vue.global.prod.js"></script>
   <style>
     :root{
       --dark_azure:   #006787;
@@ -491,7 +491,7 @@
 
   <!--preguntes-->
   <div
-    v-show="vista_actual=='preguntes' && pagina_actual && index_pagina_actual<pagines.length"
+    v-if="vista_actual=='preguntes' && pagina_actual && index_pagina_actual<pagines.length"
     fons_normal
   >
     <!--logo glops i titol pagina-->
@@ -514,7 +514,7 @@
     <div style="padding:0 5em">
       <div v-if="pagina_actual.tipus=='12345'">
         <div center style="font-family:Inter;font-size:larger;margin-bottom:2em">
-          Valora del 1 al 5 segons el teu grau d'acord
+          <b>Valora de l'1 al 5 segons el teu grau d'acord</b>
         </div>
 
         <table
@@ -1228,6 +1228,111 @@
         </tr>
       </table>
     </div>
+  </div>
+
+  <div v-show="vista_actual=='tipus_aigua_embotellada'" center fons_normal>
+    <div pregunta_text center style="font-size:xxx-large">
+      Tipus d'aigua embotellada
+    </div>
+    <table border=1
+      style="
+        margin:auto;
+        width:70%;
+      "
+    >
+      <tr>
+        <td></td>
+        <th>
+          Aigües minerals naturals (AMN)
+        </th>
+        <th>
+          Aigües de manantials (AM)
+        </th>
+        <th>
+          Aigües potables preparades (APP)
+        </th>
+      </tr>
+      <tr>
+        <th>
+          Origen
+        </th>
+        <td>
+          Aqüífer subterrani profund i protegit
+        </td>
+        <td>
+          Aqüífer subterrani
+        </td>
+        <td>
+          Qualsevol origen
+        </td>
+      </tr>
+      <tr>
+        <th>
+          Composició mineral
+        </th>
+        <td>
+          Estable i característica
+        </td>
+        <td>
+          Natural però variable
+        </td>
+        <td>
+          Sense composició pròpia i pot ser modificada
+        </td>
+      </tr>
+      <tr>
+        <th>
+          Tractaments
+        </th>
+        <td>
+          Molt limitats
+        </td>
+        <td>
+          Limitats
+        </td>
+        <td>
+          Potabilització, filtració, osmosis, UV, ozó, clor, etc.
+        </td>
+      </tr>
+      <tr>
+        <th>
+          Consum a Espanya
+        </th>
+        <td>
+          96%
+        </td>
+        <td>
+          1-3%
+        </td>
+        <td>
+          &lt;4%
+        </td>
+      </tr>
+      <tr>
+        <th>
+          Intervenció humana
+        </th>
+        <td>
+          baixa
+        </td>
+        <td>
+          mitjana
+        </td>
+        <td>
+          alta
+        </td>
+      </tr>
+      <tr>
+        <td colspan=99>
+          <code>
+            <small>
+              Fonts: AESAN: Agència Espanyola de Seguretat Alimentària i
+              Nutrició: Aigua Embotellada a Espanya 2023
+            </small>
+          </code>
+        </td>
+      </tr>
+    </table>
   </div>
 
   <!--eliminada-->
@@ -2027,7 +2132,7 @@
   <div v-if="vista_actual=='quina_es_la_opcio_mes_cara'" fons_normal center>
     <div style="padding-top:1em"></div>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
-      Quina és la opció més cara?
+      Quina és l'opció més cara?
     </div>
 
     <div
@@ -2043,7 +2148,7 @@
       <div
         style="
           display:flex;
-          justify-content:right;
+          justify-content:center;
         "
       >
         <div
@@ -2062,9 +2167,9 @@
               "
             >
             <div>
-              <div><b style="color:var(--lila_clar_intens)">L'aigua embotellada<br>és l'opció més cara,</b></div>
-              especialment quan<br>
-              s'adquireix en envasos<br> de petit volum.
+              <div><b style="color:var(--lila_clar_intens)">L'aigua embotellada és l'opció més cara,</b></div>
+              especialment quan
+              s'adquireix en envasos de petit volum.
             </div>
           </div>
         </div>
@@ -2107,33 +2212,16 @@
       <div
         style="
           display:flex;
-          align-items:center;
-          gap:1em;
-          padding-left:17em;
+          justify-content:center;
         "
       >
-        <div flex center
-          style="
-            border:1px solid var(--blau_clar);
-            padding:0.618em;
-            box-shadow:1px 1px 10px #ccc;
-            border-radius:10px;
-          "
-        >
-          <div style="margin-right:5px">
-            <img src="img/sady/i.svg" style="width:50px">
-          </div>
-          <div>
-            Quina és la generació de residus de cada opció?
-          </div>
-        </div>
-
         <div flex
           style="
             background:var(--lila_clar_palid);
             padding:1em;
             border-radius:20px;
             border:1px solid var(--lila_clar_intens);
+            width:50%;
           "
         >
           <img src="img/sady/per_on_passa_aigua/camio.svg"
@@ -2164,6 +2252,13 @@
         <b>Càlcul orientatiu per a un consum de 2L persona/dia<br></b>
         Dades obtingudes de l'article científic <i>Prole et al. 2026 Expo Sci Environ Epidemiol.</i>
       </div>
+    </div>
+  </div>
+
+  <div v-if="vista_actual=='quina_es_la_petjada_ambiental_2'" fons_normal center>
+    <div style="padding-top:1em"></div>
+    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
+      Quina és la petjada ambiental en un any?
     </div>
 
     <div flex
@@ -2340,11 +2435,36 @@
   </div>
 
   <div v-if="vista_actual=='final'" fons_normal center>
-    <div style="padding-top:20em"></div>
+    <div style="padding-top:10em"></div>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
-      <div>Has arribat al final!</div>
-      <div style="margin:2em"></div>
       <div>Gràcies per participar!</div>
+      <div style="margin:2em"></div>
+      <div>
+        <img src="img/sady/logo.svg"
+          style="
+            margin-top:-6em;
+            width:85vh;
+          "
+        >
+      </div>
+    </div>
+    <div flex 
+      style="
+        margin-top:-6em;
+        justify-content:space-around;
+      "
+    >
+      <div>
+        Amb el suport de
+        <div>
+          logo FCRI
+        </div>
+      </div>
+      <div>
+        <div>
+          logo ICRA
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2586,6 +2706,7 @@
         "comencem",
         "infografia_quina_aigua_bevem",
         "per_on_passa_aigua",
+        "tipus_aigua_embotellada",
         "el_gust",
         "tast_aigues",
         "tast_aigues_2",
@@ -2598,6 +2719,7 @@
         "laigua_segura_i_saludable",
         "quina_es_la_opcio_mes_cara",
         "quina_es_la_petjada_ambiental",
+        "quina_es_la_petjada_ambiental_2",
         "preguntes_finals",
         "final",
       ],
@@ -2726,6 +2848,6 @@
   }).mount("#app");
 
   app.vista_actual="portada";
-  app.vista_actual="preguntes_finals";//debug
+  app.vista_actual="tipus_aigua_embotellada";//debug
   app.index_pagina_actual=0;
 </script>
