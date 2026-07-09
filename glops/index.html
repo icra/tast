@@ -39,6 +39,20 @@
       display:flex;
       align-items:center;
     }
+    [debug]{
+      border:1px solid #ccc;
+      margin:10px 0;
+      padding:10px;
+    }
+
+    /*tots_els_resultats*/
+    #tots_els_resultats [seccio]{
+      background:white;
+      padding:1em;
+      border-radius:20px;
+      border:1px solid var(--blau_clar);
+      box-shadow:2px 2px 10px var(--blau_clar);
+    }
 
     /*el_gust_de_laigua*/
     /*laigua_segura_i_saludable*/
@@ -774,9 +788,9 @@
           top:40vh;
         "
       >
-        <div>
+        <div v-if="debug_mode">
           <button @click="vista_actual='preguntes';index_pagina_actual=pagines.length-1">
-            enrere (debug)
+            enrere (debug mode)
           </button>
         </div>
 
@@ -1696,46 +1710,174 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='tots_els_resultats'" fons_normal center style="font-family:Inter">
+  <div v-if="vista_actual=='tots_els_resultats'" fons_normal center style="font-family:Inter"
+    id=tots_els_resultats
+  >
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       Resultats de tots els participants
     </div>
 
-    <div
+    <div v-if="participacions"
       style="
-        margin-top:2em;
+        margin:2em 3em;
         display:grid;
         grid-template-columns:repeat(2,1fr);
+        grid-gap:2em;
       "
     >
-      <div>
+      <div seccio>
         <div style="font-family:IntroRust;color:var(--dark_azure);font-size:x-large;">
           Distingim bé les aigües?
         </div>
-        <div>
-          n participacions = X
-        </div>
-        <div>
-          gràfic
+
+        <div
+          style="
+            padding:1em;
+            background:var(--blau_clar);
+          "
+        >
+          Nombre de participants anteriors = {{participacions.length}}
         </div>
 
-        <div>
-          x% ha encertat l'aigua de l'aixeta
+        <div debug>
+          gràfic aquí, taula provisional
+          <table border=1
+            v-for="encerts in [get_encerts_participacions_anteriors.encerts]"
+            style="margin:auto"
+          >
+            <tr v-for="[key,val] in Object.entries(encerts)">
+              <th>{{key}} encerts:</th>
+              <td>{{val}} persones</td>
+              <td>
+                ({{(100*val/participacions.length).toFixed(0)}}%)
+              </td>
+            </tr>
+          </table>
+
         </div>
-        <div>
-          y% ha encertat l'aigua de l'aixeta
+
+        <div
+          style="
+            display:grid;
+            grid-template-columns:1fr 1fr 2fr;
+            align-items:center;
+
+            background:var(--light_azure);
+            padding:1em;
+            border-radius:10px;
+            border:1px solid var(--blau_clar);
+            font-size:x-large;
+            margin-bottom:0.5em;
+          "
+        >
+          <div>
+            <img src="img/sady/infografia_quina_aigua_bevem/aixeta.svg" style="height:95px">
+          </div>
+
+          <div
+            v-if="get_encerts_participacions_anteriors"
+            style="
+              color:var(--blau_clar_intens);
+              font-size:xxx-large;
+              font-weight:bold;
+            "
+          >
+            {{
+              get_encerts_participacions_anteriors.tipus_aigua.Aixeta||0
+            }}
+            de
+            {{
+              participacions.length
+            }}
+          </div>
+          <div>
+            han encertat<br>
+            <b style="color:var(--blau_clar_intens)">l'aigua de l'aixeta</b>
+          </div>
+        </div>
+
+        <div flex
+          style="
+            display:grid;
+            grid-template-columns:1fr 1fr 2fr;
+            align-items:center;
+
+            background:var(--lila_clar_palid);
+            padding:1em;
+            border-radius:10px;
+            border:1px solid var(--lila_clar);
+            font-size:x-large;
+          "
+        >
+          <div>
+            <img src="img/sady/infografia_quina_aigua_bevem/ampolla.svg" style="height:95px">
+          </div>
+          <div
+            v-if="get_encerts_participacions_anteriors"
+            style="
+              color:var(--lila_clar_intens);
+              font-size:xxx-large;
+              font-weight:bold;
+            "
+          >
+            {{
+              get_encerts_participacions_anteriors.tipus_aigua.Aixeta||0
+            }}
+            de
+            {{
+              participacions.length
+            }}
+          </div>
+          <div>
+            han encertat<br>
+            <b style="color:var(--lila_clar_intens)">l'aigua embotellada</b>
+          </div>
         </div>
       </div>
 
-      <div>
+      <div seccio>
         <div style="font-family:IntroRust;color:var(--dark_azure);font-size:x-large;">
           Quina aigua ens agrada més?
         </div>
-        <div>
-          gràfic
+
+        <div debug>
+          gràfic aquí, taula provisional
+
+          <table border=1 style="margin:auto"
+            v-for="aigua_agrada in [get_encerts_participacions_anteriors.aigua_agrada]"
+          >
+            <tr v-for="[key,val] in Object.entries(aigua_agrada)">
+              <th>{{key}}:</th>
+              <td>{{val}} persones</th>
+              <td>
+                ({{(100*val/participacions.length).toFixed(0)}}%)
+              </td>
+            </tr>
+          </table>
         </div>
+
         <div>
-          icones aigues
+          <div
+            style="
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              gap:0.5em;
+            "
+          >
+            <div v-for="tipus_aigua in ['aixeta','gerra','osmosi','ampolla']"
+              style="
+                border:1px solid #ccc;
+              "
+            >
+              <div>
+                <img :src="`img/sady/infografia_quina_aigua_bevem/${tipus_aigua}.svg`" style="height:95px">
+              </div>
+              <div>
+                {{tipus_aigua}}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2434,6 +2576,22 @@
     </div>
   </div>
 
+  <div v-if="vista_actual=='enviar_participacio'" fons_normal center>
+    <div style="padding-top:1em"></div>
+    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
+      Enviar resultats
+    </div>
+
+    <div center>
+      <button @click="enviar_participacio()"
+        style="padding:1em 1.618em"
+      >
+        enviar resultats
+      </button>
+    </div>
+
+  </div>
+
   <div v-if="vista_actual=='final'" fons_normal center>
     <div style="padding-top:10em"></div>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
@@ -2448,6 +2606,7 @@
         >
       </div>
     </div>
+
     <div flex 
       style="
         margin-top:-6em;
@@ -2531,21 +2690,25 @@
       <button
         btn_prev_next_page
         @click="pregunta_seguent()"
-        :disabled="false && !tot_contestat(pagina_actual)"
       >
         <img src="img/arrow-right-white.svg">
       </button>
     </div>
   </div>
+
 </div>
 
 <script>
   let app=Vue.createApp({
     data(){return{
+      debug_mode:false,
+
       //vista actual
       vista_actual:"portada",
 
+
       //preguntes
+      usuari_ja_ha_enviat_resultats:false,
       index_pagina_actual:0,
       pagines:[
         {
@@ -2683,7 +2846,6 @@
           ],
         },
       ],
-      municipis:null, //fetch "municipis.json"
       tast:{ //respostes_usuari
         A:null,
         B:null,
@@ -2700,6 +2862,12 @@
         C:"Osmosi",
         D:"Gerra filtrant",
       },
+
+      //llista municipis
+      municipis:null, //fetch "municipis.json"
+
+      //participacions anteriors
+      participacions:null, //fetch "db/get_participacions.php"
 
       //vistes navegació (gotes) ordenades
       vistes:[
@@ -2721,6 +2889,7 @@
         "quina_es_la_petjada_ambiental",
         "quina_es_la_petjada_ambiental_2",
         "preguntes_finals",
+        "enviar_participacio",
         "final",
       ],
 
@@ -2729,6 +2898,43 @@
     }},
 
     methods:{
+      enviar_participacio(){
+        if(this.usuari_ja_ha_enviat_resultats){
+          this.vista_actual="final";
+          alert("Ja has participat!");
+          return false;
+        }
+        this.usuari_ja_ha_enviat_resultats=true;
+
+        //empaqueta json amb les preguntes contestades
+        let preguntes=[];
+        this.pagines.forEach(pag=>{
+          preguntes=[...preguntes,...pag.preguntes];
+        });
+        let payload={
+          preguntes,
+          tast:                     this.tast,
+          tast_thumb:               this.tast_thumb,
+          tast_respostes_correctes: this.tast_respostes_correctes,
+        };
+        let payload_str = JSON.stringify(payload);
+        let body = new FormData();
+        body.append('json',payload_str);
+        fetch(
+          'db/guarda_participacio.php',
+          {method:'POST',body},
+        ).then(r=>
+          r.text()
+        ).then(success=>{
+          console.log(success);
+          alert(success); //"OK"
+        }).catch(err=>{
+          alert(err);
+        });
+
+        this.vista_actual="final";
+      },
+
       pregunta_anterior(){
         if(this.vista_actual=="preguntes"){
           if(this.index_pagina_actual){
@@ -2744,6 +2950,7 @@
           }
         }
       },
+
       pregunta_seguent(){
         if(this.vista_actual=="preguntes"){
           this.index_pagina_actual++;
@@ -2760,9 +2967,6 @@
           }
         }
       },
-      tot_contestat(pagina){
-        return pagina.preguntes.every(p=>(!p.multiple&&p.resposta)||(p.multiple&&p.resposta.size));
-      },
 
       set_text_gust_aigua(nou_valor){
         let actual = this.el_gust_de_laigua_text_visible;
@@ -2772,6 +2976,7 @@
           this.el_gust_de_laigua_text_visible=nou_valor;
         }
       },
+
       set_text_aigua_segura(nou_valor){
         let actual = this.laigua_segura_i_saludable_text_visible;
         if(actual==nou_valor){
@@ -2786,6 +2991,52 @@
       //f(){},
       pagina_actual(){
         return this.pagines[this.index_pagina_actual]||false;
+      },
+
+      get_encerts_participacions_anteriors(){
+        if(!this.participacions) return false;
+
+        let retval={
+          encerts:{},     //respostes correctes => nombre persones
+          tipus_aigua:{}, //tipus aigua => nombre encerts
+          aigua_agrada:{},
+        };
+
+        this.participacions.forEach(par=>{
+          let n_respostes_correctes=0;
+
+          let resp_usr = par.json.tast;//dict
+          let resp_cor = par.json.tast_respostes_correctes;//dict
+          Object.keys(resp_usr).forEach(lletra=>{
+            if(resp_usr[lletra]==resp_cor[lletra]){
+              //suma 1 a respostes correctes
+              n_respostes_correctes++;
+
+              //suma 1 a tipus aigua endevinada
+              let tip = resp_cor[lletra];
+              if(retval.tipus_aigua[tip]==undefined){
+                retval.tipus_aigua[tip]=0;
+              }
+              retval.tipus_aigua[tip]++;
+            }
+          });
+          if(retval.encerts[n_respostes_correctes]==undefined){
+            retval.encerts[n_respostes_correctes]=0;
+          }
+          retval.encerts[n_respostes_correctes]++;
+
+          //suma 1 a l'aigua que més agrada
+          let lletra = par.json.tast_thumb.up;//lletra (ABCD)
+          let aigua  = par.json.tast_respostes_correctes[lletra];//text
+          if(aigua){
+            if(retval.aigua_agrada[aigua]==undefined){
+              retval.aigua_agrada[aigua]=0;
+            }
+            retval.aigua_agrada[aigua]++
+          }
+        });
+
+        return retval;
       },
 
       get_municipis_filtrats(){
@@ -2841,13 +3092,25 @@
     },
 
     async mounted(){
-      let res = await fetch("municipis.json");
-      let arr = await res.json();
-      this.municipis=arr;
+      //get llista municipis
+      {
+        let res = await fetch("municipis.json");
+        let arr = await res.json();
+        this.municipis=arr;
+      }
+
+      //get participacions anteriors
+      {
+        let res = await fetch("db/get_participacions.php");
+        let arr = await res.json();
+        this.participacions=arr;
+      }
     },
   }).mount("#app");
-
   app.vista_actual="portada";
-  //app.vista_actual="tipus_aigua_embotellada";//debug
+
+  //debug mode
+  app.vista_actual="tots_els_resultats";
   app.index_pagina_actual=0;
+  app.debug_mode=true;
 </script>

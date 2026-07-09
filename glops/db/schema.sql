@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS 'participacions' (
+  'id'      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  'created' DATE    DEFAULT CURRENT_TIMESTAMP,
+  'json'    TEXT    NOT NULL
+);

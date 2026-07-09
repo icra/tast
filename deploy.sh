@@ -18,4 +18,5 @@ rsync -hPvr \
   --exclude ".git" \
   --exclude "db/db.sqlite" \
   --exclude "deploy.sh" \
+	--exclude "glops/db/db.sqlite" \
   . root@icra.loading.net:/var/www/vhosts/icradev.cat/tast.icradev.cat
