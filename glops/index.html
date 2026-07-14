@@ -45,6 +45,12 @@
       padding:10px;
     }
 
+    /*tipus_aigua_embotellada*/
+    div[intervencio_humana=true]{
+      color:var(--lila_clar_intens);
+      font-size:larger;
+    }
+
     /*tots_els_resultats*/
     #tots_els_resultats [seccio]{
       background:white;
@@ -370,6 +376,7 @@
       border-color:var(--verd_clar_intens);
     }
     div[opcio]:hover,
+    div[opcio_seleccionada="1"],
     div[opcio_seleccionada=true]{
       background:var(--blau_clar);
       border-color:var(--blau_clar_intens);
@@ -1248,105 +1255,98 @@
     <div pregunta_text center style="font-size:xxx-large">
       Tipus d'aigua embotellada
     </div>
-    <table border=1
+
+    <div
       style="
+        width:65%;
         margin:auto;
-        width:70%;
+        margin-top:2em;
+
+        display:grid;
+        grid-template-columns:1fr 1fr 1fr 1fr;
+        gap:1em;
       "
     >
-      <tr>
-        <td></td>
-        <th>
-          Aigües minerals naturals (AMN)
-        </th>
-        <th>
-          Aigües de manantials (AM)
-        </th>
-        <th>
-          Aigües potables preparades (APP)
-        </th>
-      </tr>
-      <tr>
-        <th>
-          Origen
-        </th>
-        <td>
-          Aqüífer subterrani profund i protegit
-        </td>
-        <td>
-          Aqüífer subterrani
-        </td>
-        <td>
-          Qualsevol origen
-        </td>
-      </tr>
-      <tr>
-        <th>
-          Composició mineral
-        </th>
-        <td>
-          Estable i característica
-        </td>
-        <td>
-          Natural però variable
-        </td>
-        <td>
-          Sense composició pròpia i pot ser modificada
-        </td>
-      </tr>
-      <tr>
-        <th>
-          Tractaments
-        </th>
-        <td>
-          Molt limitats
-        </td>
-        <td>
-          Limitats
-        </td>
-        <td>
-          Potabilització, filtració, osmosis, UV, ozó, clor, etc.
-        </td>
-      </tr>
-      <tr>
-        <th>
-          Consum a Espanya
-        </th>
-        <td>
-          96%
-        </td>
-        <td>
-          1-3%
-        </td>
-        <td>
-          &lt;4%
-        </td>
-      </tr>
-      <tr>
-        <th>
-          Intervenció humana
-        </th>
-        <td>
-          baixa
-        </td>
-        <td>
-          mitjana
-        </td>
-        <td>
-          alta
-        </td>
-      </tr>
-      <tr>
-        <td colspan=99>
-          <code>
-            <small>
-              Fonts: AESAN: Agència Espanyola de Seguretat Alimentària i
-              Nutrició: Aigua Embotellada a Espanya 2023
-            </small>
-          </code>
-        </td>
-      </tr>
-    </table>
+      <!--noms camps aigua embotellada-->
+      <div>
+        <div style="height:90px"></div>
+        <div
+          style="
+            padding:1em;
+            height:50px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:bold;
+          "
+          v-for="th,i in [
+            'Origen',
+            'Composició Mineral',
+            'Tractaments',
+            'Consum a Espanya',
+            'Intervenció humana',
+          ]"
+        >
+          <div :intervencio_humana="i==4">
+            {{th}}
+          </div>
+        </div>
+      </div>
+
+      <!--valors aigua embotellada-->
+      <div v-for="tab in tipus_aigua_embotellada">
+        <div
+          style="
+            background:white;
+            font-family:Inter;
+            border-radius:20px;
+            box-shadow:1px 1px 10px var(--lila_clar);
+          "
+        >
+          <div
+            style="
+              background:var(--lila_clar_intens);
+              color:white;
+              border-radius:20px;
+              font-family:IntroRust;
+
+              display:flex;
+              align-items:center;
+              justify-content:center;
+
+              height:90px;
+            "
+            v-html="tab.nom"
+          ></div>
+          <div v-for="field in ['origen','compo','tractaments','consum','intervencio']"
+            style="
+              padding:1em;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+
+              height:50px;
+            "
+          >
+            <div v-if="field=='intervencio'">
+              <b v-html="tab[field]"></b>
+            </div>
+            <div v-else>
+              <div v-html="tab[field]"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      <code>
+        <i>
+          Fonts: AESAN: Agència Espanyola de Seguretat Alimentària i
+          Nutrició: Aigua Embotellada a Espanya 2023
+        </i>
+      </code>
+    </p>
   </div>
 
   <!--eliminada-->
@@ -1740,7 +1740,7 @@
         </div>
 
         <div debug>
-          gràfic aquí, taula provisional
+          (taula provisional)
           <table border=1
             v-for="encerts in [get_encerts_participacions_anteriors.encerts]"
             style="margin:auto"
@@ -1841,7 +1841,7 @@
         </div>
 
         <div debug>
-          gràfic aquí, taula provisional
+          (taula provisional)
 
           <table border=1 style="margin:auto"
             v-for="aigua_agrada in [get_encerts_participacions_anteriors.aigua_agrada]"
@@ -2476,7 +2476,7 @@
 
     <p>
       Aquestes són les respostes que has donat abans del tast.<br>
-      Ara pots respondre diferent si la teva opinió ha canviat.
+      Aquí pots respondre diferent si la teva opinió ha canviat.
     </p>
 
     <div flex style="justify-content:center">
@@ -2576,20 +2576,93 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='enviar_participacio'" fons_normal center>
+  <div v-if="vista_actual=='preguntes_rapides_per_acabar'" fons_normal center>
     <div style="padding-top:1em"></div>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
-      Enviar resultats
+      Unes preguntes ràpides per acabar
+    </div>
+
+    <div
+      style="
+        color:var(--blau_clar_intens);
+        font-size:x-large;
+        font-family:IntroRust;
+        margin-top:2em;
+      "
+    >
+      Et planteges canviar algun hàbit de consum?
+    </div>
+
+    <div
+      style="
+        display:grid;
+        grid-template-columns:repeat(5, 1fr);
+        width:70%;
+        margin:auto;
+        margin-top:2em;
+      "
+    >
+      <div opcio center
+        style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        "
+        :opcio_seleccionada="preguntes_rapides_per_acabar[text]"
+        v-for="text in Object.keys(preguntes_rapides_per_acabar)"
+        @click="
+          respondre_a_pregunes_rapides_per_acabar(text);
+        "
+      >
+        <div>{{text}}</div>
+      </div>
+    </div>
+
+    <div
+      style="
+        color:var(--blau_clar_intens);
+        font-size:x-large;
+        font-family:IntroRust;
+        margin-top:2em;
+      "
+    >
+      <div>Explica'ns què penses de l'activitat (opcional)</div>
+      <div>
+        <textarea v-model="explicans_que_en_penses_opcional"
+          style="
+            width:70%;
+            height:100px;
+            background:#f8f8f8;
+            border-radius:10px;
+            padding:1em;
+            border:1px solid var(--blau_clar_intens);
+          "
+          placeholder="Escriu aquí"
+        ></textarea>
+      </div>
     </div>
 
     <div center>
       <button @click="enviar_participacio()"
-        style="padding:1em 1.618em"
+        style="
+          background:var(--blau_clar_intens);
+          border:8px solid white;
+          border-radius:60px;
+          color:white;
+          font-size:xx-large;
+          font-weight:bold;
+          padding:0.618em;
+          box-shadow:1px 1px 5px #ccc;
+          display:flex;
+          align-items:center;
+          cursor:pointer;
+          margin:auto;
+        "
       >
-        enviar resultats
+        FINALITZAR
+        <small>&nbsp;(enviar resultats)</small>
       </button>
     </div>
-
   </div>
 
   <div v-if="vista_actual=='final'" fons_normal center>
@@ -2705,7 +2778,6 @@
 
       //vista actual
       vista_actual:"portada",
-
 
       //preguntes
       usuari_ja_ha_enviat_resultats:false,
@@ -2862,6 +2934,16 @@
         C:"Osmosi",
         D:"Gerra filtrant",
       },
+      preguntes_rapides_per_acabar:{
+        "No":false, //no canviar aquest text ja que hi ha codi que en depen
+        "Sí, reduir el consum d'aigua embotellada":false,
+        "Sí, començar a usar gerra filtrant":false,
+        "Sí, començar a usar osmosi inversa":false,
+        "Sí, començar a beure aigua de l'aixeta":false,
+        "Sí, començar a usar ampolles reutilitzables":false,
+        "Sí, altres":false,
+      },
+      explicans_que_en_penses_opcional:"",
 
       //llista municipis
       municipis:null, //fetch "municipis.json"
@@ -2889,12 +2971,37 @@
         "quina_es_la_petjada_ambiental",
         "quina_es_la_petjada_ambiental_2",
         "preguntes_finals",
-        "enviar_participacio",
+        "preguntes_rapides_per_acabar",
         "final",
       ],
 
       el_gust_de_laigua_text_visible:null,
       laigua_segura_i_saludable_text_visible:null,
+
+      tipus_aigua_embotellada:[
+        {
+          nom:'AIGÜES MINERALS<br> NATURALS (AMN)',
+          origen:"Aqüífer subterrani profund i protegit",
+          compo:"Estable i característica",
+          tractaments:"Molt limitats",
+          consum:"96%",
+          intervencio:"Baixa",
+        },{
+          nom:'AIGÜES DE<br> MANANTIAL (AM)',
+          origen:"Aqüífer subterrani",
+          compo:"Natural però variable",
+          tractaments:"Limitats",
+          consum:"1-3%",
+          intervencio:"Mitjana",
+        },{
+          nom:'AIGÜES POTABLES<br> PREPARADES (APP)',
+          origen:"Qualsevol origen",
+          compo:"Sense composició pròpia i pot ser modificada",
+          tractaments:"Potabilització, filtració, osmosis, UV, ozó, clor...",
+          consum:"&lt;4%",
+          intervencio:"Alta",
+        },
+      ],
     }},
 
     methods:{
@@ -2916,6 +3023,8 @@
           tast:                     this.tast,
           tast_thumb:               this.tast_thumb,
           tast_respostes_correctes: this.tast_respostes_correctes,
+          preguntes_rapides_per_acabar: this.preguntes_rapides_per_acabar,
+          explicans_que_en_penses_opcional: this.explicans_que_en_penses_opcional,
         };
         let payload_str = JSON.stringify(payload);
         let body = new FormData();
@@ -2983,6 +3092,26 @@
           this.laigua_segura_i_saludable_text_visible=null;
         }else{
           this.laigua_segura_i_saludable_text_visible=nou_valor;
+        }
+      },
+
+      respondre_a_pregunes_rapides_per_acabar(text){
+        let prs=this.preguntes_rapides_per_acabar;
+
+        //toggle
+        prs[text]^=1;
+
+        let nou_valor=prs[text];
+
+        if(nou_valor){
+          if(text=="No"){
+            Object.keys(prs).forEach(key=>{
+              prs[key]=false;
+            });
+            prs.No=true;
+          }else{
+            prs.No=false;
+          }
         }
       },
     },
@@ -3110,7 +3239,7 @@
   app.vista_actual="portada";
 
   //debug mode
-  //app.vista_actual="tots_els_resultats";
+  //app.vista_actual="preguntes_rapides_per_acabar";
   //app.index_pagina_actual=0;
   //app.debug_mode=1;
 </script>
