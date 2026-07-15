@@ -181,7 +181,7 @@
     /*per_on_passa_aigua*/
     img[img_200px]{
       display:block;
-      width:150px;
+      width:120px;
       margin:auto;
       margin-bottom:20px;
     }
@@ -207,7 +207,7 @@
       box-shadow:5px 5px 10px var(--lila_clar);
     }
     #per_on_passa_aigua img[fletxa]{
-      width:50px;
+      width:35px;
       display:block;
       margin-top:4em;
     }
@@ -514,7 +514,7 @@
       </button>
 
       <!--boto pantalla completa-->
-      <div style="margin-top:1em">
+      <div style="margin-top:1em" v-if="debug_mode">
         <button
           onclick="toggle_pantalla_completa()"
           style="padding:0.5em 2em"
@@ -1173,12 +1173,12 @@
           <td><img src="img/arrow-right-blau-clar.svg" fletxa></td>
 
           <td>
-            <div 
+            <div
               style="
                 background:var(--blau_clar_intens);
                 color:white;
                 border-radius:30px;
-                padding:1em;
+                padding:3px;
                 box-shadow:5px 5px 10px #ccc;
               "
             >
@@ -1186,7 +1186,7 @@
                 style="
                   background:white;
                   color:var(--blau_clar_intens);
-                  border-radius:30px;
+                  border-radius:27px;
 
                   display:flex;
                   justify-content:center;
@@ -1239,8 +1239,7 @@
                 background:var(--lila_clar_intens);
                 color:white;
                 border-radius:30px;
-                padding:1em;
-
+                padding:3px;
                 box-shadow:5px 5px 10px #ccc;
               "
             >
@@ -1248,7 +1247,7 @@
                 style="
                   background:white;
                   color:var(--lila_clar_intens);
-                  border-radius:30px;
+                  border-radius:27px;
 
                   display:flex;
                   justify-content:center;
@@ -3275,7 +3274,7 @@
   app.vista_actual="portada";
 
   //debug mode
-  //app.vista_actual="per_on_passa_aigua";
+  app.vista_actual="per_on_passa_aigua";
   //app.index_pagina_actual=0;
   app.debug_mode=1;
 </script>
