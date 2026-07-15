@@ -3098,7 +3098,10 @@
           if(this.index_pagina_actual>=this.pagines.length){
             this.vista_actual=this.vistes[0];
           }
-        }else{
+        }else if(this.vista_actual=="final"){
+          window.location.reload();
+        }
+        else{
           //index vista actual
           let index = this.vistes.indexOf(this.vista_actual);
 
