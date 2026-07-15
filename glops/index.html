@@ -798,6 +798,7 @@
     </div>
   </div>
 
+  <!--eliminat-->
   <div v-if="vista_actual=='comencem'" center>
     <div
       style="
@@ -815,12 +816,6 @@
           top:40vh;
         "
       >
-        <div v-if="debug_mode">
-          <button @click="vista_actual='preguntes';index_pagina_actual=pagines.length-1">
-            enrere (debug mode)
-          </button>
-        </div>
-
         <button
           @click="vista_actual='infografia_quina_aigua_bevem'"
           boto_comencem
@@ -845,7 +840,7 @@
   </div>
 
   <!--infografia quina aigua bevem-->
-  <div v-if="vista_actual=='infografia_quina_aigua_bevem'" fons_normal id="infografia_quina_aigua_bevem">
+  <div v-show="vista_actual=='infografia_quina_aigua_bevem'" fons_normal id="infografia_quina_aigua_bevem">
     <div>
       <div pregunta_text center
         style="
@@ -1120,7 +1115,7 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='per_on_passa_aigua'" center id=per_on_passa_aigua fons_normal>
+  <div v-show="vista_actual=='per_on_passa_aigua'" center id=per_on_passa_aigua fons_normal>
     <div>
       <div pregunta_text center style="font-size:xxx-large">
         Per on passa l'aigua abans d'arribar a casa?
@@ -1367,7 +1362,7 @@
   </div>
 
   <!--eliminada-->
-  <div v-if="vista_actual=='com_escollim_aigua'" center fons_normal>
+  <div v-show="vista_actual=='com_escollim_aigua'" center fons_normal>
     <div>
       <div
         style="
@@ -1429,7 +1424,7 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='el_gust'" center fons_normal id=el_gust>
+  <div v-show="vista_actual=='el_gust'" center fons_normal id=el_gust>
     <div style="padding-top:2em"></div>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       Com escollim l'aigua que bevem?
@@ -1526,7 +1521,7 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='tast_aigues'" fons_normal center style="font-family:Inter" id=tast_aigues>
+  <div v-show="vista_actual=='tast_aigues'" fons_normal center style="font-family:Inter" id=tast_aigues>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       tast d'aigües
     </div>
@@ -1594,7 +1589,7 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='tast_aigues_2'" fons_normal center style="font-family:Inter">
+  <div v-show="vista_actual=='tast_aigues_2'" fons_normal center style="font-family:Inter">
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       tast d'aigües
     </div>
@@ -1955,7 +1950,7 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='el_gust_de_laigua'" fons_normal>
+  <div v-show="vista_actual=='el_gust_de_laigua'" fons_normal>
     <div style="padding-top:4em">
       <table border=0 style="margin:auto;width:70%;">
         <tr>
@@ -2109,7 +2104,7 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='laigua_segura_i_saludable'" fons_normal>
+  <div v-show="vista_actual=='laigua_segura_i_saludable'" fons_normal>
     <div style="padding-top:4em">
       <table border=0 style="margin:auto;width:70%">
         <tr>
@@ -2288,7 +2283,7 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='quina_es_la_opcio_mes_cara'" fons_normal center>
+  <div v-show="vista_actual=='quina_es_la_opcio_mes_cara'" fons_normal center>
     <div style="padding-top:1em"></div>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       Quina és l'opció més cara?
@@ -2352,7 +2347,7 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='quina_es_la_petjada_ambiental'" fons_normal center>
+  <div v-show="vista_actual=='quina_es_la_petjada_ambiental'" fons_normal center>
     <div style="padding-top:1em"></div>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       Quina és la petjada ambiental en un any?
@@ -2414,7 +2409,7 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='quina_es_la_petjada_ambiental_2'" fons_normal center>
+  <div v-show="vista_actual=='quina_es_la_petjada_ambiental_2'" fons_normal center>
     <div style="padding-top:1em"></div>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       Quina és la petjada ambiental en un any?
@@ -2593,7 +2588,7 @@
     </div>
   </div>
 
-  <div v-if="vista_actual=='preguntes_rapides_per_acabar'" fons_normal center>
+  <div v-show="vista_actual=='preguntes_rapides_per_acabar'" fons_normal center>
     <div style="padding-top:1em"></div>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       Unes preguntes ràpides per acabar
@@ -2725,8 +2720,7 @@
   <div
     v-if="(vista_actual=='preguntes'&&pagina_actual)||
       (
-        vistes.includes(vista_actual)&&
-        vista_actual!='comencem'
+        vistes.includes(vista_actual)
       )
     "
     style="
@@ -2766,16 +2760,20 @@
             center
             style="
               width:50px;
-              font-size:30px;
+              font-size:xxx-large;
               margin:auto;
             "
           >
-            <div center
+            <div
               :style="{
                 color:get_gotes_navegacio.gota_actual+1==g?'#00b7f1':'#d9d9d9',
               }"
             >
-              &#127778;<!--emoji gota-->
+              &bull;
+              <!--
+              <div v-if="get_gotes_navegacio.gota_actual+1==g">&bull;</div>
+              <div v-else>&bull;</div>
+              -->
             </div>
           </div>
         </div>
@@ -2987,7 +2985,7 @@
 
       //vistes navegació (gotes) ordenades
       vistes:[
-        "comencem",
+        //"comencem",
         "infografia_quina_aigua_bevem",
         "per_on_passa_aigua",
         "tipus_aigua_embotellada",
@@ -3094,6 +3092,11 @@
           let index = this.vistes.indexOf(this.vista_actual);
           if(index){
             this.vista_actual = this.vistes[index-1];
+          }else{
+            if(index==0){
+              this.vista_actual="preguntes";
+              this.index_pagina_actual=this.pagines.length-1;
+            }
           }
         }
       },
@@ -3102,12 +3105,13 @@
         if(this.vista_actual=="preguntes"){
           this.index_pagina_actual++;
           if(this.index_pagina_actual>=this.pagines.length){
-            this.vista_actual="comencem";
+            this.vista_actual=this.vistes[0];
           }
         }else{
           //index vista actual
           let index = this.vistes.indexOf(this.vista_actual);
-          if(index && index!=this.vistes.length-1){
+
+          if(index>=0 && index!=this.vistes.length-1){
             this.vista_actual = this.vistes[index+1];
           }else{
             this.vista_actual="portada";
