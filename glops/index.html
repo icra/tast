@@ -2666,7 +2666,7 @@
   </div>
 
   <div v-if="vista_actual=='final'" fons_normal center>
-    <div style="padding-top:10em"></div>
+    <div style="padding-top:5em"></div>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       <div>Gràcies per participar!</div>
       <div style="margin:2em"></div>
@@ -2682,19 +2682,19 @@
 
     <div flex 
       style="
-        margin-top:-6em;
+        margin-top:-15em;
         justify-content:space-around;
       "
     >
       <div>
         Amb el suport de
         <div>
-          logo FCRI
+          <img src="img/logos/fcri.png" style="width:300px">
         </div>
       </div>
       <div>
         <div>
-          logo ICRA
+          <img src="img/logos/icra.svg" style="width:300px">
         </div>
       </div>
     </div>
@@ -2768,7 +2768,6 @@
       </button>
     </div>
   </div>
-
 </div>
 
 <script>
@@ -3221,15 +3220,13 @@
     },
 
     async mounted(){
-      //get llista municipis
-      {
+      {//get llista municipis
         let res = await fetch("municipis.json");
         let arr = await res.json();
         this.municipis=arr;
       }
 
-      //get participacions anteriors
-      {
+      {//get participacions anteriors
         let res = await fetch("db/get_participacions.php");
         let arr = await res.json();
         this.participacions=arr;
@@ -3239,7 +3236,7 @@
   app.vista_actual="portada";
 
   //debug mode
-  //app.vista_actual="preguntes_rapides_per_acabar";
+  //app.vista_actual="final";
   //app.index_pagina_actual=0;
   //app.debug_mode=1;
 </script>
