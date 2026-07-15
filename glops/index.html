@@ -507,6 +507,16 @@
           </div>
         </div>
       </button>
+
+      <!--boto pantalla completa-->
+      <div style="margin-top:1em">
+        <button
+          onclick="toggle_pantalla_completa()"
+          style="padding:0.5em 2em"
+        >
+          activar pantalla completa
+        </button>
+      </div>
     </div>
   </div>
 
@@ -2769,6 +2779,19 @@
     </div>
   </div>
 </div>
+
+<script>
+  function toggle_pantalla_completa(){
+    let el = document.body;
+    if(!(document.webkitCurrentFullScreenElement||document.fullScreenElement)){
+      if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();return;
+      if(el.requestFullscreen      ) el.requestFullscreen();return;
+    }else{
+      if(document.webkitExitFullscreen) document.webkitExitFullscreen();return;
+      if(document.exitFullscreen)       document.exitFullscreen();return;
+    }
+  }
+</script>
 
 <script>
   let app=Vue.createApp({
