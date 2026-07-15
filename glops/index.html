@@ -650,7 +650,7 @@
             </div>
 
             <div v-if="pregunta.opcions">
-              <div v-show="pregunta.id=='quina_aigua_beus_a_casa'">
+              <div v-if="pregunta.id=='quina_aigua_beus_a_casa'">
                 <div
                   style="
                     display:grid;
@@ -844,7 +844,7 @@
   </div>
 
   <!--infografia quina aigua bevem-->
-  <div v-show="vista_actual=='infografia_quina_aigua_bevem'" fons_normal id="infografia_quina_aigua_bevem">
+  <div v-if="vista_actual=='infografia_quina_aigua_bevem'" fons_normal id="infografia_quina_aigua_bevem">
     <div>
       <div pregunta_text center
         style="
@@ -1119,7 +1119,7 @@
     </div>
   </div>
 
-  <div v-show="vista_actual=='per_on_passa_aigua'" center id=per_on_passa_aigua fons_normal>
+  <div v-if="vista_actual=='per_on_passa_aigua'" center id=per_on_passa_aigua fons_normal>
     <div>
       <div pregunta_text center style="font-size:xxx-large">
         Per on passa l'aigua abans d'arribar a casa?
@@ -1268,7 +1268,7 @@
     </div>
   </div>
 
-  <div v-show="vista_actual=='tipus_aigua_embotellada'" center fons_normal>
+  <div v-if="vista_actual=='tipus_aigua_embotellada'" center fons_normal>
     <div pregunta_text center style="font-size:xxx-large">
       Tipus d'aigua embotellada
     </div>
@@ -1526,7 +1526,7 @@
     </div>
   </div>
 
-  <div v-show="vista_actual=='tast_aigues'" fons_normal center style="font-family:Inter" id=tast_aigues>
+  <div v-if="vista_actual=='tast_aigues'" fons_normal center style="font-family:Inter" id=tast_aigues>
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       tast d'aigües
     </div>
