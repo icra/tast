@@ -514,7 +514,7 @@
       </button>
 
       <!--boto pantalla completa-->
-      <div style="margin-top:1em" v-if="debug_mode">
+      <div style="margin-top:1em" v-if="1">
         <button
           onclick="toggle_pantalla_completa()"
           style="padding:0.5em 2em"
@@ -782,6 +782,7 @@
                     <button @click="pregunta.resposta_municipi=''" :disabled="!pregunta.resposta_municipi"
                       style="
                         font-size:x-large;
+                        padding:1em;
                       "
                     >X</button>
                     <datalist id=municipis>
@@ -3274,7 +3275,7 @@
   app.vista_actual="portada";
 
   //debug mode
-  app.vista_actual="per_on_passa_aigua";
+  //app.vista_actual="per_on_passa_aigua";
   //app.index_pagina_actual=0;
-  app.debug_mode=1;
+  //app.debug_mode=1;
 </script>
