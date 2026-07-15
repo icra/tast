@@ -775,10 +775,14 @@
                       style="
                         font-size:x-large;
                         width:400px;
+                        padding:1em;
+                        border-radius:10px;
                       "
                     >
                     <button @click="pregunta.resposta_municipi=''" :disabled="!pregunta.resposta_municipi"
-                      style="font-size:x-large"
+                      style="
+                        font-size:x-large;
+                      "
                     >X</button>
                     <datalist id=municipis>
                       <option v-for="mun in get_municipis_filtrats">{{mun}}</option>
@@ -3271,7 +3275,7 @@
   app.vista_actual="portada";
 
   //debug mode
-  app.vista_actual="per_on_passa_aigua";
+  //app.vista_actual="per_on_passa_aigua";
   //app.index_pagina_actual=0;
   app.debug_mode=1;
 </script>
