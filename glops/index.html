@@ -188,13 +188,13 @@
     #per_on_passa_aigua table td{
       padding:0;
       font-weight:bold;
+      vertical-align:top;
     }
     #per_on_passa_aigua [card]{
       background:white;
       border-radius:20px;
       padding:1em 0.618em;
       width:200px;
-      height:300px;
       margin:auto;
       margin-bottom:20px;
     }
@@ -205,6 +205,11 @@
     #per_on_passa_aigua [card_lila]{
       border:1px solid        var(--lila_clar);
       box-shadow:5px 5px 10px var(--lila_clar);
+    }
+    #per_on_passa_aigua img[fletxa]{
+      width:50px;
+      display:block;
+      margin-top:4em;
     }
 
     #normalment_ens_fixem_en img{
@@ -1116,7 +1121,7 @@
         Per on passa l'aigua abans d'arribar a casa?
       </div>
 
-      <table style="width:90%;margin:auto;margin-top:20px;font-family:Inter">
+      <table style="width:70%;margin:auto;margin-top:20px;font-family:Inter">
         <tr style="font-size:larger;font-weight:bold">
           <td>Origen</td>
           <td></td>
@@ -1135,7 +1140,7 @@
               Embassaments,<br> rius i aqüífers, i en<br> alguns casos el mar (dessalinització)
             </div>
           </td>
-          <td><img src="img/arrow-right-blau-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+          <td><img src="img/arrow-right-blau-clar.svg" fletxa></td>
 
           <td>
             <div card card_blava>
@@ -1144,7 +1149,7 @@
               filtració,<br> desinfecció, etc.
             </div>
           </td>
-          <td><img src="img/arrow-right-blau-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+          <td><img src="img/arrow-right-blau-clar.svg" fletxa></td>
 
           <td>
             <div card card_blava>
@@ -1153,7 +1158,7 @@
               i als sistemes<br> de distribució
             </div>
           </td>
-          <td><img src="img/arrow-right-blau-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+          <td><img src="img/arrow-right-blau-clar.svg" fletxa></td>
 
           <td>
             <div card card_blava>
@@ -1161,7 +1166,7 @@
               Xarxa pública<br> d'abastament
             </div>
           </td>
-          <td><img src="img/arrow-right-blau-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+          <td><img src="img/arrow-right-blau-clar.svg" fletxa></td>
 
           <td>
             <div 
@@ -1186,9 +1191,9 @@
                 "
               >
                 <img src="img/sady/per_on_passa_aigua/aigua-aixeta.svg" img_200px style="margin:0">
-                <B style="font-size:x-large">AIGUA DE<br> L'AIXETA</B>
+                <b style="font-size:x-large">AIGUA DE<br> L'AIXETA</b>
               </div>
-              <div style="font-size:x-large;padding:1em">
+              <div style="font-size:larger;padding:1em">
                 Aigua d'origens<br> diversos tractada<br> i controlada
               </div>
             </div>
@@ -1202,28 +1207,28 @@
               Aqüífers i manantials
             </div>
           </td>
-          <td><img src="img/arrow-right-lila-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+          <td><img src="img/arrow-right-lila-clar.svg" fletxa></td>
 
           <td>
             <div card card_lila>
               <img src="img/sady/per_on_passa_aigua/envasat.svg" img_200px> Envasat
             </div>
           </td>
-          <td><img src="img/arrow-right-lila-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+          <td><img src="img/arrow-right-lila-clar.svg" fletxa></td>
 
           <td>
             <div card card_lila>
               <img src="img/sady/per_on_passa_aigua/control.svg" img_200px> Control de qualitat
             </div>
           </td>
-          <td><img src="img/arrow-right-lila-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+          <td><img src="img/arrow-right-lila-clar.svg" fletxa></td>
 
           <td>
             <div card card_lila>
               <img src="img/sady/per_on_passa_aigua/camio.svg" img_200px> Transport i distribució
             </div>
           </td>
-          <td><img src="img/arrow-right-lila-clar.svg" style="width:50px;position:relative;top:-100px"></td>
+          <td><img src="img/arrow-right-lila-clar.svg" fletxa></td>
 
           <td>
             <div 
@@ -1251,7 +1256,7 @@
                 <img src="img/sady/per_on_passa_aigua/aigua-embotellada.svg" img_200px style="margin:0">
                 <B style="font-size:x-large">AIGUA<br> EMBOTELLADA</B>
               </div>
-              <div style="font-size:x-large;padding:1em">
+              <div style="font-size:larger;padding:1em">
                 Aigua d'origens<br> diversos tractada<br> i controlada
               </div>
             </div>
@@ -2677,6 +2682,10 @@
 
   <div v-if="vista_actual=='final'" fons_normal center>
     <div style="padding-top:5em"></div>
+    <p style="font-family:Inter;font-size:x-large">
+      {{missatge_participar}}
+    </p>
+
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       <div>Gràcies per participar!</div>
       <div style="margin:2em"></div>
@@ -2800,6 +2809,7 @@
 
       //vista actual
       vista_actual:"portada",
+      missatge_participar:"",
 
       //preguntes
       usuari_ja_ha_enviat_resultats:false,
@@ -3030,7 +3040,9 @@
       enviar_participacio(){
         if(this.usuari_ja_ha_enviat_resultats){
           this.vista_actual="final";
-          alert("Ja has participat!");
+
+          this.missatge_participar="La teva participació s'ha registrat correctament!";
+
           return false;
         }
         this.usuari_ja_ha_enviat_resultats=true;
@@ -3058,7 +3070,9 @@
           r.text()
         ).then(success=>{
           console.log(success);
-          alert(success); //"OK"
+
+          this.missatge_participar = success;
+
         }).catch(err=>{
           alert(err);
         });
@@ -3259,7 +3273,7 @@
   app.vista_actual="portada";
 
   //debug mode
-  //app.vista_actual="final";
+  app.vista_actual="per_on_passa_aigua";
   //app.index_pagina_actual=0;
-  //app.debug_mode=1;
+  app.debug_mode=1;
 </script>
