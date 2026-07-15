@@ -1763,6 +1763,7 @@
     </div>
 
     <div
+      v-if="participacions"
       style="
         padding:1em;
         background:var(--blau_clar);
@@ -1771,7 +1772,6 @@
         margin:auto;
         margin-top:1em;
       "
-      v-if="participacions"
     >
       Nombre de participants anteriors = {{participacions.length}}
     </div>
@@ -1789,7 +1789,7 @@
           Distingim bé les aigües?
         </div>
 
-
+        <!--grafic encerts-->
         <div flex>
           <div>
             <canvas id=grafic_encerts></canvas>
@@ -1819,6 +1819,7 @@
           </table>
         </div>
 
+        <!--nombre encertants aixeta-->
         <div
           style="
             display:grid;
@@ -1859,6 +1860,7 @@
           </div>
         </div>
 
+        <!--nombre encertants embotellada-->
         <div flex
           style="
             display:grid;
@@ -1884,7 +1886,7 @@
             "
           >
             {{
-              get_encerts_participacions_anteriors.tipus_aigua.Aixeta||0
+              get_encerts_participacions_anteriors.tipus_aigua.Embotellada||0
             }}
             de
             {{
