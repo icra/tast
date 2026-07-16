@@ -87,7 +87,6 @@
       cursor:pointer;
       font-size:larger;
 
-      width:360px;
       margin:5px;
     }
     [cantonada_clicable][seleccionada=true]{
@@ -103,9 +102,8 @@
       margin:auto;
       width:70%;
       cursor:pointer;
-
       padding:1em 1.618em;
-
+      font-size:larger;
     }
     [text_visible] b{
       color:var(--dark_azure);
@@ -277,7 +275,7 @@
       border-radius:20px;
       border:2px solid transparent;
       text-align:center;
-      padding:0.5em 2em;
+      padding:1em 4em;
       box-shadow:2px 2px 5px #ccc;
       margin:5px 10px;
     }
@@ -488,7 +486,11 @@
       </div>
 
       <button
-        @click="vista_actual='preguntes';index_pagina_actual=0"
+        @click="
+          vista_actual='preguntes';
+          index_pagina_actual=0;
+          activa_pantalla_completa();
+        "
         boto_portada
       >
         <div
@@ -551,7 +553,7 @@
     <div style="padding:0 5em">
       <div v-if="pagina_actual.tipus=='12345'">
         <div center style="font-family:Inter;font-size:larger;margin-bottom:2em">
-          <b>Valora de l'1 al 5 segons el teu grau d'acord</b>
+          <b>Valora de l'1 al 5</b>
         </div>
 
         <table
@@ -585,7 +587,7 @@
                   <img :src="pregunta.src" style="width:150px">
                 </div>
               </td>
-              <td>
+              <td left>
                 <div v-html="pregunta.text" style="font-family:Inter"></div>
               </td>
               <td v-for="i in 5">
@@ -799,7 +801,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -1451,11 +1452,11 @@
       style="
         display:flex;
         justify-content:center;
+        align-items:center;
       "
     >
-      <div card style="margin-right:3em">
+      <div style="margin-right:3em">
         <img src="img/sady/gota_llengua.svg" style="width:300px">
-        <div>EL GUST</div>
       </div>
 
       <div style="margin-top:2em">
@@ -1465,16 +1466,14 @@
         <div>
           <div
             style="
-              background:var(--vivid_azure);
               width:3em;
               padding:10px;
-              border-radius:50%;
               margin:auto;
               margin-bottom:10px;
               transform:rotate(90deg);
             "
           >
-            <img src="img/arrow-right-white.svg"
+            <img src="img/arrow-right-blau-clar.svg"
               style="
                 width:3em;
                 display:block;
@@ -1489,58 +1488,22 @@
           pel<br> seu gust?
         </div>
 
-        <div v-if="false">
-          <div>
-            <div
-              style="
-                background:var(--vivid_azure);
-                width:3em;
-                padding:10px;
-                border-radius:50%;
-                margin:auto;
-                margin-bottom:10px;
-                transform:rotate(90deg);
-              "
-            >
-              <img src="img/arrow-right-white.svg" style="width:3em;display:block">
-            </div>
+        <div>
+          <div
+            style="
+              width:3em;
+              padding:10px;
+              margin:auto;
+              margin-bottom:10px;
+              transform:rotate(90deg);
+            "
+          >
+            <img src="img/arrow-right-blau-clar.svg" style="width:3em;display:block">
           </div>
-          <div>
-            <button
-              style="
-                background:var(--blau_clar_intens);
-                border:8px solid white;
-                border-radius:60px;
-                color:white;
-                font-size:xx-large;
-                font-weight:bold;
-                padding:0.618em;
-                box-shadow:1px 1px 5px #ccc;
+        </div>
 
-                display:flex;
-                align-items:center;
-
-                cursor:pointer;
-              "
-              @click="vista_actual='tast_aigues'"
-            >
-              <div>
-                COMENCEM EL TAST D'AIGÜES
-              </div>
-
-              <!--fletxa blava-->
-              <div
-                style="
-                  background:white;
-                  border-radius:50%;
-                  padding:10px;
-                  margin-left:10px;
-                "
-              >
-                <img src="img/arrow-right-blau-clar.svg" style="width:1.5em;display:block">
-              </div>
-            </button>
-          </div>
+        <div card_text>
+          COMENCEM EL TAST D'AIGÜES!
         </div>
       </div>
     </div>
@@ -1771,6 +1734,7 @@
         border-radius:10px;
         margin:auto;
         margin-top:1em;
+        font-size:x-large;
       "
     >
       Nombre de participants anteriors = {{participacions.length}}
@@ -1913,8 +1877,8 @@
           <table border=1
             v-for="aigua_agrada in [get_encerts_participacions_anteriors.aigua_agrada]"
             style="
-              margin:auto;
               font-size:12px;
+              margin:auto;
             "
           >
             <tr><th colspan=2>taula numèrica resultats</th></tr>
@@ -1932,26 +1896,17 @@
           </table>
         </div>
 
-        <div v-if="false">
+        <div v-if="get_aigua_preferida_de_tothom">
           <div
             style="
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              gap:0.5em;
+              margin-top:1em;
             "
           >
-            <div v-for="tipus_aigua in ['aixeta','gerra','osmosi','ampolla']"
-              style="
-                border:1px solid #ccc;
-              "
-            >
-              <div>
-                <img :src="`img/sady/infografia_quina_aigua_bevem/${tipus_aigua}.svg`" style="height:95px">
-              </div>
-              <div>
-                {{tipus_aigua}}
-              </div>
+            <div>
+              <img :src="`img/sady/infografia_quina_aigua_bevem/${get_aigua_preferida_de_tothom.src}.svg`" style="height:95px">
+            </div>
+            <div style="font-size:x-large">
+              {{get_aigua_preferida_de_tothom.text}}
             </div>
           </div>
         </div>
@@ -2015,13 +1970,12 @@
   </div>
 
   <div v-show="vista_actual=='el_gust_de_laigua'" fons_normal>
-    <div style="padding-top:4em">
-
+    <div style="padding-top:1em">
       <div>
         <div center
           style="
             font-family:IntroRust;
-            font-size:xx-large;
+            font-size:xxx-large;
             color:var(--dark_azure);
           "
         >
@@ -2177,13 +2131,12 @@
   </div>
 
   <div v-show="vista_actual=='laigua_segura_i_saludable'" fons_normal>
-    <div style="padding-top:4em">
-
+    <div style="padding-top:1em">
       <div>
         <div center
           style="
             font-family:IntroRust;
-            font-size:xx-large;
+            font-size:xxx-large;
             color:var(--dark_azure);
           "
         >
@@ -2408,7 +2361,7 @@
         </div>
       </div>
 
-      <img src="img/sady/grafic_opcio_mes_cara.svg" style="width:70%">
+      <img src="img/sady/grafic_opcio_mes_cara.svg" style="width:90%">
 
       <div
         style="
@@ -2470,7 +2423,7 @@
         </div>
       </div>
 
-      <img src="img/sady/grafic_petjada_ambiental.svg" style="width:70%">
+      <img src="img/sady/grafic_petjada_ambiental.svg" style="width:90%">
 
       <div
         style="
@@ -2620,7 +2573,7 @@
                 <img :src="pregunta.src" style="width:150px">
               </div>
             </td>
-            <td>
+            <td left>
               <div v-html="pregunta.text" style="font-family:Inter"></div>
             </td>
             <td v-for="i in 5">
@@ -3016,6 +2969,18 @@
 </script>
 
 <script>
+  document.body.addEventListener("keyup",function(ev){
+    console.log(ev.key);
+    if(ev.key=="ArrowLeft"){
+      app.pregunta_anterior();
+    }
+    if(ev.key=="ArrowRight"){
+      app.pregunta_seguent();
+    }
+  });
+</script>
+
+<script>
   let app=Vue.createApp({
     data(){return{
       //vista actual
@@ -3140,21 +3105,21 @@
           preguntes:[
             {
               src:"img/sady/creus_que/fulles_verdes.svg",
-              text:"...l'elecció del tipus d'aigua que beus té molt <br> <b style='color:var(--verd_intens)'>impacte ambiental</b> (residus, cost energètic...)?",
+              text:"L'elecció del tipus d'aigua que beus té molt <b style='color:var(--verd_intens)'>impacte ambiental</b> (residus, cost energètic...)",
               resposta:"",
               resposta_post:"",
               opcions:["1","2","3","4","5"],
             },
             {
               src:"img/sady/creus_que/gota_blava.svg",
-              text:"...pots confiar en la <b style='color:var(--blau_clar_intens)'>qualitat de l'aigua de l'aixeta</b> del<br> teu municipi?",
+              text:"Pots confiar en la <b style='color:var(--blau_clar_intens)'>qualitat de l'aigua de l'aixeta</b> del teu municipi",
               resposta:"",
               resposta_post:"",
               opcions:["1","2","3","4","5"],
             },
             {
               src:"img/sady/creus_que/persones_taronges.svg",
-              text:"...les persones tenim bona <b style='color:var(--taronja_clar_intens)'>capacitat per distingir</b> els<br> tipus d'aigua i el seu gust?",
+              text:"Les persones tenim bona <b style='color:var(--taronja_clar_intens)'>capacitat per distingir</b> els tipus d'aigua i el seu gust",
               resposta:"",
               resposta_post:"",
               opcions:["1","2","3","4","5"],
@@ -3249,6 +3214,9 @@
     }},
 
     methods:{
+      activa_pantalla_completa,
+      toggle_pantalla_completa,
+
       enviar_participacio(){
         if(this.usuari_ja_ha_enviat_resultats){
           this.vista_actual="final";
@@ -3314,7 +3282,10 @@
       },
 
       pregunta_seguent(){
-        if(this.vista_actual=="preguntes"){
+        if(this.vista_actual=="portada"){
+          this.vista_actual="preguntes";
+          this.index_pagina_actual=0;
+        }else if(this.vista_actual=="preguntes"){
           this.index_pagina_actual++;
           if(this.index_pagina_actual>=this.pagines.length){
             this.vista_actual=this.vistes[0];
@@ -3427,6 +3398,33 @@
         return retval;
       },
 
+      get_aigua_preferida_de_tothom(){
+        if(!this.get_encerts_participacions_anteriors) return false;
+        let aigues = this.get_encerts_participacions_anteriors.aigua_agrada;//diccionari
+
+        let retval={
+          text:"",
+          src:"",
+        };
+
+        let maxim  = 0;//number
+        Object.entries(aigues).forEach(([key,val])=>{
+          if(val>maxim){
+            maxim=val;
+            retval.text=key;
+          }
+        });
+
+        retval.src={
+          "Aixeta"        :"aixeta",
+          "Gerra filtrant":"gerra",
+          "Osmosi"        :"osmosi",
+          "Embotellada"   :"ampolla",
+        }[retval.text];
+
+        return retval;
+      },
+
       get_municipis_filtrats(){
         if(!this.municipis) return false;
 
@@ -3505,6 +3503,6 @@
   app.vista_actual="portada";
 
   //debug mode
-  //app.vista_actual="tots_els_resultats";
+  //app.vista_actual="quina_es_la_petjada_ambiental";
   //app.index_pagina_actual=0;
 </script>
