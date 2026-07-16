@@ -418,6 +418,7 @@
       height:60px;
       align-items:center;
       cursor:pointer;
+      margin:0 10px;
     }
     [btn_prev_next_page][disabled]{
       background:#ccc;
@@ -2750,10 +2751,9 @@
 
   <!--gotes navegació-->
   <div
-    v-if="(vista_actual=='preguntes'&&pagina_actual)||
-      (
-        vistes.includes(vista_actual)
-      )
+    v-if="
+      (vista_actual=='preguntes'&&pagina_actual)||
+      vistes.includes(vista_actual)
     "
     style="
       position:fixed;
@@ -2766,11 +2766,8 @@
         display:flex;
         align-items:center;
         justify-content:center;
-        border-radius:50px;
         margin:auto;
-        margin-bottom:10px;
-        padding:10px;
-        max-width:90%;
+        margin-bottom:20px;
       "
     >
       <button
@@ -2780,28 +2777,25 @@
         <img src="img/arrow-right-white.svg" style="transform:rotate(180deg)">
       </button>
 
-      <div style="margin:5px 10px">
+      <!--bullets-->
+      <div>
         <div
           style="
             display:flex;
             align-items:center;
             justify-content:space-around;
+            gap:10px;
           "
         >
-          <div v-for="g in get_gotes_navegacio.n_gotes"
-            center
-            style="
-              width:50px;
-              font-size:xxx-large;
-              margin:auto;
-            "
+          <div
+            v-for="g in get_gotes_navegacio.n_gotes"
+            style="font-size:xxx-large;"
           >
-            <div
+            <div center
               :style="{
                 color:get_gotes_navegacio.gota_actual+1==g?'#00b7f1':'#d9d9d9',
               }"
-            >
-              &bull;
+            >&bull;
               <!--
               <div v-if="get_gotes_navegacio.gota_actual+1==g">&bull;</div>
               <div v-else>&bull;</div>
@@ -3503,6 +3497,6 @@
   app.vista_actual="portada";
 
   //debug mode
-  //app.vista_actual="quina_es_la_petjada_ambiental";
+  app.vista_actual="quina_es_la_petjada_ambiental";
   //app.index_pagina_actual=0;
 </script>
