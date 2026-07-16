@@ -42,9 +42,8 @@
     }
 
     canvas{
-      display:block;
-      margin:auto;
-      width:500px;
+      height:40vh;
+      width:30vw;
     }
 
     div[grid_de_4]{
@@ -86,8 +85,6 @@
       font-family:Inter;
       cursor:pointer;
       font-size:larger;
-
-      margin:5px;
     }
     [cantonada_clicable][seleccionada=true]{
       background:var(--blau_clar);
@@ -182,7 +179,7 @@
       );
     }
     #infografia_quina_aigua_bevem img{
-      height:95px;
+      height:9vh;
     }
 
     /*per_on_passa_aigua*/
@@ -194,7 +191,6 @@
     }
     #per_on_passa_aigua table td{
       padding:0;
-      font-weight:bold;
       vertical-align:top;
     }
     #per_on_passa_aigua [card]{
@@ -354,13 +350,13 @@
     /*botons respondre*/
     div[opcio]{
       background:white;
-      border-radius:10px;
-      border:1px solid #ccc;
+      color:black;
       box-shadow:2px 2px 10px #ccc;
 
-      padding:1em 0.618em;
-      color:black;
+      border:1px solid #ccc;
+      border-radius:10px;
 
+      padding:1em 0.618em;
       margin:2px;
 
       text-align:center;
@@ -370,6 +366,7 @@
       display:grid;
       align-items:center;
       grid-template-columns:1fr 3fr;
+      gap:5px;
     }
 
     /*llegenda preguntes finals*/
@@ -874,7 +871,7 @@
         style="
           margin:auto;
           border-collapse:collapse;
-          width:80%;
+          width:90%;
           font-family:Inter;
           margin-top:3em;
         "
@@ -923,7 +920,7 @@
             <div class=fletxa blau_clar alt50px></div>
             <div alt50px></div>
           </td>
-          <td>
+          <td style="vertical-align:top">
             <img src="img/sady/infografia_quina_aigua_bevem/aixeta.svg">
           </td>
           <td>
@@ -944,11 +941,11 @@
         <tr>
           <td></td>
           <td verd_clar></td>
-          <td >
+          <td style="vertical-align:top">
             <div taronja_clar alt50px></div>
             <div alt50px style="background:white"></div>
           </td>
-          <td>
+          <td style="vertical-align:top">
             <div taronja_clar alt50px
               style="
                 align-items:center;
@@ -960,11 +957,11 @@
             </div>
             <div alt50px></div>
           </td>
-          <td>
+          <td style="vertical-align:top">
             <div class=fletxa alt50px taronja_clar></div>
             <div alt50px></div>
           </td>
-          <td>
+          <td style="vertical-align:top">
             <img src="img/sady/infografia_quina_aigua_bevem/gerra.svg">
           </td>
           <td>
@@ -978,7 +975,6 @@
 
                 display:grid;
                 grid-template-columns:1fr 1fr;
-                align-items:center;
               "
             >
               <div
@@ -993,6 +989,7 @@
                   background:var(--taronja_clar);
                   padding:0.618em 1em;
                   border-radius:10px;
+                  font-size:smaller;
                 "
               >
                 <b>Redueix el clor</b>
@@ -1005,15 +1002,15 @@
         </tr>
         <tr>
           <td></td>
-          <td>
+          <td style="vertical-align:top">
             <div alt50px verd_clar></div>
             <div alt50px></div>
           </td>
-          <td>
+          <td style="vertical-align:top">
             <div alt50px verd_clar></div>
             <div alt50px></div>
           </td>
-          <td>
+          <td style="vertical-align:top">
             <div verd_clar alt50px
               style="
                 align-items:center;
@@ -1025,11 +1022,11 @@
             </div>
             <div alt50px></div>
           </td>
-          <td>
+          <td style="vertical-align:top">
             <div class=fletxa verd_clar alt50px></div>
             <div alt50px></div>
           </td>
-          <td>
+          <td style="vertical-align:top">
             <img src="img/sady/infografia_quina_aigua_bevem/osmosi.svg">
           </td>
           <td>
@@ -1043,7 +1040,6 @@
 
                 display:grid;
                 grid-template-columns:1fr 1fr;
-                align-items:center;
               "
             >
               <div
@@ -1058,6 +1054,7 @@
                   background:var(--verd_clar);
                   padding:0.618em 1em;
                   border-radius:10px;
+                  font-size:smaller;
                 "
               >
                 <b>Redueix molts compostos químics i sals dissoltes</b>
@@ -1145,7 +1142,7 @@
 
       <table
         style="
-          width:70%;
+          width:80%;
           margin:auto;
           margin-top:20px;
           font-family:Inter;
@@ -1203,6 +1200,7 @@
                 color:white;
                 border-radius:30px;
                 padding:3px;
+
                 box-shadow:5px 5px 10px #ccc;
               "
             >
@@ -1213,8 +1211,10 @@
                   border-radius:27px;
 
                   display:flex;
-                  justify-content:center;
+                  justify-content:space-around;
                   align-items:center;
+
+                  padding-right:1em;
                 "
               >
                 <img src="img/sady/per_on_passa_aigua/aigua-aixeta.svg" img_200px style="margin:0">
@@ -1274,8 +1274,10 @@
                   border-radius:27px;
 
                   display:flex;
-                  justify-content:center;
+                  justify-content:space-around;
                   align-items:center;
+
+                  padding-right:1em;
                 "
               >
                 <img src="img/sady/per_on_passa_aigua/aigua-embotellada.svg" img_200px style="margin:0">
@@ -1467,6 +1469,7 @@
         display:flex;
         justify-content:center;
         align-items:center;
+        font-family:Inter;
       "
     >
       <div style="margin-right:3em">
@@ -1517,7 +1520,7 @@
         </div>
 
         <div card_text>
-          COMENCEM EL TAST D'AIGÜES!
+          <b>COMENCEM EL TAST D'AIGÜES!</b>
         </div>
       </div>
     </div>
@@ -1752,7 +1755,6 @@
         width:40%;
         border-radius:10px;
         margin:auto;
-        margin-top:1em;
         font-size:larger;
       "
     >
@@ -2007,49 +2009,43 @@
         </div>
       </div>
 
-      <table border=0 style="margin:auto;width:70%;">
-        <tr>
-          <td>
-            <div cantonada_clicable
-              @click="set_text_gust_aigua('te_gust_laigua')"
-              :seleccionada="el_gust_de_laigua_text_visible=='te_gust_laigua'"
-            >
-              <img src="img/sady/i.svg">
-              <div>Té gust l'aigua?</div>
-            </div>
-          </td>
-
-          <td>
-            <div cantonada_clicable
-              @click="set_text_gust_aigua('la_mineralitzacio')"
-              :seleccionada="el_gust_de_laigua_text_visible=='la_mineralitzacio'"
-            >
-              <img src="img/sady/i.svg">
-              <div>La mineralització</div>
-            </div>
-          </td>
-
-          <td>
-            <div cantonada_clicable
-              @click="set_text_gust_aigua('el_gust_del_clor')"
-              :seleccionada="el_gust_de_laigua_text_visible=='el_gust_del_clor'"
-            >
-              <img src="img/sady/i.svg">
-              El gust del clor
-            </div>
-          </td>
-
-          <td>
-            <div cantonada_clicable
-              @click="set_text_gust_aigua('temperatura_i_gust')"
-              :seleccionada="el_gust_de_laigua_text_visible=='temperatura_i_gust'"
-            >
-              <img src="img/sady/i.svg">
-              Temperatura i gust
-            </div>
-          </td>
-        </tr>
-      </table>
+      <div
+        style="
+          margin:auto;
+          width:70%;
+          display:grid;
+          grid-template-columns:1fr 1fr 1fr 1fr;
+          gap:10px;
+        ">
+        <div cantonada_clicable
+          @click="set_text_gust_aigua('te_gust_laigua')"
+          :seleccionada="el_gust_de_laigua_text_visible=='te_gust_laigua'"
+        >
+          <img src="img/sady/i.svg">
+          <div>Té gust l'aigua?</div>
+        </div>
+        <div cantonada_clicable
+          @click="set_text_gust_aigua('la_mineralitzacio')"
+          :seleccionada="el_gust_de_laigua_text_visible=='la_mineralitzacio'"
+        >
+          <img src="img/sady/i.svg">
+          <div>La mineralització</div>
+        </div>
+        <div cantonada_clicable
+          @click="set_text_gust_aigua('el_gust_del_clor')"
+          :seleccionada="el_gust_de_laigua_text_visible=='el_gust_del_clor'"
+        >
+          <img src="img/sady/i.svg">
+          El gust del clor
+        </div>
+        <div cantonada_clicable
+          @click="set_text_gust_aigua('temperatura_i_gust')"
+          :seleccionada="el_gust_de_laigua_text_visible=='temperatura_i_gust'"
+        >
+          <img src="img/sady/i.svg">
+          Temperatura i gust
+        </div>
+      </div>
 
       <!--text seleccionat-->
       <div style="margin-top:1em">
@@ -2168,46 +2164,47 @@
         </div>
       </div>
 
-      <table border=0 style="margin:auto;width:70%">
-        <tr>
-          <td>
-            <div cantonada_clicable
-              @click="set_text_aigua_segura('que_vol_dir_que_una_aigua_sigui_segura')"
-              :seleccionada="laigua_segura_i_saludable_text_visible=='que_vol_dir_que_una_aigua_sigui_segura'"
-            >
-              <img src="img/sady/i.svg">
-              <div>Què vol dir que una aigua sigui segura?</div>
-            </div>
-          </td>
-          <td>
-            <div cantonada_clicable
-              @click="set_text_aigua_segura('com_es_controla_laigua_que_consumim')"
-              :seleccionada="laigua_segura_i_saludable_text_visible=='com_es_controla_laigua_que_consumim'"
-            >
-              <img src="img/sady/i.svg">
-              <div>Com es controla l'aigua que consumim?</div>
-            </div>
-          </td>
-          <td>
-            <div cantonada_clicable
-              @click="set_text_aigua_segura('conservar_laigua_de_manera_segura')"
-              :seleccionada="laigua_segura_i_saludable_text_visible=='conservar_laigua_de_manera_segura'"
-            >
-              <img src="img/sady/i.svg">
-              Conservar l'aigua de manera segura
-            </div>
-          </td>
-          <td>
-            <div cantonada_clicable
-              @click="set_text_aigua_segura('filtres_domestics_i_seguretat')"
-              :seleccionada="laigua_segura_i_saludable_text_visible=='filtres_domestics_i_seguretat'"
-            >
-              <img src="img/sady/i.svg">
-              Filtres domèstics i seguretat
-            </div>
-          </td>
-        </tr>
-      </table>
+      <div
+        style="
+          margin:auto;
+          width:70%;
+          display:grid;
+          grid-template-columns:1fr 1fr 1fr 1fr;
+          gap:10px;
+        "
+      >
+        <div cantonada_clicable
+          @click="set_text_aigua_segura('que_vol_dir_que_una_aigua_sigui_segura')"
+          :seleccionada="laigua_segura_i_saludable_text_visible=='que_vol_dir_que_una_aigua_sigui_segura'"
+        >
+          <img src="img/sady/i.svg">
+          <div>Què vol dir que una aigua sigui segura?</div>
+        </div>
+
+        <div cantonada_clicable
+          @click="set_text_aigua_segura('com_es_controla_laigua_que_consumim')"
+          :seleccionada="laigua_segura_i_saludable_text_visible=='com_es_controla_laigua_que_consumim'"
+        >
+          <img src="img/sady/i.svg">
+          <div>Com es controla l'aigua que consumim?</div>
+        </div>
+
+        <div cantonada_clicable
+          @click="set_text_aigua_segura('conservar_laigua_de_manera_segura')"
+          :seleccionada="laigua_segura_i_saludable_text_visible=='conservar_laigua_de_manera_segura'"
+        >
+          <img src="img/sady/i.svg">
+          Conservar l'aigua de manera segura
+        </div>
+
+        <div cantonada_clicable
+          @click="set_text_aigua_segura('filtres_domestics_i_seguretat')"
+          :seleccionada="laigua_segura_i_saludable_text_visible=='filtres_domestics_i_seguretat'"
+        >
+          <img src="img/sady/i.svg">
+          Filtres domèstics i seguretat
+        </div>
+      </div>
 
       <!--text seleccionat-->
       <div style="margin-top:1em">
@@ -3516,6 +3513,6 @@
   app.vista_actual="portada";
 
   /*debug mode*/
-  //app.vista_actual="quina_es_la_petjada_ambiental_2";
+  //app.vista_actual="el_gust_de_laigua";
   //app.index_pagina_actual=0;
 </script>
