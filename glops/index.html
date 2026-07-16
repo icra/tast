@@ -93,6 +93,9 @@
       background:var(--blau_clar);
       border:2px solid var(--blau_clar_intens);
     }
+    [cantonada_clicable] img{
+      width:30px;
+    }
     [text_visible]{
       background:white;
       font-family:Inter;
@@ -111,14 +114,15 @@
 
     /*tast aigues*/
     #tast_aigues [instruccions_numero]{
-      align-items:center;
-      background:var(--vivid_azure);
-      border-radius:50%;
-      color:white;
       display:flex;
-      font-weight:bold;
+      align-items:center;
       justify-content:center;
       text-align:center;
+
+      background:var(--vivid_azure);
+      color:white;
+      border-radius:50%;
+      font-weight:bold;
 
       width:20px;
       height:20px;
@@ -387,7 +391,7 @@
     }
 
     img[opcio_imatge]{
-      width:150px;
+      width:8vw;
       cursor:pointer;
     }
 
@@ -551,7 +555,12 @@
     </div>
 
     <!--preguntes-->
-    <div style="padding:0 5em">
+    <div
+      style="
+        max-width:70%;
+        margin:auto;
+      "
+    >
       <div v-if="pagina_actual.tipus=='12345'">
         <div center style="font-family:Inter;font-size:larger;margin-bottom:2em">
           <b>Valora de l'1 al 5</b>
@@ -852,6 +861,8 @@
 
   <!--infografia quina aigua bevem-->
   <div v-show="vista_actual=='infografia_quina_aigua_bevem'" fons_normal id="infografia_quina_aigua_bevem">
+    <div style="padding-top:1em"></div>
+
     <div>
       <div pregunta_text center
         style="
@@ -887,7 +898,7 @@
               "
             >
               <div style="font-size:x-large">44%</div>
-              <div>Xarxa pública<br> d'abastament</div>
+              <div>Xarxa pública d'abastament</div>
             </div>
           </td>
           <td>
@@ -906,8 +917,7 @@
                 justify-content:center;
                 font-size:larger;
               "
-            >
-              20%
+            >20%
             </div>
             <div alt50px></div>
           </td>
@@ -988,8 +998,9 @@
                 "
               >
                 <b>Redueix el clor</b>
-                i reté algus compostos orgànics, la qual cosa
-                sol millorar l'olor i el gust de l'aigua, però no elimina les sals dissoltes.
+                <div>i reté algus compostos orgànics.</div>
+                <div>Sol millorar l'olor i el gust de l'aigua,</div>
+                <div>però no elimina les sals dissoltes.</div>
               </div>
             </div>
           </td>
@@ -1051,8 +1062,8 @@
                   border-radius:10px;
                 "
               >
-                <b>Redueix molts compostos químics i sals</b>
-                dissoltes (sovint també el clor) produint una aigua molt més baixa en minerals.
+                <div><b>Redueix molts compostos químics i sals dissoltes</b></div>
+                <div>produeix una aigua molt més baixa en minerals.</div>
               </div>
             </div>
           </td>
@@ -1072,7 +1083,7 @@
             >
               <div style="font-size:x-large">55%</div>
               <div>
-                Distribuidors:<br>
+                Distribuidors:
                 supermercats, botigues...
               </div>
             </div>
@@ -1127,6 +1138,8 @@
   </div>
 
   <div v-show="vista_actual=='per_on_passa_aigua'" center id=per_on_passa_aigua fons_normal>
+    <div style="padding-top:1em"></div>
+
     <div>
       <div pregunta_text center style="font-size:xxx-large">
         Per on passa l'aigua abans d'arribar a casa?
@@ -1155,7 +1168,7 @@
           <td>
             <div card card_blava>
               <img src="img/sady/per_on_passa_aigua/embassament.svg" img_200px>
-              Embassaments,<br> rius i aqüífers, i en<br> alguns casos el mar (dessalinització)
+              Embassaments, rius i aqüífers, i en alguns casos el mar (dessalinització)
             </div>
           </td>
           <td><img src="img/arrow-right-blau-clar.svg" fletxa></td>
@@ -1163,8 +1176,7 @@
           <td>
             <div card card_blava>
               <img src="img/sady/per_on_passa_aigua/potabilitzadora.svg" img_200px>
-              Potabilització,<br> incloent diversos<br> processos:
-              filtració,<br> desinfecció, etc.
+              Potabilització (filtració, desinfecció, etc.)
             </div>
           </td>
           <td><img src="img/arrow-right-blau-clar.svg" fletxa></td>
@@ -1172,8 +1184,8 @@
           <td>
             <div card card_blava>
               <img src="img/sady/per_on_passa_aigua/control.svg" img_200px>
-              Controls a les estacions<br> de tractament d'aigua<br> potable
-              i als sistemes<br> de distribució
+              Controls a les estacions de tractament d'aigua potable
+              i als sistemes de distribució
             </div>
           </td>
           <td><img src="img/arrow-right-blau-clar.svg" fletxa></td>
@@ -1181,7 +1193,7 @@
           <td>
             <div card card_blava>
               <img src="img/sady/per_on_passa_aigua/distribucio.svg" img_200px>
-              Xarxa pública<br> d'abastament
+              Xarxa pública d'abastament
             </div>
           </td>
           <td><img src="img/arrow-right-blau-clar.svg" fletxa></td>
@@ -1208,10 +1220,10 @@
                 "
               >
                 <img src="img/sady/per_on_passa_aigua/aigua-aixeta.svg" img_200px style="margin:0">
-                <b style="font-size:x-large">AIGUA DE<br> L'AIXETA</b>
+                <b style="font-size:x-large">AIGUA DE L'AIXETA</b>
               </div>
               <div style="font-size:larger;padding:1em">
-                Aigua d'origens<br> diversos tractada<br> i controlada
+                Aigua d'origens diversos tractada i controlada
               </div>
             </div>
           </td>
@@ -1269,10 +1281,10 @@
                 "
               >
                 <img src="img/sady/per_on_passa_aigua/aigua-embotellada.svg" img_200px style="margin:0">
-                <B style="font-size:x-large">AIGUA<br> EMBOTELLADA</B>
+                <b style="font-size:x-large">AIGUA EMBOTELLADA</b>
               </div>
               <div style="font-size:larger;padding:1em">
-                Aigua d'origens<br> diversos tractada<br> i controlada
+                Aigua d'origens diversos tractada i controlada
               </div>
             </div>
           </td>
@@ -1282,6 +1294,8 @@
   </div>
 
   <div v-if="vista_actual=='tipus_aigua_embotellada'" center fons_normal>
+    <div style="padding-top:1em"></div>
+
     <div pregunta_text center style="font-size:xxx-large">
       Tipus d'aigua embotellada
     </div>
@@ -1424,7 +1438,7 @@
 
           <td style="vertical-align:middle">
             <div style="font-family:IntroRust;color:var(--dark_azure);font-size:xxx-large">
-              NORMALMENT<br> ENS FIXEM EN...
+              NORMALMENT ENS FIXEM EN...
             </div>
           </td>
 
@@ -1444,8 +1458,9 @@
   </div>
 
   <div v-show="vista_actual=='el_gust'" center fons_normal id=el_gust>
-    <div style="padding-top:2em"></div>
-    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
+    <div style="padding-top:1em"></div>
+
+    <div pregunta_text center style="font-size:xxx-large">
       Com escollim l'aigua que bevem?
     </div>
 
@@ -1486,7 +1501,7 @@
 
         <div card_text>
           Sabries distingir els diferents tipus d'<b style="color:var(--blau_clar_intens);">aigua</b>
-          pel<br> seu gust?
+          pel seu gust?
         </div>
 
         <div>
@@ -1511,9 +1526,12 @@
   </div>
 
   <div v-show="vista_actual=='tast_aigues'" fons_normal center style="font-family:Inter" id=tast_aigues>
-    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
-      tast d'aigües
+    <div style="padding-top:1em"></div>
+
+    <div pregunta_text center style="font-size:xxx-large">
+      Tast d'aigües
     </div>
+
     <div left
       style="
         background:white;
@@ -1579,8 +1597,10 @@
   </div>
 
   <div v-show="vista_actual=='tast_aigues_2'" fons_normal center style="font-family:Inter">
-    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
-      tast d'aigües
+    <div style="padding-top:1em"></div>
+
+    <div pregunta_text center style="font-size:xxx-large">
+      Tast d'aigües
     </div>
 
     <div
@@ -1644,8 +1664,10 @@
   </div>
 
   <div v-if="vista_actual=='els_teus_resultats'" fons_normal center style="font-family:Inter" id=els_teus_resultats>
-    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
-      els teus resultats
+    <div style="padding-top:1em"></div>
+
+    <div pregunta_text center style="font-size:xxx-large">
+      Els teus resultats
     </div>
 
     <div center>
@@ -1688,41 +1710,39 @@
       </table>
     </div>
 
-    <div
-      style="
-        background:white;
-        border:2px solid var(--intens_azure);
-        border-radius:20px;
-        box-shadow:5px 5px 20px var(--blau_clar);
-
-        padding:2em;
-        font-size:larger;
-
-        width:15%;
-
-        margin:auto;
-        margin-top:1em;
-      "
-    >
-      N'has encertat
+    <div flex>
       <div
         style="
-          color:var(--vivid_azure);
+          background:white;
+          border:2px solid var(--intens_azure);
+          border-radius:20px;
+          box-shadow:5px 5px 20px var(--blau_clar);
+          padding:1em;
           font-size:larger;
-          font-weight:bold;
+          margin:auto;
+          margin-top:1em;
         "
       >
-        {{respostes_correctes}}
-        de
-        {{Object.keys(tast).length}}
+        N'has encertat
+        <div
+          style="
+            color:var(--vivid_azure);
+            font-size:larger;
+            font-weight:bold;
+          "
+        >
+          {{respostes_correctes}}
+          de
+          {{Object.keys(tast).length}}
+        </div>
       </div>
     </div>
   </div>
 
-  <div v-show="vista_actual=='tots_els_resultats'" fons_normal center style="font-family:Inter"
-    id=tots_els_resultats
-  >
-    <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
+  <div v-show="vista_actual=='tots_els_resultats'" fons_normal center style="font-family:Inter" id=tots_els_resultats>
+    <div style="padding-top:1em"></div>
+
+    <div pregunta_text center style="font-size:xxx-large">
       Resultats de tots els participants
     </div>
 
@@ -1735,7 +1755,7 @@
         border-radius:10px;
         margin:auto;
         margin-top:1em;
-        font-size:x-large;
+        font-size:larger;
       "
     >
       Nombre de participants anteriors = {{participacions.length}}
@@ -1807,7 +1827,7 @@
             v-if="get_encerts_participacions_anteriors"
             style="
               color:var(--blau_clar_intens);
-              font-size:xxx-large;
+              font-size:xx-large;
               font-weight:bold;
             "
           >
@@ -1820,7 +1840,7 @@
             }}
           </div>
           <div>
-            han encertat<br>
+            <div>han encertat</div>
             <b style="color:var(--blau_clar_intens)">l'aigua de l'aixeta</b>
           </div>
         </div>
@@ -1846,7 +1866,7 @@
             v-if="get_encerts_participacions_anteriors"
             style="
               color:var(--lila_clar_intens);
-              font-size:xxx-large;
+              font-size:xx-large;
               font-weight:bold;
             "
           >
@@ -1859,7 +1879,7 @@
             }}
           </div>
           <div>
-            han encertat<br>
+            <div>han encertat</div>
             <b style="color:var(--lila_clar_intens)">l'aigua embotellada</b>
           </div>
         </div>
@@ -1996,7 +2016,7 @@
               @click="set_text_gust_aigua('te_gust_laigua')"
               :seleccionada="el_gust_de_laigua_text_visible=='te_gust_laigua'"
             >
-              <img src="img/sady/i.svg" style="width:50px">
+              <img src="img/sady/i.svg">
               <div>Té gust l'aigua?</div>
             </div>
           </td>
@@ -2006,7 +2026,7 @@
               @click="set_text_gust_aigua('la_mineralitzacio')"
               :seleccionada="el_gust_de_laigua_text_visible=='la_mineralitzacio'"
             >
-              <img src="img/sady/i.svg" style="width:50px">
+              <img src="img/sady/i.svg">
               <div>La mineralització</div>
             </div>
           </td>
@@ -2016,7 +2036,7 @@
               @click="set_text_gust_aigua('el_gust_del_clor')"
               :seleccionada="el_gust_de_laigua_text_visible=='el_gust_del_clor'"
             >
-              <img src="img/sady/i.svg" style="width:50px">
+              <img src="img/sady/i.svg">
               El gust del clor
             </div>
           </td>
@@ -2026,7 +2046,7 @@
               @click="set_text_gust_aigua('temperatura_i_gust')"
               :seleccionada="el_gust_de_laigua_text_visible=='temperatura_i_gust'"
             >
-              <img src="img/sady/i.svg" style="width:50px">
+              <img src="img/sady/i.svg">
               Temperatura i gust
             </div>
           </td>
@@ -2157,7 +2177,7 @@
               @click="set_text_aigua_segura('que_vol_dir_que_una_aigua_sigui_segura')"
               :seleccionada="laigua_segura_i_saludable_text_visible=='que_vol_dir_que_una_aigua_sigui_segura'"
             >
-              <img src="img/sady/i.svg" style="width:50px">
+              <img src="img/sady/i.svg">
               <div>Què vol dir que una aigua sigui segura?</div>
             </div>
           </td>
@@ -2166,7 +2186,7 @@
               @click="set_text_aigua_segura('com_es_controla_laigua_que_consumim')"
               :seleccionada="laigua_segura_i_saludable_text_visible=='com_es_controla_laigua_que_consumim'"
             >
-              <img src="img/sady/i.svg" style="width:50px">
+              <img src="img/sady/i.svg">
               <div>Com es controla l'aigua que consumim?</div>
             </div>
           </td>
@@ -2175,7 +2195,7 @@
               @click="set_text_aigua_segura('conservar_laigua_de_manera_segura')"
               :seleccionada="laigua_segura_i_saludable_text_visible=='conservar_laigua_de_manera_segura'"
             >
-              <img src="img/sady/i.svg" style="width:50px">
+              <img src="img/sady/i.svg">
               Conservar l'aigua de manera segura
             </div>
           </td>
@@ -2184,7 +2204,7 @@
               @click="set_text_aigua_segura('filtres_domestics_i_seguretat')"
               :seleccionada="laigua_segura_i_saludable_text_visible=='filtres_domestics_i_seguretat'"
             >
-              <img src="img/sady/i.svg" style="width:50px">
+              <img src="img/sady/i.svg">
               Filtres domèstics i seguretat
             </div>
           </td>
@@ -2325,7 +2345,7 @@
     <div
       style="
         background:white;
-        padding:2em;
+        padding:1em;
         border-radius:20px;
         border:1px solid var(--blau_clar);
         width:70%;
@@ -2374,8 +2394,8 @@
           font-size:larger;
         "
       >
-        <b>Càlcul orientatiu per a un consum de 730 L/any per persona (2L/dia).<br></b>
-        Els valors poden variar segons el municipi, el sistema de filtració i el preu de mercat.
+        <div><b>Càlcul orientatiu per a un consum de 730 L/any per persona (2L/dia).</b></div>
+        <div>Els valors poden variar segons el municipi, el sistema de filtració i el preu de mercat.</div>
       </div>
     </div>
   </div>
@@ -2389,7 +2409,7 @@
     <div
       style="
         background:white;
-        padding:2em;
+        padding:1em;
         border-radius:20px;
         border:1px solid var(--blau_clar);
         width:70%;
@@ -2436,8 +2456,8 @@
           font-size:larger;
         "
       >
-        <b>Càlcul orientatiu per a un consum de 2L persona/dia<br></b>
-        Dades obtingudes de l'article científic <i>Prole et al. 2026 Expo Sci Environ Epidemiol.</i>
+        <div><b>Càlcul orientatiu per a un consum de 2L persona/dia</b></div>
+        <div>Dades obtingudes de l'article científic <i>Prole et al. 2026 Expo Sci Environ Epidemiol.</i></div>
       </div>
     </div>
   </div>
@@ -2520,8 +2540,8 @@
     </div>
 
     <p>
-      En verd veuràs les valoracions que has donat abans del tast.<br>
-      Si has canviat d'opinió pots canviar la teva valoració (color blau).
+      <div>En verd veuràs les valoracions que has donat abans del tast.</div>
+      <div>Si has canviat d'opinió pots canviar la teva valoració (color blau).</div>
     </p>
 
     <div flex style="justify-content:center">
@@ -3095,7 +3115,7 @@
           ],
         },{
           tipus:"12345",
-          text:"Creus que...",
+          text:"Creus que...?",
           preguntes:[
             {
               src:"img/sady/creus_que/fulles_verdes.svg",
@@ -3183,21 +3203,21 @@
 
       tipus_aigua_embotellada:[
         {
-          nom:'AIGÜES MINERALS<br> NATURALS (AMN)',
+          nom:'AIGÜES MINERALS NATURALS (AMN)',
           origen:"Aqüífer subterrani profund i protegit",
           compo:"Estable i característica",
           tractaments:"Molt limitats",
           consum:"96%",
           intervencio:"Baixa",
         },{
-          nom:'AIGÜES DE<br> MANANTIAL (AM)',
+          nom:'AIGÜES DE MANANTIAL (AM)',
           origen:"Aqüífer subterrani",
           compo:"Natural però variable",
           tractaments:"Limitats",
           consum:"1-3%",
           intervencio:"Mitjana",
         },{
-          nom:'AIGÜES POTABLES<br> PREPARADES (APP)',
+          nom:'AIGÜES POTABLES PREPARADES (APP)',
           origen:"Qualsevol origen",
           compo:"Sense composició pròpia i pot ser modificada",
           tractaments:"Potabilització (filtració, osmosi, UV, ozó, clor...)",
@@ -3497,6 +3517,6 @@
   app.vista_actual="portada";
 
   //debug mode
-  //app.vista_actual="quina_es_la_petjada_ambiental";
+  //app.vista_actual="els_teus_resultats";
   //app.index_pagina_actual=0;
 </script>
