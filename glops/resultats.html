@@ -39,15 +39,18 @@
                     <div v-if="key=='preguntes'">
                       <table border=1 style="border-collapse:collapse;border-color:royalblue">
                         <tr v-for="preg in val">
-                          <td><code v-html="preg.text"></code></td>
+                          <td><div v-html="preg.text"></div></td>
                           <td>
                             <div v-if="!preg.resposta">&empty;</div>
                             <div v-else>
                               {{preg.resposta}}
-                              <span v-if="preg.resposta_post">
-                                &rarr; {{preg.resposta_post}}
-                              </span>
                             </div>
+                          </td>
+                          <td v-if="preg.resposta_municipi">
+                            {{preg.resposta_municipi}}
+                          </td>
+                          <td v-if="preg.resposta_post">
+                            {{preg.resposta_post}} (post)
                           </td>
                         </tr>
                       </table>
