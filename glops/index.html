@@ -3262,7 +3262,29 @@
         //empaqueta json amb les preguntes contestades
         let preguntes=[];
         this.pagines.forEach(pag=>{
-          preguntes=[...preguntes,...pag.preguntes];
+          pag.preguntes.forEach(preg=>{
+            let text     = preg.text;
+            let resposta = null;
+
+            if(preg.multiple){
+              resposta = Array.from(preg.resposta);
+            }else{
+              resposta = preg.resposta;
+            }
+
+            let pregunta={
+              text,
+              resposta,
+            };
+            if(preg.resposta_municipi){
+              pregunta.resposta_municipi = preg.resposta_municipi;
+            }
+            if(preg.resposta_post){
+              pregunta.resposta_post = preg.resposta_post;
+            }
+
+            preguntes.push(pregunta);
+          });
         });
         let payload={
           preguntes,
