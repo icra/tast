@@ -1,0 +1,140 @@
+<!doctype html><html><head>
+  <meta charset=utf8>
+  <script src="lib/vue.global.prod.js"></script>
+  <style>
+    summary{
+      cursor:pointer;
+      color:royalblue;
+    }
+    summary:hover{
+      text-decoration:underline;
+    }
+    [left]{
+      text-align:left;
+    }
+  </style>
+</head><body>
+<h1>glops - dades recopilades</h1>
+
+<div id=app>
+  
+  <div v-if="participacions">
+    <details open>
+      <summary>Taula participacions (crua) ({{participacions.length}} files)</summary>
+      <table border=1>
+        <tr>
+          <th left>id</th>
+          <th left>data</th>
+          <th left>respostes</th>
+        </tr>
+        <tr v-for="par in participacions">
+          <td>{{par.id}}</td>
+          <td>{{par.created}}</td>
+          <td>
+            <table border=1 style="border-collapse:collapse">
+              <tbody v-for="val,key in par.json">
+                <tr v-if="val">
+                  <td>{{key}}</td>
+                  <td>
+                    <div v-if="key=='preguntes'">
+                      <table border=1 style="border-collapse:collapse;border-color:royalblue">
+                        <tr v-for="preg in val">
+                          <td><div v-html="preg.text"></div></td>
+                          <td>
+                            <div v-if="!preg.resposta">&empty;</div>
+                            <div v-else>
+                              {{preg.resposta}}
+                            </div>
+                          </td>
+                          <td v-if="preg.resposta_municipi">
+                            {{preg.resposta_municipi}}
+                          </td>
+                          <td v-if="preg.resposta_post">
+                            {{preg.resposta_post}} (post)
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div v-else>{{val}}</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </details>
+  </div>
+</div>
+
+<script>
+  let app=Vue.createApp({
+    data(){return{
+      participacions:null, //fetch "db/get_participacions.php"
+    }},
+
+    methods:{
+      //pp
+    },
+
+    computed:{
+      get_encerts_participacions_anteriors(){
+        if(!this.participacions) return false;
+
+        let retval={
+          encerts:{},     //respostes correctes => nombre persones
+          tipus_aigua:{}, //tipus aigua => nombre encerts
+          aigua_agrada:{},
+        };
+
+        this.participacions.forEach(par=>{
+          let n_respostes_correctes=0;
+
+          let resp_usr = par.json.tast;//dict
+          let resp_cor = par.json.tast_respostes_correctes;//dict
+          Object.keys(resp_usr).forEach(lletra=>{
+            if(resp_usr[lletra]==resp_cor[lletra]){
+              //suma 1 a respostes correctes
+              n_respostes_correctes++;
+
+              //suma 1 a tipus aigua endevinada
+              let tip = resp_cor[lletra];
+              if(retval.tipus_aigua[tip]==undefined){
+                retval.tipus_aigua[tip]=0;
+              }
+              retval.tipus_aigua[tip]++;
+            }
+          });
+          if(retval.encerts[n_respostes_correctes]==undefined){
+            retval.encerts[n_respostes_correctes]=0;
+          }
+          retval.encerts[n_respostes_correctes]++;
+
+          //suma 1 a l'aigua que més agrada
+          let lletra = par.json.tast_thumb.up;//lletra (ABCD)
+          let aigua  = par.json.tast_respostes_correctes[lletra];//text
+          if(aigua){
+            if(retval.aigua_agrada[aigua]==undefined){
+              retval.aigua_agrada[aigua]=0;
+            }
+            retval.aigua_agrada[aigua]++
+          }
+        });
+
+        return retval;
+      },
+    },
+
+    async mounted(){
+      {//get participacions anteriors
+        let res = await fetch("db/get_participacions.php");
+        let arr = await res.json();
+        this.participacions=arr;
+      }
+    },
+
+    updated(){
+      //pp
+    },
+  }).mount("#app");
+</script>
