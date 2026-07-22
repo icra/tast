@@ -15,6 +15,6 @@ reunio 22-juliol-2026
   - Quan cliques el  "boto de següent" a la pantalla del tast d'aigües que es
     guardin els resultats!
   - Millorar visibilitat diapositiva" Aigua embotellada"
-  - La gráfica de la huella de carbono no es del todo clara.
+  - La gráfica de la "huella de carbono" no es del todo clara.
   - Desactivar el corrector automàtic del teclat de les tablets
   - [ok] Preguntes de Valora 1 al 5 afegir el text: Creus que....i ?
