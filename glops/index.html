@@ -565,7 +565,7 @@
           <tr style="font-family:Inter">
             <td colspan=2>
               <div center style="font-family:Inter;font-size:larger">
-                <b>Valora de l'1 al 5</b>
+                <b>Valora de l'1 al 5 les següents afirmacions:</b>
               </div>
             </td>
             <td center style="width:80px">Gens d'acord</td>
@@ -2720,8 +2720,10 @@
           margin:auto;
         "
       >
-        FINALITZAR
-        <small>&nbsp;(enviar resultats)</small>
+        <div>
+          <div>FINALITZAR</div>
+          <div><small>&nbsp;(enviar resultats)</small></div>
+        </div>
       </button>
     </div>
   </div>
@@ -3111,25 +3113,25 @@
           ],
         },{
           tipus:"12345",
-          text:"Creus que...?",
+          text:"",
           preguntes:[
             {
-              src:"img/sady/creus_que/fulles_verdes.svg",
-              text:"L'elecció del tipus d'aigua que beus té molt <b style='color:var(--verd_intens)'>impacte ambiental</b> (residus, cost energètic...)",
+              src:"img/sady/creus_que/persones_taronges.svg",
+              text:"Les persones tenim bona <b style='color:var(--taronja_clar_intens)'>capacitat per distingir</b> els tipus d'aigua pel seu gust",
               resposta:"",
               resposta_post:"",
               opcions:["1","2","3","4","5"],
             },
             {
               src:"img/sady/creus_que/gota_blava.svg",
-              text:"Pots confiar en la <b style='color:var(--blau_clar_intens)'>qualitat de l'aigua de l'aixeta</b> del teu municipi",
+              text:"<b style='color:var(--blau_clar_intens)'>L'aigua de l'aixeta</b> del teu municipi és segura",
               resposta:"",
               resposta_post:"",
               opcions:["1","2","3","4","5"],
             },
             {
-              src:"img/sady/creus_que/persones_taronges.svg",
-              text:"Les persones tenim bona <b style='color:var(--taronja_clar_intens)'>capacitat per distingir</b> els tipus d'aigua i el seu gust",
+              src:"img/sady/creus_que/fulles_verdes.svg",
+              text:"<b style='color:var(--verd_intens)'>L'impacte ambiental</b> varia molt segons el tipus d'aigua que consumim",
               resposta:"",
               resposta_post:"",
               opcions:["1","2","3","4","5"],
@@ -3513,6 +3515,6 @@
   app.vista_actual="portada";
 
   /*debug mode*/
-  //app.vista_actual="el_gust_de_laigua";
+  //app.vista_actual="final";
   //app.index_pagina_actual=0;
 </script>

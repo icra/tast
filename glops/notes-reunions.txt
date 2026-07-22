@@ -1,7 +1,20 @@
 reunio 6-juliol-2026
   - a partir del tast treure fletxa anar enrera
   - guardar resultats automàticament clicar "següent" (on?)
-  - resolució tablets: 2880 x 1800
+  - mirar perquè el canvas dels gràfics desapareix
 
-  - backend
-  - grafics
+reunio 22-juliol-2026
+  - passar a webp imatges de "quina aigua beus"
+  - logos a pàgina inicial (mateixos final)
+  - bug portada fletxa esquerra
+  - assegurar-se que la gent apreta el botó "finalitzar (enviar resultats)"
+    - ocultar boto seguent a la vista final
+  - Sistema de respostes van lentes a incorporar-se - diapo Resultats de tots
+    els participants. Es guarda abans o després del final? S'inclouen els "
+    teus" resultats? ( aixo si vols ho comentem un moment que siguis a ICRA)
+  - Quan cliques el  "boto de següent" a la pantalla del tast d'aigües que es
+    guardin els resultats!
+  - Millorar visibilitat diapositiva" Aigua embotellada"
+  - La gráfica de la huella de carbono no es del todo clara.
+  - Desactivar el corrector automàtic del teclat de les tablets
+  - [ok] Preguntes de Valora 1 al 5 afegir el text: Creus que....i ?
