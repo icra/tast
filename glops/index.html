@@ -179,7 +179,7 @@
       );
     }
     #infografia_quina_aigua_bevem img{
-      height:9vh;
+      height:7vh;
     }
 
     /*per_on_passa_aigua*/
@@ -565,7 +565,7 @@
           <tr style="font-family:Inter">
             <td colspan=2>
               <div center style="font-family:Inter;font-size:larger">
-                <b>Valora de l'1 al 5 les següents afirmacions:</b>
+                <b>Valora de l'1 al 5 les següents afirmacions</b>
               </div>
             </td>
             <td center style="width:80px">Gens d'acord</td>
@@ -921,7 +921,7 @@
             <div alt50px></div>
           </td>
           <td style="vertical-align:top">
-            <img src="img/sady/infografia_quina_aigua_bevem/aixeta.svg">
+            <img src="img/sady/infografia_quina_aigua_bevem/aixeta.webp">
           </td>
           <td>
             <div
@@ -962,7 +962,7 @@
             <div alt50px></div>
           </td>
           <td style="vertical-align:top">
-            <img src="img/sady/infografia_quina_aigua_bevem/gerra.svg">
+            <img src="img/sady/infografia_quina_aigua_bevem/gerra.webp">
           </td>
           <td>
             <div
@@ -1027,7 +1027,7 @@
             <div alt50px></div>
           </td>
           <td style="vertical-align:top">
-            <img src="img/sady/infografia_quina_aigua_bevem/osmosi.svg">
+            <img src="img/sady/infografia_quina_aigua_bevem/osmosi.webp">
           </td>
           <td>
             <div
@@ -1087,7 +1087,10 @@
             <div class=fletxa lila_clar alt100px></div>
           </td>
           <td>
-            <img src="img/sady/infografia_quina_aigua_bevem/ampolla.svg">
+            <div flex>
+              <img src="img/sady/infografia_quina_aigua_bevem/plastic.webp">
+              <img src="img/sady/infografia_quina_aigua_bevem/vidre.webp" style="margin-left:-3em">
+            </div>
           </td>
           <td>
             <div
@@ -1162,7 +1165,7 @@
         <tr>
           <td>
             <div card card_blava>
-              <img src="img/sady/per_on_passa_aigua/embassament.svg" img_200px>
+              <img src="img/sady/per_on_passa_aigua/embassament.webp" img_200px>
               Embassaments, rius i aqüífers, i en alguns casos el mar (dessalinització)
             </div>
           </td>
@@ -1360,6 +1363,7 @@
               justify-content:center;
 
               height:90px;
+              padding:1em;
             "
             v-html="tab.nom"
           ></div>
@@ -1820,7 +1824,7 @@
           "
         >
           <div>
-            <img src="img/sady/infografia_quina_aigua_bevem/aixeta.svg" style="height:95px">
+            <img src="img/sady/infografia_quina_aigua_bevem/aixeta.webp" style="height:95px">
           </div>
 
           <div
@@ -1860,7 +1864,7 @@
           "
         >
           <div>
-            <img src="img/sady/infografia_quina_aigua_bevem/ampolla.svg" style="height:95px">
+            <img src="img/sady/infografia_quina_aigua_bevem/plastic.webp" style="height:95px">
           </div>
           <div
             v-if="get_encerts_participacions_anteriors"
@@ -1924,7 +1928,7 @@
             "
           >
             <div>
-              <img :src="`img/sady/infografia_quina_aigua_bevem/${get_aigua_preferida_de_tothom.src}.svg`" style="height:95px">
+              <img :src="`img/sady/infografia_quina_aigua_bevem/${get_aigua_preferida_de_tothom.src}.webp`" style="height:95px">
             </div>
             <div style="font-size:x-large">
               {{get_aigua_preferida_de_tothom.text}}
@@ -2651,7 +2655,7 @@
         margin-top:2em;
       "
     >
-      Et planteges canviar algun/s hàbit/s de consum? (pots triar vàries opcions)
+      Et planteges canviar algun hàbit de consum? (pots triar vàries opcions)
     </div>
 
     <div
@@ -2722,7 +2726,7 @@
       >
         <div>
           <div>FINALITZAR</div>
-          <div><small>&nbsp;(enviar resultats)</small></div>
+          <div><small>&nbsp;(guardar resultats)</small></div>
         </div>
       </button>
     </div>
@@ -2826,6 +2830,7 @@
       <button
         btn_prev_next_page
         @click="pregunta_seguent()"
+        v-if="veure_boto_seguent"
       >
         <img src="img/arrow-right-white.svg">
       </button>
@@ -3069,30 +3074,30 @@
               opcions:[
                 {
                   text:            "Aigua de l'aixeta",
-                  src:             "img/sady/quina_aigua_beus_a_casa/aixeta.svg",
-                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/aixeta-seleccionada.svg",
-                },
-                {
-                  text:            "Aigua de l'aixeta filtrada per osmosi",
-                  src:             "img/sady/quina_aigua_beus_a_casa/osmosi.svg",
-                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/osmosi-seleccionada.svg",
+                  src:             "img/sady/quina_aigua_beus_a_casa/aixeta.webp",
+                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/aixeta.webp",
                 },
                 {
                   text:            "Aigua de l'aixeta amb gerra filtrant",
-                  src:             "img/sady/quina_aigua_beus_a_casa/gerra.svg",
-                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/gerra-seleccionada.svg",
+                  src:             "img/sady/quina_aigua_beus_a_casa/gerra.webp",
+                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/gerra.webp",
+                },
+                {
+                  text:            "Aigua de l'aixeta filtrada per osmosi",
+                  src:             "img/sady/quina_aigua_beus_a_casa/osmosi.webp",
+                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/osmosi.webp",
                 },
                 {text:"Aigua embotellada en plàstic",
-                  src:             "img/sady/quina_aigua_beus_a_casa/plastic.svg",
-                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/plastic-seleccionada.svg",
+                  src:             "img/sady/quina_aigua_beus_a_casa/plastic.webp",
+                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/plastic.webp",
                 } ,
                 {text:"Aigua embotellada en vidre",
-                  src:             "img/sady/quina_aigua_beus_a_casa/vidre.svg",
-                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/vidre-seleccionada.svg",
+                  src:             "img/sady/quina_aigua_beus_a_casa/vidre.webp",
+                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/vidre.webp",
                 } ,
                 {text:"Altres",
-                  src:             "img/sady/quina_aigua_beus_a_casa/altres.svg",
-                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/altres-seleccionada.svg",
+                  src:             "img/sady/quina_aigua_beus_a_casa/altres.webp",
+                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/altres.webp",
                 } ,
               ],
             },
@@ -3232,9 +3237,7 @@
       enviar_participacio(){
         if(this.usuari_ja_ha_enviat_resultats){
           this.vista_actual="final";
-
           this.missatge_participar="La teva participació s'ha registrat correctament!";
-
           return false;
         }
         this.usuari_ja_ha_enviat_resultats=true;
@@ -3301,6 +3304,8 @@
           }else{
             this.vista_actual="portada";
           }
+        }else if(this.vista_actual=='portada'){
+          return false;
         }else{
           //index vista actual
           let index = this.vistes.indexOf(this.vista_actual);
@@ -3375,6 +3380,31 @@
             prs.No=true;
           }else{
             prs.No=false;
+          }
+        }
+      },
+
+      async fetch_participacions_anteriors(){
+        //get participacions anteriors
+        let res = await fetch("db/get_participacions.php");
+        let arr = await res.json();
+        this.participacions=arr;
+
+        if(this.vista_actual=='tots_els_resultats'){
+          dibuixa_grafic_encerts();
+          dibuixa_grafic_aigua_preferida();
+        }
+      },
+
+      //cada 15 segons comprova participacions
+      async comprova_max_id_remota(){
+        let max_id_local = this.max_id_local;
+        if(max_id_local){
+          let res           = await fetch("db/id.php");
+          let max_id_remota = await res.text();
+          console.log({max_id_local,max_id_remota})
+          if(max_id_local!=max_id_remota){
+            this.fetch_participacions_anteriors();
           }
         }
       },
@@ -3455,7 +3485,7 @@
           "Aixeta"        :"aixeta",
           "Gerra filtrant":"gerra",
           "Osmosi"        :"osmosi",
-          "Embotellada"   :"ampolla",
+          "Embotellada"   :"plastic",
         }[retval.text];
 
         return retval;
@@ -3511,6 +3541,22 @@
         });
         return n;
       },
+
+      //obtenir màxima id participacions
+      max_id_local(){
+        if(!this.participacions) return false;
+        return Math.max(...this.participacions.map(p=>p.id));
+      },
+
+      veure_boto_seguent(){
+        if(
+          this.vista_actual=='preguntes_rapides_per_acabar'&&
+          this.usuari_ja_ha_enviat_resultats==false
+        ){
+          return false;
+        }
+        return true;
+      },
     },
 
     async mounted(){
@@ -3520,11 +3566,9 @@
         this.municipis=arr;
       }
 
-      {//get participacions anteriors
-        let res = await fetch("db/get_participacions.php");
-        let arr = await res.json();
-        this.participacions=arr;
-      }
+      this.fetch_participacions_anteriors();
+
+      setInterval(this.comprova_max_id_remota,15e3);
     },
 
     updated(){
