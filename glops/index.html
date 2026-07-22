@@ -333,7 +333,7 @@
     }
 
     [fons_normal]{
-      background:url(img/sady/fons.svg);
+      background:url(img/sady/fons.webp);
       background-repeat:no-repeat;
       background-position:center;
       background-size:cover;
@@ -452,7 +452,7 @@
   <!--portada-->
   <div v-if="vista_actual=='portada'" center
     style="
-      background:url(img/sady/portada.svg);
+      background:url(img/sady/portada.webp);
       background-repeat:no-repeat;
       background-size:cover;
       background-position:center;
@@ -817,7 +817,7 @@
   <div v-if="vista_actual=='comencem'" center>
     <div
       style="
-        background:url(img/sady/portada.svg);
+        background:url(img/sady/portada.webp);
         background-repeat:no-repeat;
         background-size:cover;
         background-position:center;
@@ -1173,7 +1173,7 @@
 
           <td>
             <div card card_blava>
-              <img src="img/sady/per_on_passa_aigua/potabilitzadora.svg" img_200px>
+              <img src="img/sady/per_on_passa_aigua/potabilitzadora.webp" img_200px>
               Potabilització (filtració, desinfecció, etc.)
             </div>
           </td>
@@ -1181,7 +1181,7 @@
 
           <td>
             <div card card_blava>
-              <img src="img/sady/per_on_passa_aigua/control.svg" img_200px>
+              <img src="img/sady/per_on_passa_aigua/control.webp" img_200px>
               Controls a les estacions de tractament d'aigua potable
               i als sistemes de distribució
             </div>
@@ -1190,7 +1190,7 @@
 
           <td>
             <div card card_blava>
-              <img src="img/sady/per_on_passa_aigua/distribucio.svg" img_200px>
+              <img src="img/sady/per_on_passa_aigua/distribucio.webp" img_200px>
               Xarxa pública d'abastament
             </div>
           </td>
@@ -1220,7 +1220,7 @@
                   padding-right:1em;
                 "
               >
-                <img src="img/sady/per_on_passa_aigua/aigua-aixeta.svg" img_200px style="margin:0">
+                <img src="img/sady/per_on_passa_aigua/aixeta.webp" img_200px style="margin:0">
                 <b style="font-size:x-large">AIGUA DE L'AIXETA</b>
               </div>
               <div style="font-size:larger;padding:1em">
@@ -1233,7 +1233,7 @@
         <tr>
           <td>
             <div card card_lila>
-              <img src="img/sady/per_on_passa_aigua/aquifer.svg" img_200px>
+              <img src="img/sady/per_on_passa_aigua/aquifer.webp" img_200px>
               Aqüífers i manantials
             </div>
           </td>
@@ -1241,21 +1241,21 @@
 
           <td>
             <div card card_lila>
-              <img src="img/sady/per_on_passa_aigua/envasat.svg" img_200px> Envasat
+              <img src="img/sady/per_on_passa_aigua/envasat.webp" img_200px> Envasat
             </div>
           </td>
           <td><img src="img/arrow-right-lila-clar.svg" fletxa></td>
 
           <td>
             <div card card_lila>
-              <img src="img/sady/per_on_passa_aigua/control.svg" img_200px> Control de qualitat
+              <img src="img/sady/per_on_passa_aigua/control.webp" img_200px> Control de qualitat
             </div>
           </td>
           <td><img src="img/arrow-right-lila-clar.svg" fletxa></td>
 
           <td>
             <div card card_lila>
-              <img src="img/sady/per_on_passa_aigua/camio.svg" img_200px> Transport i distribució
+              <img src="img/sady/per_on_passa_aigua/camio.webp" img_200px> Transport i distribució
             </div>
           </td>
           <td><img src="img/arrow-right-lila-clar.svg" fletxa></td>
@@ -1398,69 +1398,6 @@
     </p>
   </div>
 
-  <!--eliminada-->
-  <div v-show="vista_actual=='com_escollim_aigua'" center fons_normal>
-    <div>
-      <div
-        style="
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          padding-top:10em;
-        "
-      >
-        <div>
-          <img src="img/sady/com_escollim_aigua/interrogant.svg" style="width:400px">
-        </div>
-        <div center style="font-size:xxx-large;font-family:IntroRust">
-          <div style="color:var(--dark_azure)">Com escollim</div>
-          <div style="color:var(--blau_clar_intens)">
-            <img src="img/sady/com_escollim_aigua/gotes-esquerra.svg" style="width:35px"> l'aigua
-            <img src="img/sady/com_escollim_aigua/gotes-dreta.svg"    style="width:35px">
-          </div>
-          <div style="color:var(--dark_azure)">que bevem?</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!--eliminada-->
-  <div v-if="vista_actual=='normalment_ens_fixem_en'" center fons_normal id=normalment_ens_fixem_en>
-    <div style="padding-top:4em;">
-      <table border=0 style="width:90%;font-family:Inter;margin:auto;">
-        <tr>
-          <td>
-            <div card @click="vista_actual='el_gust'">
-              <img src="img/sady/normalment_ens_fixem_en/gota-llengua.svg">
-              <div>EL GUST</div>
-            </div>
-            <div card>
-              <img src="img/sady/normalment_ens_fixem_en/gota-monedes.svg">
-              <div>EL COST ECONÒMIC</div>
-            </div>
-          </td>
-
-          <td style="vertical-align:middle">
-            <div style="font-family:IntroRust;color:var(--dark_azure);font-size:xxx-large">
-              NORMALMENT ENS FIXEM EN...
-            </div>
-          </td>
-
-          <td>
-            <div card>
-              <img src="img/sady/normalment_ens_fixem_en/gota-escut-verd.svg">
-              <div>LA SALUT I SEGURETAT</div>
-            </div>
-            <div card>
-              <img src="img/sady/normalment_ens_fixem_en/gota-fulla-planeta.svg">
-              <div>L'IMPACTE AMBIENTAL</div>
-            </div>
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
-
   <div v-show="vista_actual=='el_gust'" center fons_normal id=el_gust>
     <div style="padding-top:1em"></div>
 
@@ -1567,10 +1504,10 @@
       <table border=0 style="margin:auto;margin-top:2em">
         <tr>
           <td></td>
-          <td><img src="img/sady/tast_aigues/aixeta.svg" style="width:100px"></td>
-          <td><img src="img/sady/tast_aigues/gerra.svg" style="width:100px"></td>
-          <td><img src="img/sady/tast_aigues/osmosi.svg" style="width:100px"></td>
-          <td><img src="img/sady/tast_aigues/ampolla.svg" style="width:100px"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/aixeta.webp"  style="width:100px"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/gerra.webp"   style="width:100px"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/osmosi.webp"  style="width:100px"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/plastic.webp" style="width:100px"></td>
         </tr>
         <tr v-for="lletra in Object.keys(tast)">
           <td>
@@ -1679,10 +1616,10 @@
       <table border=0 style="margin:auto;margin-top:2em">
         <tr>
           <td></td>
-          <td><img src="img/sady/tast_aigues/aixeta.svg" style="width:100px"></td>
-          <td><img src="img/sady/tast_aigues/gerra.svg" style="width:100px"></td>
-          <td><img src="img/sady/tast_aigues/osmosi.svg" style="width:100px"></td>
-          <td><img src="img/sady/tast_aigues/ampolla.svg" style="width:100px"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/aixeta.webp" style="width:100px"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/gerra.webp" style="width:100px"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/osmosi.webp" style="width:100px"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/plastic.webp" style="width:100px"></td>
         </tr>
         <tr v-for="lletra in Object.keys(tast)">
           <td>
@@ -2162,7 +2099,7 @@
           L'aigua segura i saludable
         </div>
         <div center>
-          <img src="img/sady/normalment_ens_fixem_en/gota-escut-verd.svg"
+          <img src="img/sady/normalment_ens_fixem_en/gota-escut-verd.webp"
             style="width:100px"
           >
         </div>
@@ -2366,7 +2303,7 @@
           "
         >
           <div flex>
-            <img src="img/sady/normalment_ens_fixem_en/gota-monedes.svg"
+            <img src="img/sady/normalment_ens_fixem_en/gota-monedes.webp"
               style="
                 width:100px;
                 display:block;
@@ -2430,7 +2367,7 @@
             width:50%;
           "
         >
-          <img src="img/sady/per_on_passa_aigua/camio.svg"
+          <img src="img/sady/per_on_passa_aigua/camio.webp"
             style="
               width:100px;
               display:block;
@@ -2497,15 +2434,13 @@
         </div>
         <div>
           <div v-for="j in 2">
-            <img src="img/sady/quina_es_la_petjada_ambiental/gerra.svg" style="width:40px" v-for="i in 3">
+            <img src="img/sady/quina_es_la_petjada_ambiental/gerra.webp" style="width:40px" v-for="i in 3">
           </div>
-
           <div>
-            <img src="img/sady/quina_es_la_petjada_ambiental/osmosi.svg" style="width:60px" v-for="j in 2">
+            <img src="img/sady/quina_es_la_petjada_ambiental/osmosi.webp" style="width:60px" v-for="j in 2">
           </div>
         </div>
       </div>
-
 
       <div>
         <div><b>Aigua embotellada</b></div>
@@ -3583,6 +3518,6 @@
   app.vista_actual="portada";
 
   /*debug mode*/
-  //app.vista_actual="final";
+  //app.vista_actual="per_on_passa_aigua";
   //app.index_pagina_actual=0;
 </script>
