@@ -1,5 +1,7 @@
 <!doctype html><html><head>
   <meta charset=utf8>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#128167;</text></svg>">
+  <title>GLOPS</title>
   <script src="lib/vue.global.prod.js"></script>
   <script src="lib/chart.umd.min.js"></script>
   <style>
@@ -388,7 +390,7 @@
     }
 
     img[opcio_imatge]{
-      width:8vw;
+      height:8vw;
       cursor:pointer;
     }
 
@@ -444,7 +446,6 @@
       font-weight:bold;
       font-family:IntroRust;
     }
-
   </style>
 </head><body>
 
@@ -1087,9 +1088,8 @@
             <div class=fletxa lila_clar alt100px></div>
           </td>
           <td>
-            <div flex>
-              <img src="img/sady/infografia_quina_aigua_bevem/plastic.webp">
-              <img src="img/sady/infografia_quina_aigua_bevem/vidre.webp" style="margin-left:-3em">
+            <div flex style="justify-content:center">
+              <img src="img/sady/infografia_quina_aigua_bevem/embotellada.webp">
             </div>
           </td>
           <td>
@@ -1203,8 +1203,8 @@
                 color:white;
                 border-radius:30px;
                 padding:3px;
-
                 box-shadow:5px 5px 10px #ccc;
+                margin-bottom:5px;
               "
             >
               <div
@@ -1220,7 +1220,11 @@
                   padding-right:1em;
                 "
               >
-                <img src="img/sady/per_on_passa_aigua/aixeta.webp" img_200px style="margin:0">
+                <img src="img/sady/per_on_passa_aigua/aixeta.webp"
+                  style="
+                    height:25vh;
+                  "
+                >
                 <b style="font-size:x-large">AIGUA DE L'AIXETA</b>
               </div>
               <div style="font-size:larger;padding:1em">
@@ -1283,7 +1287,12 @@
                   padding-right:1em;
                 "
               >
-                <img src="img/sady/per_on_passa_aigua/aigua-embotellada.svg" img_200px style="margin:0">
+                <img src="img/sady/per_on_passa_aigua/embotellada.webp"
+                  style="
+                    height:25vh;
+                    margin:2em;
+                  "
+                >
                 <b style="font-size:x-large">AIGUA EMBOTELLADA</b>
               </div>
               <div style="font-size:larger;padding:1em">
@@ -1504,10 +1513,10 @@
       <table border=0 style="margin:auto;margin-top:2em">
         <tr>
           <td></td>
-          <td><img src="img/sady/quina_aigua_beus_a_casa/aixeta.webp"  style="width:100px"></td>
-          <td><img src="img/sady/quina_aigua_beus_a_casa/gerra.webp"   style="width:100px"></td>
-          <td><img src="img/sady/quina_aigua_beus_a_casa/osmosi.webp"  style="width:100px"></td>
-          <td><img src="img/sady/quina_aigua_beus_a_casa/plastic.webp" style="width:100px"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/aixeta.webp"      style="width:10vh"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/gerra.webp"       style="width:10vh"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/osmosi.webp"      style="width:10vh"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/embotellada.webp" style="width:6vh"></td>
         </tr>
         <tr v-for="lletra in Object.keys(tast)">
           <td>
@@ -1616,10 +1625,10 @@
       <table border=0 style="margin:auto;margin-top:2em">
         <tr>
           <td></td>
-          <td><img src="img/sady/quina_aigua_beus_a_casa/aixeta.webp" style="width:100px"></td>
-          <td><img src="img/sady/quina_aigua_beus_a_casa/gerra.webp" style="width:100px"></td>
-          <td><img src="img/sady/quina_aigua_beus_a_casa/osmosi.webp" style="width:100px"></td>
-          <td><img src="img/sady/quina_aigua_beus_a_casa/plastic.webp" style="width:100px"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/aixeta.webp"      style="width:10vh"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/gerra.webp"       style="width:10vh"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/osmosi.webp"      style="width:10vh"></td>
+          <td><img src="img/sady/quina_aigua_beus_a_casa/embotellada.webp" style="width:6vh"></td>
         </tr>
         <tr v-for="lletra in Object.keys(tast)">
           <td>
@@ -1728,7 +1737,6 @@
               font-size:12px;
             "
           >
-            <tr><th colspan=2>taula numèrica resultats</th></tr>
             <tr>
               <th>encerts</th>
               <th>persones</th>
@@ -1801,7 +1809,7 @@
           "
         >
           <div>
-            <img src="img/sady/infografia_quina_aigua_bevem/plastic.webp" style="height:95px">
+            <img src="img/sady/infografia_quina_aigua_bevem/embotellada.webp" style="height:95px">
           </div>
           <div
             v-if="get_encerts_participacions_anteriors"
@@ -1843,7 +1851,6 @@
               margin:auto;
             "
           >
-            <tr><th colspan=2>taula numèrica resultats</th></tr>
             <tr>
               <th>tipus aigua</th>
               <th>persones</th>
@@ -3022,18 +3029,21 @@
                   src:             "img/sady/quina_aigua_beus_a_casa/osmosi.webp",
                   src_seleccionada:"img/sady/quina_aigua_beus_a_casa/osmosi.webp",
                 },
-                {text:"Aigua embotellada en plàstic",
+                {
+                  text:"Aigua embotellada en plàstic",
                   src:             "img/sady/quina_aigua_beus_a_casa/plastic.webp",
                   src_seleccionada:"img/sady/quina_aigua_beus_a_casa/plastic.webp",
-                } ,
-                {text:"Aigua embotellada en vidre",
+                },
+                {
+                  text:"Aigua embotellada en vidre",
                   src:             "img/sady/quina_aigua_beus_a_casa/vidre.webp",
                   src_seleccionada:"img/sady/quina_aigua_beus_a_casa/vidre.webp",
-                } ,
-                {text:"Altres",
-                  src:             "img/sady/quina_aigua_beus_a_casa/altres.webp",
-                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/altres.webp",
-                } ,
+                },
+                {
+                  text:"Altres",
+                  src:             "img/sady/quina_aigua_beus_a_casa/altres.svg",
+                  src_seleccionada:"img/sady/quina_aigua_beus_a_casa/altres.svg",
+                },
               ],
             },
             {
@@ -3136,8 +3146,8 @@
         "final",
       ],
 
-      el_gust_de_laigua_text_visible:null,
-      laigua_segura_i_saludable_text_visible:null,
+      el_gust_de_laigua_text_visible:"te_gust_laigua",
+      laigua_segura_i_saludable_text_visible:"que_vol_dir_que_una_aigua_sigui_segura",
 
       tipus_aigua_embotellada:[
         {
@@ -3420,7 +3430,7 @@
           "Aixeta"        :"aixeta",
           "Gerra filtrant":"gerra",
           "Osmosi"        :"osmosi",
-          "Embotellada"   :"plastic",
+          "Embotellada"   :"embotellada",
         }[retval.text];
 
         return retval;
@@ -3513,11 +3523,9 @@
         dibuixa_grafic_aigua_preferida();
       }
     },
-
   }).mount("#app");
-  app.vista_actual="portada";
 
-  /*debug mode*/
+  /*DEBUG MODE*/
   //app.vista_actual="per_on_passa_aigua";
   //app.index_pagina_actual=0;
 </script>

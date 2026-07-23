@@ -1,9 +1,8 @@
 reunio 6-juliol-2026
   - [ ] mirar perquè el canvas dels gràfics desapareix
 
-reunio 22-juliol-2026
-  - [INICIAT] provar format webp imatges de "quina aigua beus"
-  - [ESPERAR] millorar visibilitat diapositiva" Aigua embotellada"
-  - [ESPERAR] gráfica "huella de carbono" no es del todo clara.
-  - [ESPERAR] desactivar corrector automàtic tablets
-  - [ESPERAR] logos a pàgina inicial (mateixos final)
+reunio 22-juliol-2026 (anna, pau, lluis)
+  - [ ] millorar visibilitat pàgina "tipus aigua embotellada"
+  - [ ] gráfica "huella de carbono" no es del todo clara.
+  - [ ] desactivar corrector automàtic tablets
+  - [ ] posar logos a pàgina inicial (mateixos del final)
