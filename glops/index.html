@@ -335,7 +335,7 @@
     }
 
     [fons_normal]{
-      background:url(img/sady/fons.webp);
+      background:url(img/pau/fons.webp);
       background-repeat:no-repeat;
       background-position:center;
       background-size:cover;
@@ -453,7 +453,7 @@
   <!--portada-->
   <div v-if="vista_actual=='portada'" center
     style="
-      background:url(img/sady/portada.webp);
+      background:url(img/pau/portada.webp);
       background-repeat:no-repeat;
       background-size:cover;
       background-position:center;
@@ -518,16 +518,19 @@
           </div>
         </div>
       </button>
+    </div>
 
-      <!--boto pantalla completa-->
-      <div style="margin-top:1em" v-if="1">
-        <button
-          onclick="toggle_pantalla_completa()"
-          style="padding:0.5em 2em"
-        >
-          activar pantalla completa
-        </button>
+    <!--logo fcri-->
+    <div style="
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      margin-top:-25vh;
+    ">
+      <div></div>
+      <div>
+        <img src="img/logos/fcri.png" style="width:300px">
       </div>
+      <div></div>
     </div>
   </div>
 
@@ -810,47 +813,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!--eliminat-->
-  <div v-if="vista_actual=='comencem'" center>
-    <div
-      style="
-        background:url(img/sady/portada.webp);
-        background-repeat:no-repeat;
-        background-size:cover;
-        background-position:center;
-        height:100vh;
-        margin:auto;
-      "
-    >
-      <div
-        style="
-          position:relative;
-          top:40vh;
-        "
-      >
-        <button
-          @click="vista_actual='infografia_quina_aigua_bevem'"
-          boto_comencem
-        >
-          COMENCEM
-          <!--fletxa verda-->
-          <span
-            style="
-              display:inline-block;
-              background:white;
-              color:var(--verd_intens);
-              border-radius:50%;
-              width:64px;
-              padding:5px;
-              margin-left:10px;
-            "
-          >&#10140;
-          </span>
-        </button>
       </div>
     </div>
   </div>
