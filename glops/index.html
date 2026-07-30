@@ -1009,8 +1009,8 @@
                   font-size:smaller;
                 "
               >
-                <b>Redueix molts compostos químics i sals dissoltes</b>
-                produeix una aigua molt més baixa en minerals.
+                <b>Redueix molts compostos químics i sals dissoltes.</b>
+                Produeix una aigua molt més baixa en minerals.
               </div>
             </div>
           </td>
@@ -1076,7 +1076,9 @@
             </div>
           </td>
           <td colspan=5></td>
-          <td>
+        </tr>
+        <tr>
+          <td colspan=7>
             <code><i>
               * Dades per l'Àrea Metropolitana de Barcelona: extrets de Pole et al. 2026 Environmental and Sustainability Indicators
             </i></code>
@@ -1451,9 +1453,9 @@
       </div>
       <div style="font-size:larger;">
         <div style="color:var(--vivid_azure);font-weight:bold">INSTRUCCIONS</div>
-        <div flex><code instruccions_numero>1</code> Agafa un got</div>
+        <div flex><code instruccions_numero>1</code> Agafa un got (te'l pots quedar, és reutilitzable)</div>
         <div flex><code instruccions_numero>2</code> Serveix-te i tasta les 4 aigües (A, B, C i D)</div>
-        <div flex><code instruccions_numero>3</code> Intenta endevinar quina aigua creus que correspon a cada lletra</div>
+        <div flex><code instruccions_numero>3</code> Intenta endevinar quina aigua correspon a cada lletra</div>
       </div>
     </div>
     <div center>
@@ -1513,7 +1515,7 @@
         gap:10px;
         width:50%;
         margin:auto;
-        margin-top:1em;
+        margin-top:4em;
 
         display:grid;
         grid-template-columns:1fr 2fr 1fr 1fr 1fr 1fr;
@@ -1685,8 +1687,8 @@
             "
           >
             <tr>
-              <th>encerts</th>
-              <th>persones</th>
+              <th>Encerts</th>
+              <th>Participants</th>
             </tr>
             <tr v-for="[key,val] in Object.entries(encerts)">
               <td>
@@ -1799,8 +1801,8 @@
             "
           >
             <tr>
-              <th>tipus aigua</th>
-              <th>persones</th>
+              <th>Tipus aigua</th>
+              <th>Participants</th>
             </tr>
             <tr v-for="[key,val] in Object.entries(aigua_agrada)">
               <td>{{key}}</td>
@@ -2569,7 +2571,7 @@
     <div
       style="
         display:grid;
-        grid-template-columns:repeat(5, 1fr);
+        grid-template-columns:repeat(4, 1fr);
         width:70%;
         margin:auto;
         margin-top:2em;
@@ -2581,8 +2583,8 @@
           align-items:center;
           justify-content:center;
         "
+        v-for="text,i in Object.keys(preguntes_rapides_per_acabar)"
         :opcio_seleccionada="preguntes_rapides_per_acabar[text]"
-        v-for="text in Object.keys(preguntes_rapides_per_acabar)"
         @click="
           respondre_a_pregunes_rapides_per_acabar(text);
         "
@@ -2599,7 +2601,7 @@
         margin-top:2em;
       "
     >
-      <div>Explica'ns què penses de l'activitat (opcional)</div>
+      <div>Explica'ns què en penses de l'activitat (opcional)</div>
       <div>
         <textarea v-model="explicans_que_en_penses_opcional"
           style="
@@ -3492,6 +3494,6 @@
   }).mount("#app");
 
   /*DEBUG MODE*/
-  //app.vista_actual="per_on_passa_aigua";
+  app.vista_actual="preguntes_rapides_per_acabar";
   //app.index_pagina_actual=0;
 </script>
