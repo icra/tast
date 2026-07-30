@@ -2252,49 +2252,55 @@
     >
       <div
         style="
-          display:flex;
-          justify-content:center;
+          display:grid;
+          grid-template-columns:1fr 1fr;
         "
       >
-        <div
-          style="
-            background:var(--lila_clar_palid);
-            padding:1em;
-            border-radius:20px;
-            border:1px solid var(--lila_clar_intens);
-          "
-        >
-          <div flex>
-            <img src="img/sady/normalment_ens_fixem_en/gota-monedes.webp"
+        <img src="img/pau/cost_anual_aigua.png" style="height:50vh">
+        <div>
+          <div
+            style="
+              background:var(--lila_clar_palid);
+              padding:1em;
+              border-radius:20px;
+              border:1px solid var(--lila_clar_intens);
+            "
+          >
+            <div>
+              <img src="img/sady/normalment_ens_fixem_en/gota-monedes.webp"
+                style="
+                  width:100px;
+                  display:block;
+                  margin:auto;
+                "
+              >
+              <div>
+                <div><b style="color:var(--lila_clar_intens)">L'aigua embotellada és l'opció més cara,</b></div>
+                especialment quan
+                s'adquireix en envasos de petit volum.
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
               style="
-                width:100px;
-                display:block;
+                border:1px solid var(--blau_clar);
+                border-radius:10px;
+                padding:1em 2em;
+                background:var(--blau_clar_palid);
+                box-shadow:1px 1px 10px #ccc;
+                font-size:larger;
+                margin-top:2em;
               "
             >
-            <div>
-              <div><b style="color:var(--lila_clar_intens)">L'aigua embotellada és l'opció més cara,</b></div>
-              especialment quan
-              s'adquireix en envasos de petit volum.
+              <div><b>Càlcul orientatiu per a un consum de 730 L/any per persona (2L/dia).</b></div>
+              <div>Els valors poden variar segons el municipi, el sistema de filtració i el preu de mercat.</div>
             </div>
           </div>
         </div>
       </div>
 
-      <img src="img/sady/grafic_opcio_mes_cara.svg" style="width:90%">
 
-      <div
-        style="
-          border:1px solid var(--blau_clar);
-          border-radius:10px;
-          padding:1em 2em;
-          background:var(--blau_clar_palid);
-          box-shadow:1px 1px 10px #ccc;
-          font-size:larger;
-        "
-      >
-        <div><b>Càlcul orientatiu per a un consum de 730 L/any per persona (2L/dia).</b></div>
-        <div>Els valors poden variar segons el municipi, el sistema de filtració i el preu de mercat.</div>
-      </div>
     </div>
   </div>
 
@@ -2316,47 +2322,55 @@
     >
       <div
         style="
-          display:flex;
-          justify-content:center;
+          display:grid;
+          grid-template-columns: 1fr 1fr;
         "
       >
-        <div flex
+        <img src="img/pau/petjada_ambiental.png"
           style="
-            background:var(--lila_clar_palid);
-            padding:1em;
-            border-radius:20px;
-            border:1px solid var(--lila_clar_intens);
-            width:50%;
+            height:50vh;
+            margin-left:2em;
           "
         >
-          <img src="img/sady/per_on_passa_aigua/camio.webp"
+        <div>
+          <div
             style="
-              width:100px;
-              display:block;
+              background:var(--lila_clar_palid);
+              padding:1em;
+              border-radius:20px;
+              border:1px solid var(--lila_clar_intens);
             "
           >
-          <div>
-            <b style="color:var(--lila_clar_intens)">L'aigua embotellada és la que presenta major impacte ambiental</b>
-            perquè implica la fabricació d'envasos, transport i gestió de residus.
+            <img src="img/sady/per_on_passa_aigua/camio.webp"
+              style="
+                width:130px;
+                display:block;
+                margin:auto;
+              "
+            >
+            <div>
+              <b style="color:var(--lila_clar_intens)">L'aigua embotellada és la que presenta major impacte ambiental</b>
+              perquè implica la fabricació d'envasos, transport i gestió de residus.
+            </div>
+          </div>
+
+          <div
+            style="
+              border:1px solid var(--blau_clar);
+              border-radius:10px;
+              padding:1em 2em;
+              background:var(--blau_clar_palid);
+              box-shadow:1px 1px 10px #ccc;
+              font-size:larger;
+              margin-top:2em;
+            "
+          >
+            <div><b>Càlcul orientatiu per a un consum de 2L persona/dia</b></div>
+            <div>Dades obtingudes de l'article científic <i>Prole et al. 2026 Expo Sci Environ Epidemiol.</i></div>
           </div>
         </div>
       </div>
 
-      <img src="img/sady/grafic_petjada_ambiental.svg" style="width:90%">
-
-      <div
-        style="
-          border:1px solid var(--blau_clar);
-          border-radius:10px;
-          padding:1em 2em;
-          background:var(--blau_clar_palid);
-          box-shadow:1px 1px 10px #ccc;
-          font-size:larger;
-        "
-      >
-        <div><b>Càlcul orientatiu per a un consum de 2L persona/dia</b></div>
-        <div>Dades obtingudes de l'article científic <i>Prole et al. 2026 Expo Sci Environ Epidemiol.</i></div>
-      </div>
     </div>
   </div>
 
@@ -3481,6 +3495,6 @@
   }).mount("#app");
 
   /*DEBUG MODE*/
-  app.vista_actual="identificar_correctament_aigua_es_dificil";
+  app.vista_actual="quina_es_la_petjada_ambiental";
   //app.index_pagina_actual=0;
 </script>
