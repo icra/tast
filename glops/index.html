@@ -556,16 +556,21 @@
           style="border-collapse:collapse;margin:auto"
         >
           <tr style="font-family:Inter">
-            <td colspan=2>
+            <td colspan=2 rowspan=2>
               <div center style="font-family:Inter;font-size:larger">
                 <b>Valora de l'1 al 5 les següents afirmacions</b>
               </div>
             </td>
-            <td center style="width:80px">Gens d'acord</td>
-            <td center style="width:80px">Poc d'acord</td>
-            <td center style="width:80px">Ni d'acord ni en desacord</td>
-            <td center style="width:80px">Bastant d'acord</td>
-            <td center style="width:80px">Molt d'acord</td>
+            <td colspan=5 center>
+              <div style="margin-bottom:1em">Grau d'acord</div>
+            </td>
+          </tr>
+          <tr>
+            <td center style="width:80px">Gens</td>
+            <td center style="width:80px">Poc</td>
+            <td center style="width:80px">Mig</td>
+            <td center style="width:80px">Bastant</td>
+            <td center style="width:80px">Molt</td>
           </tr>
 
           <tbody v-for="pregunta in pagina_actual.preguntes">
@@ -2459,7 +2464,7 @@
       >
         <tr style="font-family:Inter">
           <!--llegenda-->
-          <td colspan=2>
+          <td colspan=2 rowspan=2>
             <div flex style="justify-content:center;margin-bottom:8px">
               <div>Llegenda</div>
               <div>&emsp;</div>
@@ -2478,12 +2483,14 @@
               </div>
             </div>
           </td>
-
-          <td center style="width:80px">Gens d'acord</td>
-          <td center style="width:80px">Poc d'acord</td>
-          <td center style="width:80px">Ni d'acord ni en desacord</td>
-          <td center style="width:80px">Bastant d'acord</td>
-          <td center style="width:80px">Molt d'acord</td>
+          <td colspan=5>Grau d'acord</td>
+        </tr>
+        <tr>
+          <td center style="width:80px">Gens</td>
+          <td center style="width:80px">Poc</td>
+          <td center style="width:80px">Mig</td>
+          <td center style="width:80px">Bastant</td>
+          <td center style="width:80px">Molt</td>
         </tr>
 
         <tbody v-for="pregunta in pagines.find(pag=>pag.tipus=='12345').preguntes">
@@ -3494,6 +3501,6 @@
   }).mount("#app");
 
   /*DEBUG MODE*/
-  app.vista_actual="preguntes_rapides_per_acabar";
+  //app.vista_actual="preguntes_rapides_per_acabar";
   //app.index_pagina_actual=0;
 </script>
