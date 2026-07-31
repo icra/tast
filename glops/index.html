@@ -93,7 +93,7 @@
       border:2px solid var(--blau_clar_intens);
     }
     [cantonada_clicable] img{
-      width:30px;
+      width:50px;
     }
     [text_visible]{
       background:white;
@@ -519,8 +519,21 @@
           </div>
         </div>
       </button>
+
     </div>
 
+    <div
+      style="
+        position:relative;
+        bottom:0;
+        display:flex;
+        justify-content:center;
+        gap:200px;
+      "
+    >
+      <img src="img/logos/fcri.png" style="height:80px">
+      <img src="img/logos/icra.svg" style="height:80px">
+    </div>
   </div>
 
   <!--preguntes-->
@@ -1927,28 +1940,28 @@
           @click="set_text_gust_aigua('te_gust_laigua')"
           :seleccionada="el_gust_de_laigua_text_visible=='te_gust_laigua'"
         >
-          <img src="img/sady/i.svg">
+          <img src="img/pau/icones_post_tast/gust_aigua.png">
           <div>Té gust l'aigua?</div>
         </div>
         <div cantonada_clicable
           @click="set_text_gust_aigua('la_mineralitzacio')"
           :seleccionada="el_gust_de_laigua_text_visible=='la_mineralitzacio'"
         >
-          <img src="img/sady/i.svg">
+          <img src="img/pau/icones_post_tast/mineralitzacio.png">
           <div>La mineralització</div>
         </div>
         <div cantonada_clicable
           @click="set_text_gust_aigua('el_gust_del_clor')"
           :seleccionada="el_gust_de_laigua_text_visible=='el_gust_del_clor'"
         >
-          <img src="img/sady/i.svg">
+          <img src="img/pau/icones_post_tast/clor.png">
           El gust del clor
         </div>
         <div cantonada_clicable
           @click="set_text_gust_aigua('temperatura_i_gust')"
           :seleccionada="el_gust_de_laigua_text_visible=='temperatura_i_gust'"
         >
-          <img src="img/sady/i.svg">
+          <img src="img/pau/icones_post_tast/temperatura.png">
           Temperatura i gust
         </div>
       </div>
@@ -2068,7 +2081,7 @@
             color:var(--dark_azure);
           "
         >
-          L'aigua segura i saludable
+          L'aigua segura
         </div>
         <div center>
           <img src="img/sady/normalment_ens_fixem_en/gota-escut-verd.webp"
@@ -2090,7 +2103,7 @@
           @click="set_text_aigua_segura('que_vol_dir_que_una_aigua_sigui_segura')"
           :seleccionada="laigua_segura_i_saludable_text_visible=='que_vol_dir_que_una_aigua_sigui_segura'"
         >
-          <img src="img/sady/i.svg">
+          <img src="img/pau/icones_post_tast/aigua_segura.png">
           <div>Què vol dir que una aigua sigui segura?</div>
         </div>
 
@@ -2098,7 +2111,7 @@
           @click="set_text_aigua_segura('com_es_controla_laigua_que_consumim')"
           :seleccionada="laigua_segura_i_saludable_text_visible=='com_es_controla_laigua_que_consumim'"
         >
-          <img src="img/sady/i.svg">
+          <img src="img/pau/icones_post_tast/control_aigua.png">
           <div>Com es controla l'aigua que consumim?</div>
         </div>
 
@@ -2106,7 +2119,7 @@
           @click="set_text_aigua_segura('conservar_laigua_de_manera_segura')"
           :seleccionada="laigua_segura_i_saludable_text_visible=='conservar_laigua_de_manera_segura'"
         >
-          <img src="img/sady/i.svg">
+          <img src="img/pau/icones_post_tast/conservacio_segura.png">
           Conservar l'aigua de manera segura
         </div>
 
@@ -2114,7 +2127,7 @@
           @click="set_text_aigua_segura('filtres_domestics_i_seguretat')"
           :seleccionada="laigua_segura_i_saludable_text_visible=='filtres_domestics_i_seguretat'"
         >
-          <img src="img/sady/i.svg">
+          <img src="img/pau/icones_post_tast/filtracio_segura.png">
           Filtres domèstics i seguretat
         </div>
       </div>
@@ -3121,8 +3134,8 @@
         "final",
       ],
 
-      el_gust_de_laigua_text_visible:"te_gust_laigua",
-      laigua_segura_i_saludable_text_visible:"que_vol_dir_que_una_aigua_sigui_segura",
+      el_gust_de_laigua_text_visible:null,
+      laigua_segura_i_saludable_text_visible:null,
 
       tipus_aigua_embotellada:[
         {
@@ -3501,6 +3514,6 @@
   }).mount("#app");
 
   /*DEBUG MODE*/
-  //app.vista_actual="preguntes_rapides_per_acabar";
+  //app.vista_actual="laigua_segura_i_saludable";
   //app.index_pagina_actual=0;
 </script>
