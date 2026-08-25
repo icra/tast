@@ -19,15 +19,15 @@
 <div id=app>
   
   <div v-if="participacions">
-    <details open>
-      <summary>Taula participacions (crua) ({{participacions.length}} files)</summary>
-      <table border=1>
+    <details v-for="arr,key in get_participacions_agrupades_per_dia">
+      <summary>{{key}}: {{arr.length}} participants</summary>
+      <table border=1 >
         <tr>
           <th left>id</th>
           <th left>data</th>
           <th left>respostes</th>
         </tr>
-        <tr v-for="par in participacions">
+        <tr v-for="par in arr">
           <td>{{par.id}}</td>
           <td>{{par.created}}</td>
           <td>
@@ -122,6 +122,26 @@
         });
 
         return retval;
+      },
+
+      get_participacions_agrupades_per_dia(){
+        if(!this.participacions) return false;
+        let retval={};
+        this.participacions.forEach(par=>{
+          let dia = par.created.substring(0,10);//yyyy-mm-dd
+          if(!retval[dia]){
+            retval[dia]=[];
+          }
+          retval[dia].push(par);
+        });
+
+        //ordenat per data DESC
+        let retval_ordenat  = {};
+        Object.keys(retval).sort().reverse().forEach(dia=>{
+          retval_ordenat[dia] = retval[dia];
+        });
+
+        return retval_ordenat;
       },
     },
 
