@@ -2920,6 +2920,31 @@
   });
 </script>
 
+<script>//controla inactivitat usuari (5 minuts)
+  let ultima_activitat = Date.now();
+  function handle_interaccio(event){
+    ultima_activitat = Date.now();
+    console.log("Interacció usuari (reset inactivitat):", event.type);
+  }
+  document.body.addEventListener("touchstart", handle_interaccio);
+  document.body.addEventListener("click", handle_interaccio);
+  function check_inactivitat(){
+    let temps_inactivitat_segons = (Date.now()-ultima_activitat)/1000;
+    let vista_actual = app.vista_actual;
+    console.log({temps_inactivitat_segons, vista_actual});
+    if(vista_actual=="portada") return;
+    if(temps_inactivitat_segons>20 && vista_actual=="final"){
+      window.location.reload();
+    }else if(temps_inactivitat_segons>300 && vista_actual=="tast_aigues"){
+      window.location.reload();
+    }else if(temps_inactivitat_segons>180){
+      window.location.reload();
+    }
+  }
+  /*check inactivitat cada 20 segons*/
+  setInterval(check_inactivitat,20*1000);
+</script>
+
 <script>
   let app=Vue.createApp({
     data(){return{
@@ -3328,7 +3353,7 @@
         if(max_id_local){
           let res           = await fetch("db/id.php");
           let max_id_remota = await res.text();
-          console.log({max_id_local,max_id_remota})
+          //console.log({max_id_local,max_id_remota})
           if(max_id_local!=max_id_remota){
             this.fetch_participacions_anteriors();
           }
