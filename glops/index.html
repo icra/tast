@@ -2926,18 +2926,27 @@
     ultima_activitat = Date.now();
     console.log("Interacció usuari (reset inactivitat):", event.type);
   }
+  /*aplica listeners al body*/
   document.body.addEventListener("touchstart", handle_interaccio);
-  document.body.addEventListener("click", handle_interaccio);
+  document.body.addEventListener("click",      handle_interaccio);
+
+  /*funció principal inactivitat*/
   function check_inactivitat(){
     let temps_inactivitat_segons = (Date.now()-ultima_activitat)/1000;
     let vista_actual = app.vista_actual;
     console.log({temps_inactivitat_segons, vista_actual});
+
     if(vista_actual=="portada") return;
-    if(temps_inactivitat_segons>20 && vista_actual=="final"){
-      window.location.reload();
-    }else if(temps_inactivitat_segons>300 && vista_actual=="tast_aigues"){
-      window.location.reload();
-    }else if(temps_inactivitat_segons>180 && vista_actual!="tast_aigues"){
+
+    /*temps límit default 3 minuts*/
+    let temps_limit_segons = 180;
+
+    //temps límit per "diapositives" concretes
+    if(vista_actual=="final"      ) temps_limit_segons=20;
+    if(vista_actual=="tast_aigues") temps_limit_segons=300;
+
+    //aplica reload
+    if(temps_inactivitat_segons>temps_limit_segons){
       window.location.reload();
     }
   }
