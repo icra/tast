@@ -15,12 +15,14 @@
     [small]{
       font-size:smaller;
     }
+    [nowrap]{
+      white-space:nowrap;
+    }
   </style>
 </head><body>
 <h1>glops - dades recopilades</h1>
 
 <div id=app>
-  
   <div v-if="participacions">
     <details v-for="arr,key in get_participacions_agrupades_per_dia">
       <summary>{{key}}: {{arr.length}} participants</summary>
@@ -66,16 +68,14 @@
           </td>
         </tr>
       </table>
-    </details>
-
-    <hr>
+    </details><hr>
 
     <details open>
-      <summary>Només Comentaris</summary>
+      <summary>Només veure Comentaris ("Explica'ns què en penses")</summary>
       <table small border=1>
         <tr v-for="par in get_participacions_amb_comentaris">
           <td>{{par.id}}</td>
-          <td>{{par.created}}</td>
+          <td nowrap>{{par.created}}</td>
           <td>{{par.json.explicans_que_en_penses_opcional}}</td>
         </tr>
       </table>
