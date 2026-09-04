@@ -12,6 +12,9 @@
     [left]{
       text-align:left;
     }
+    [small]{
+      font-size:smaller;
+    }
   </style>
 </head><body>
 <h1>glops - dades recopilades</h1>
@@ -61,6 +64,17 @@
               </tbody>
             </table>
           </td>
+        </tr>
+      </table>
+    </details>
+    <hr>
+    <details open>
+      <summary>Només Comentaris</summary>
+      <table small border=1>
+        <tr v-for="par in participacions.filter(p=>p.json?.explicans_que_en_penses_opcional)">
+          <td>{{par.id}}</td>
+          <td>{{par.created}}</td>
+          <td>{{par.json.explicans_que_en_penses_opcional}}</td>
         </tr>
       </table>
     </details>
