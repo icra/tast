@@ -67,11 +67,13 @@
         </tr>
       </table>
     </details>
+
     <hr>
+
     <details open>
       <summary>Només Comentaris</summary>
       <table small border=1>
-        <tr v-for="par in participacions.filter(p=>p.json?.explicans_que_en_penses_opcional)">
+        <tr v-for="par in get_participacions_amb_comentaris">
           <td>{{par.id}}</td>
           <td>{{par.created}}</td>
           <td>{{par.json.explicans_que_en_penses_opcional}}</td>
@@ -156,6 +158,13 @@
         });
 
         return retval_ordenat;
+      },
+
+      get_participacions_amb_comentaris(){
+        if(!this.participacions) return false;
+        let pars = this.participacions.filter(p=>p.json?.explicans_que_en_penses_opcional);
+        pars.sort((a,b)=>b.created<a.created?-1:1);
+        return pars;
       },
     },
 
