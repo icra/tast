@@ -1,0 +1,567 @@
+<!doctype html><html><head>
+  <meta charset=utf8>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#128167;</text></svg>">
+  <title>PANTALLA</title>
+  <script src="lib/vue.global.prod.js"></script>
+  <script src="lib/chart.umd.min.js"></script>
+  <style>
+    :root{
+      --dark_azure:   #006787;
+      --vivid_azure:  #00859d;
+      --light_azure:  #e5f5ff;
+      --intens_azure: #00b7f1;
+
+      --blau_clar:    #bce3f9;
+      --verd_clar:    #b7e8a2;
+      --taronja_clar: #fdc29d;
+      --lila_clar:    #d3befe;
+
+      --blau_clar_intens:    #00abe8;
+      --taronja_clar_intens: #ff914d;
+      --verd_clar_intens:    #7ed957;
+      --lila_clar_intens:    #8c52ff;
+
+      --verd_intens: #73b612;
+
+      --blau_clar_palid: #f2faff;
+      --lila_clar_palid: #f7f3ff;
+    }
+    @font-face {
+      font-family:IntroRust;/*set name*/
+      src:url(fonts/IntroRust.otf);
+    }
+    @font-face {
+      font-family:Inter;/*set name*/
+      src:url(fonts/Inter/Inter-VariableFont_opsz,wght.ttf);
+    }
+    body{
+      font-family:Arial;
+      margin:0;
+    }
+    table{
+      border-collapse:collapse;
+    }
+    td{
+      padding:0;
+    }
+    canvas{
+      height:40vh;
+      width:30vw;
+    }
+    [flex]{
+      display:flex;
+      align-items:center;
+    }
+
+    [seccio]{
+      background:white;
+      padding:1em;
+      border-radius:20px;
+      border:1px solid var(--blau_clar);
+      box-shadow:2px 2px 10px var(--blau_clar);
+    }
+
+    [fons_normal]{
+      background:url(img/pau/fons.webp);
+      background-repeat:no-repeat;
+      background-position:center;
+      background-size:cover;
+      height:100vh;
+      width:100vw;
+    }
+    [center]{
+      text-align:center;
+    }
+    [left]{
+      text-align:left;
+    }
+    [pregunta_text]{
+      color:var(--dark_azure);
+      padding:5px;
+      display:inline-block;
+      border-radius:10px;
+      font-weight:bold;
+      font-family:IntroRust;
+    }
+  </style>
+</head><body>
+
+<div id=app>
+  <div fons_normal center style="font-family:Inter">
+    <div style="padding-top:1em"></div>
+
+    <div pregunta_text center style="font-size:xxx-large">
+      Resultats de tots els participants
+    </div>
+
+    <div
+      v-if="participacions"
+      style="
+        padding:1em;
+        background:var(--blau_clar);
+        width:40%;
+        border-radius:10px;
+        margin:auto;
+        font-size:larger;
+      "
+    >
+      Nombre de participants anteriors = {{participacions.length}}
+    </div>
+
+    <div v-if="participacions"
+      style="
+        margin:1em 3em;
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        grid-gap:2em;
+      "
+    >
+      <div seccio>
+        <div style="font-family:IntroRust;color:var(--dark_azure);font-size:x-large;">
+          Distingim bé les aigües?
+        </div>
+
+        <!--grafic encerts-->
+        <div flex>
+          <div>
+            <canvas id=grafic_encerts></canvas>
+          </div>
+
+          <table border=1
+            v-for="encerts in [get_encerts_participacions_anteriors.encerts]"
+            style="
+              margin:auto;
+              font-size:12px;
+            "
+          >
+            <tr>
+              <th>Encerts</th>
+              <th>Participants</th>
+            </tr>
+            <tr v-for="[key,val] in Object.entries(encerts)">
+              <td>
+                {{key}}/4
+              </td>
+              <td>
+                {{val}}
+                ({{(100*val/participacions.length).toFixed(0)}}%)
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!--nombre encertants aixeta-->
+        <div
+          style="
+            display:grid;
+            grid-template-columns:1fr 1fr 2fr;
+            align-items:center;
+
+            background:var(--light_azure);
+            padding:1em;
+            border-radius:10px;
+            border:1px solid var(--blau_clar);
+            font-size:x-large;
+            margin-bottom:0.5em;
+          "
+        >
+          <div>
+            <img src="img/sady/infografia_quina_aigua_bevem/aixeta.webp" style="height:95px">
+          </div>
+
+          <div
+            v-if="get_encerts_participacions_anteriors"
+            style="
+              color:var(--blau_clar_intens);
+              font-size:xx-large;
+              font-weight:bold;
+            "
+          >
+            <div>
+              {{
+                get_encerts_participacions_anteriors.tipus_aigua.Aixeta||0
+              }}
+              de
+              {{
+                participacions.length
+              }}
+            </div>
+            <div style="font-size:smaller">
+              ({{((get_encerts_participacions_anteriors.tipus_aigua.Aixeta||0)/participacions.length).toFixed(2)}} %)
+            </div>
+          </div>
+          <div>
+            <div>han encertat</div>
+            <b style="color:var(--blau_clar_intens)">l'aigua de l'aixeta</b>
+          </div>
+        </div>
+
+        <!--nombre encertants embotellada-->
+        <div flex
+          style="
+            display:grid;
+            grid-template-columns:1fr 1fr 2fr;
+            align-items:center;
+
+            background:var(--lila_clar_palid);
+            padding:1em;
+            border-radius:10px;
+            border:1px solid var(--lila_clar);
+            font-size:x-large;
+          "
+        >
+          <div>
+            <img src="img/sady/infografia_quina_aigua_bevem/embotellada.webp" style="height:95px">
+          </div>
+          <div
+            v-if="get_encerts_participacions_anteriors"
+            style="
+              color:var(--lila_clar_intens);
+              font-size:xx-large;
+              font-weight:bold;
+            "
+          >
+            <div>
+              {{
+                get_encerts_participacions_anteriors.tipus_aigua.Embotellada||0
+              }}
+              de
+              {{
+                participacions.length
+              }}
+            </div>
+            <div style="font-size:smaller">
+              ({{((get_encerts_participacions_anteriors.tipus_aigua.Embotellada||0)/participacions.length).toFixed(2)}} %)
+            </div>
+          </div>
+          <div>
+            <div>han encertat</div>
+            <b style="color:var(--lila_clar_intens)">l'aigua embotellada</b>
+          </div>
+        </div>
+      </div>
+
+      <div seccio>
+        <div style="font-family:IntroRust;color:var(--dark_azure);font-size:x-large;">
+          Quina aigua ens agrada més?
+        </div>
+
+        <div flex>
+          <div>
+            <canvas id=grafic_aigua_preferida></canvas>
+          </div>
+
+          <table border=1
+            v-for="aigua_agrada in [get_encerts_participacions_anteriors.aigua_agrada]"
+            style="
+              font-size:12px;
+              margin:auto;
+            "
+          >
+            <tr>
+              <th>Tipus aigua</th>
+              <th>Participants</th>
+            </tr>
+            <tr v-for="[key,val] in Object.entries(aigua_agrada)">
+              <td>{{key}}</td>
+              <td>
+                {{val}}
+                ({{(100*val/participacions.length).toFixed(0)}}%)
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div v-if="get_aigua_preferida_de_tothom">
+          <div
+            style="
+              margin-top:1em;
+            "
+          >
+            <div>
+              <img :src="`img/sady/infografia_quina_aigua_bevem/${get_aigua_preferida_de_tothom.src}.webp`" style="height:95px">
+            </div>
+            <div style="font-size:x-large">
+              {{get_aigua_preferida_de_tothom.text}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  //alterna pantalla completa
+  function toggle_pantalla_completa(){
+    let el = document.body;
+    if(!(document.webkitCurrentFullScreenElement||document.fullScreenElement)){
+      if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();return;
+      if(el.requestFullscreen      ) el.requestFullscreen();return;
+    }else{
+      if(document.webkitExitFullscreen) document.webkitExitFullscreen();return;
+      if(document.exitFullscreen)       document.exitFullscreen();return;
+    }
+  }
+
+  //només intentar activar pantalla completa
+  function activa_pantalla_completa(){
+    let el = document.body;
+    if(!(document.webkitCurrentFullScreenElement||document.fullScreenElement)){
+      if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();return;
+      if(el.requestFullscreen      ) el.requestFullscreen();return;
+    }
+  }
+</script>
+
+<script>
+  let charts={
+    encerts:null,
+    aigua_preferida:null,
+  };
+  function dibuixa_grafic_encerts(){
+    let el = document.getElementById("grafic_encerts");
+    if(!el) return;
+    let recompte = app.get_encerts_participacions_anteriors;
+    if(!recompte) return;
+
+    let eix_x = ["0","1","2","3","4"];
+    let eix_y = eix_x.map(en=>recompte.encerts[en]||0);
+
+    let colors=[
+      '#ff914d',
+      '#ffbd59',
+      '#c1ff72',
+      '#7ed957',
+      '#00bf63',
+    ];
+
+    if(charts.encerts) charts.encerts.destroy();
+    charts.encerts = new Chart(el,{
+      type:'bar',
+      data:{
+        labels:eix_x.map(en=>`${en}/4`),
+        datasets:[{
+          data:eix_y,
+          backgroundColor:colors,
+          borderColor: colors,
+          borderWith:1,
+        }],
+      },
+      options:{
+        scales:{
+          x:{
+            title:{
+              display:true,
+              text:"Encerts",
+            },
+          },
+          y:{
+            title:{
+              display:true,
+              text:"Participants",
+            },
+            max:app.participacions.length,
+          },
+        },
+        plugins:{
+          title:{
+            display:true,
+            font:{
+              size:20,
+            },
+          },
+          legend:{
+            display:false,
+            position:"bottom",
+          },
+        },
+      },
+    });
+  };
+  function dibuixa_grafic_aigua_preferida(){
+    let el = document.getElementById("grafic_aigua_preferida");
+    if(!el) return;
+
+    let recompte = app.get_encerts_participacions_anteriors;
+    if(!recompte) return;
+
+    let eix_x = Object.keys(recompte.aigua_agrada);
+    let eix_y = Object.values(recompte.aigua_agrada);
+
+    let colors=[
+      '#94e5ff',
+      '#ffb587',
+      '#dbfdaf',
+      '#c5a8ff',
+    ];
+
+    if(charts.aigua_preferida) charts.aigua_preferida.destroy();
+    charts.aigua_preferida = new Chart(el,{
+      type:'bar',
+      data:{
+        labels:eix_x,
+        datasets:[{
+          data:eix_y,
+          backgroundColor:colors,
+          borderColor:colors,
+          borderWith:1,
+        }],
+      },
+      options:{
+        scales:{
+          x:{
+            title:{
+              display:true,
+              text:"Tipus aigua",
+            },
+          },
+          y:{
+            title:{
+              display:true,
+              text:"Participants",
+            },
+          },
+        },
+        plugins:{
+          title:{
+            display:true,
+            font:{
+              size:20,
+            },
+          },
+          legend:{
+            display:false,
+            position:"bottom",
+          },
+        },
+      },
+    });
+  };
+</script>
+
+<script>
+  let app=Vue.createApp({
+    data(){return{
+      //participacions anteriors
+      participacions:null, //fetch "db/get_participacions.php"
+    }},
+
+    methods:{
+      activa_pantalla_completa,
+      toggle_pantalla_completa,
+      async fetch_participacions_anteriors(){
+        //get participacions anteriors
+        let res = await fetch("db/get_participacions.php");
+        let arr = await res.json();
+        this.participacions=arr;
+      },
+      //cada 15 segons comprova participacions
+      async comprova_max_id_remota(){
+        let max_id_local = this.max_id_local;
+        if(max_id_local){
+          let res           = await fetch("db/id.php");
+          let max_id_remota = await res.text();
+          //console.log({max_id_local,max_id_remota})
+          if(max_id_local!=max_id_remota){
+            this.fetch_participacions_anteriors();
+          }
+        }
+      },
+    },
+
+    computed:{
+      get_encerts_participacions_anteriors(){
+        if(!this.participacions) return false;
+
+        let retval={
+          encerts:{},     //respostes correctes => nombre persones
+          tipus_aigua:{}, //tipus aigua => nombre encerts
+          aigua_agrada:{},
+        };
+
+        this.participacions.forEach(par=>{
+          let n_respostes_correctes=0;
+
+          let resp_usr = par.json.tast;//dict
+          let resp_cor = par.json.tast_respostes_correctes;//dict
+          Object.keys(resp_usr).forEach(lletra=>{
+            if(resp_usr[lletra]==resp_cor[lletra]){
+              //suma 1 a respostes correctes
+              n_respostes_correctes++;
+
+              //suma 1 a tipus aigua endevinada
+              let tip = resp_cor[lletra];
+              if(retval.tipus_aigua[tip]==undefined){
+                retval.tipus_aigua[tip]=0;
+              }
+              retval.tipus_aigua[tip]++;
+            }
+          });
+          if(retval.encerts[n_respostes_correctes]==undefined){
+            retval.encerts[n_respostes_correctes]=0;
+          }
+          retval.encerts[n_respostes_correctes]++;
+
+          //suma 1 a l'aigua que més agrada
+          let lletra = par.json.tast_thumb.up;//lletra (ABCD)
+          let aigua  = par.json.tast_respostes_correctes[lletra];//text
+          if(aigua){
+            if(retval.aigua_agrada[aigua]==undefined){
+              retval.aigua_agrada[aigua]=0;
+            }
+            retval.aigua_agrada[aigua]++
+          }
+        });
+
+        return retval;
+      },
+
+      get_aigua_preferida_de_tothom(){
+        if(!this.get_encerts_participacions_anteriors) return false;
+        let aigues = this.get_encerts_participacions_anteriors.aigua_agrada;//diccionari
+
+        let retval={
+          text:"",
+          src:"",
+        };
+
+        let maxim  = 0;//number
+        Object.entries(aigues).forEach(([key,val])=>{
+          if(val>maxim){
+            maxim=val;
+            retval.text=key;
+          }
+        });
+
+        if(!retval.text) return false;
+
+        retval.src={
+          "Aixeta"        :"aixeta",
+          "Gerra filtrant":"gerra",
+          "Osmosi"        :"osmosi",
+          "Embotellada"   :"embotellada",
+        }[retval.text];
+
+        return retval;
+      },
+
+      //obtenir màxima id participacions
+      max_id_local(){
+        if(!this.participacions) return false;
+        return Math.max(...this.participacions.map(p=>p.id));
+      },
+    },
+
+    async mounted(){
+      this.fetch_participacions_anteriors();
+      setInterval(this.comprova_max_id_remota,15e3);
+    },
+
+    updated(){
+      //redibuixa gràfics
+      dibuixa_grafic_encerts();
+      dibuixa_grafic_aigua_preferida();
+    },
+  }).mount("#app");
+</script>
