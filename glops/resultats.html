@@ -18,6 +18,9 @@
     [nowrap]{
       white-space:nowrap;
     }
+    [blank]{
+      color:#bbb;
+    }
   </style>
 </head><body>
 <h1>glops - dades recopilades</h1>
@@ -73,9 +76,19 @@
     <details open>
       <summary>Només veure Comentaris ("Explica'ns què en penses")</summary>
       <table small border=1>
+        <tr>
+          <th>id
+          <th>data
+          <th>lloc
+          <th>comentari
+        </tr>
         <tr v-for="par in get_participacions_amb_comentaris">
           <td>{{par.id}}</td>
           <td nowrap>{{par.created}}</td>
+          <td>
+            <div v-if="par.json.lloc">{{par.json.lloc}}</div>
+            <div v-else blank>[lloc no definit]</div>
+          </td>
           <td>{{par.json.explicans_que_en_penses_opcional}}</td>
         </tr>
       </table>
