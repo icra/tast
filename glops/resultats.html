@@ -85,7 +85,7 @@
         <tr v-for="par in get_participacions_amb_comentaris">
           <td>{{par.id}}</td>
           <td nowrap>{{par.created}}</td>
-          <td>
+          <td style="white-space:nowrap">
             <div v-if="par.json.lloc">{{par.json.lloc}}</div>
             <div v-else blank>[lloc no definit]</div>
           </td>
