@@ -520,6 +520,8 @@
         </div>
       </button>
 
+      <div><p>{{lloc}}</p></div>
+
       <div
         style="
           display:grid;
@@ -2954,9 +2956,16 @@
   setInterval(check_inactivitat,20*1000);
 </script>
 
+<script>//GET lloc
+  let usp  = new URLSearchParams(window.location.search);
+  let lloc = usp.get("lloc");
+</script>
+
 <script>
   let app=Vue.createApp({
     data(){return{
+      lloc,//usp
+
       //vista actual
       vista_actual:"portada",
       missatge_participar:"",
@@ -3236,6 +3245,7 @@
           tast_respostes_correctes: this.tast_respostes_correctes,
           preguntes_rapides_per_acabar: this.preguntes_rapides_per_acabar,
           explicans_que_en_penses_opcional: this.explicans_que_en_penses_opcional,
+          lloc: this.lloc,
         };
         let payload_str = JSON.stringify(payload);
         let body = new FormData();
