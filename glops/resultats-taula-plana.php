@@ -167,6 +167,8 @@
   //https://datatables.net/
   let table=new DataTable('#participacions',{
     //configuration options
+    paging:false,
+
     layout:{
       topStart:{
         //buttons:['copy','csv','excel','pdf','print'],
