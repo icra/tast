@@ -3,16 +3,20 @@
   <title>GLOPS Dashboard</title>
   <script src="lib/vue.global.prod.js"></script>
   <style>
-    div[boto]{
+    a[boto]{
+      display:block;
       border:1px solid #ccc;
       border-radius:5px;
       padding:1em 1.618em;
       text-align:center;
       cursor:pointer;
+      text-decoration:none;
+      color:royalblue;
     }
-    div[boto]:hover{
+    a[boto]:hover{
       background:royalblue;
       color:white;
+      text-decoration:underline;
     }
     div[seccio]{
       padding:5px;
@@ -29,10 +33,10 @@
         gap:5px;
       "
     >
-      <div boto v-for="link in sec.links"
-        @click="obre(link.href)"
-      >
-        {{link.nom}}
+      <div v-for="link in sec.links">
+        <a boto :href="link.href" target="_blank">
+          <span v-html="link.nom"></span>
+        </a>
       </div>
     </div>
   </div>
@@ -53,15 +57,15 @@
         {
           nom:"dades recopilades",
           links:[
-            {nom:"Participacions (agrupades per dia)",      href:"resultats.html"},
-            {nom:"Participacions (taula plana exportable)", href:"resultats-taula-plana.php"},
+            {nom:"Participacions<br>(agrupades per dia)",      href:"resultats.html"},
+            {nom:"Participacions<br>(taula plana exportable)", href:"resultats-taula-plana.php"},
           ],
         },
         {
           nom:"disseny",
           links:[
-            {nom:"Disseny Sady (canva)", href:"https://www.canva.com/design/DAHJFKhO1JA/KNTIG27O2G5PyJs1LcW1yA/edit?utm_source=shareButton&utm_medium=email&utm_campaign=designshare"},
             {nom:"Disseny Pau (canva)",  href:"https://canva.link/grt9dye83cxy8oa"},
+            {nom:"Disseny Sady (canva)", href:"https://www.canva.com/design/DAHJFKhO1JA/KNTIG27O2G5PyJs1LcW1yA/edit?utm_source=shareButton&utm_medium=email&utm_campaign=designshare"},
           ],
         },
       ],
