@@ -1,8 +1,115 @@
-reunio 6-juliol-2026
-  - [ ] mirar perquè el canvas dels gràfics desapareix
+COSES PER FER
 
-reunio 22-juliol-2026 (anna, pau, lluis)
-  - [ ] millorar visibilitat pàgina "tipus aigua embotellada"
-  - [ ] gráfica "huella de carbono" no es del todo clara.
-  - [ ] desactivar corrector automàtic tablets
-  - [ ] posar logos a pàgina inicial (mateixos del final)
+[2026-09-29]
+- establir camp "lloc" a totes les participacions anteriors que no en tenen
+- processar mail vicenç (21/9/2026):
+  '''
+    Bon dia
+
+    Us comparteixo consideracions generals sobre el GLOPS, pensant en el GLOPS
+    2.0, i després un conjunt de consideracions més específiques fàcils
+    d’implementar.
+
+    GLOPS 2.0: una instal·lació interactiva i itinerant sobre el consum d’aigua
+
+    L’experiència de Manresa ha confirmat el potencial de GLOPS com a activitat
+    de divulgació i canvi d’hàbits, però també ens ha permès imaginar un salt
+    d’escala. GLOPS 2.0 hauria de convertir-se en una instal·lació molt més
+    atractiva, autònoma i fàcilment transportable, concebuda per circular per
+    museus, equipaments públics, centres educatius, fires i grans esdeveniments.
+
+    La proposta seria dissenyar un dispensador amb una aparença similar a una
+    màquina de vending, amb quatre o cinc tipus d’aigua i tots els dipòsits i
+    components tècnics ocults. El disseny hauria de ser visualment potent,
+    robust, higiènic, modular i fàcil de transportar, instal·lar, netejar i
+    mantenir.
+
+    El dispensador incorporaria una pantalla integrada que mostraria continguts
+    audiovisuals breus sobre la procedència, la seguretat i la petjada ambiental
+    de les diferents aigües. També podria disposar d’un sensor de presència que
+    activés missatges de veu per captar l’atenció i plantejar el repte als
+    visitants: «Quina aigua beus a casa?», «Saps quina petjada ambiental té?»,
+    «Creus que distingiries l’aigua de l’aixeta de l’aigua embotellada?» o
+    «N’estàs segur? Vine i prova-ho». Posats a demanar, es podrien explorar
+    altres possibilitats d’interacció, com ara un assistent conversacional o un
+    chatbot que respongués preguntes sobre l’aigua. La incorporació de
+    tecnologies IoT també permetria monitorar a distància l’ús del dispensador,
+    el nombre de participants, el nivell dels dipòsits, les necessitats de
+    reposició i manteniment i les possibles incidències.
+
+    L’objectiu final hauria de ser disposar d’una xarxa de deu o quinze unitats
+    GLOPS 2.0 itinerants per tot Catalunya. Aquestes instal·lacions podrien estar
+    temporalment en museus, edificis públics, escoles, fires o actes
+    institucionals, generant un volum important de participació i dades sobre les
+    percepcions i els hàbits de consum d’aigua. Per fer possible aquest salt
+    d’escala, caldrà buscar aliances i finançament privat mitjançant mecenatge o
+    patrocini. BBVA (reunió demà amb la Direcció del BBVA) i Aigües de Barcelona
+    poden ser dos primers interlocutors, però la proposta es podria ampliar a
+    altres empreses i entitats compromeses amb la sostenibilitat i la cultura de
+    l’aigua. El relat per als possibles col·laboradors ha de presentar GLOPS 2.0
+    com una plataforma catalana d’educació, experimentació i canvi d’hàbits, amb
+    presència territorial i un impacte mesurable.
+
+    Canvis pel GLOPS 1.0
+
+    Paral·lelament al desenvolupament de GLOPS 2.0, podem introduir diverses
+    millores immediates i de cost reduït en el dispositiu actual. L’experiència
+    de Manresa ha mostrat que l’aplicatiu és massa llarg, que es formen cues
+    davant de les tres tauletes i que moltes persones abandonen l’activitat
+    després de veure el resultat, sense arribar a les pantalles finals. Com que
+    actualment les dades no es desen fins que es completa tot el recorregut, això
+    també provoca la pèrdua de moltes respostes, per no dir gairebé totes.
+
+    En Lluís Bosch podria encarregar-se de les modificacions següents:
+
+      - Mantenir les tres tauletes fixades a la taula, especialment útils per a
+        la participació dels infants.
+      - Incorporar un codi QR que obri la mateixa experiència en una web adaptada al mòbil.
+      - Permetre que un nombre ampli de persones faci el test simultàniament des
+        dels seus dispositius.
+      - Integrar les respostes de les tauletes i dels mòbils en una mateixa base de dades.
+      - Reduir la introducció a un màxim de tres pantalles molt breus sobre la
+        procedència i els tipus d’aigua, la seguretat i la salut, i la petjada
+        ambiental.
+      - Passar directament d’aquesta introducció al tast i al resultat.
+      - Desar automàticament la resposta en el moment en què es mostra el resultat.
+      - Eliminar les pantalles informatives posteriors, que allarguen
+        excessivament l’experiència i que la majoria de participants no consulta.
+
+
+    El contingut divulgatiu que ara apareix després del resultat s’hauria de
+    traslladar a pòsters o a peces audiovisuals breus projectades en una
+    pantalla. D’aquesta manera, l’aplicatiu se centraria en facilitar la
+    participació i recollir les dades, mentre que l’espai expositiu assumiria la
+    informació complementària. D’altra banda, en Pau hauria de preparar una
+    estimació del cost de portar GLOPS a activitats i equipaments concrets.
+    Caldria diferenciar almenys tres modalitats:
+
+      - Un acte puntual d’un dia, com els Premis Nacionals de Recerca al Teatre
+        Nacional de Catalunya o altres actes organitzats per l’FCRI o pel
+        Departament de Recerca.
+      - Una instal·lació temporal d’una setmana, per exemple en un edifici com el
+        Departament de Territori, amb milers de treballadors potencialment
+        participants.
+      - Una estada més llarga en museus, centres educatius o altres equipaments
+        amb afluència continuada.
+
+    Per a cada modalitat, l’estimació hauria d’incloure el transport, el muntatge
+    i desmuntatge, les hores de personal, la preparació i reposició de les
+    aigües, els gots i altres consumibles, la neteja i higienització, el
+    manteniment, l’emmagatzematge, l’assegurança, la connectivitat i el suport
+    tècnic. Sempre que sigui possible, també caldria calcular el cost total de
+    l’activitat i el cost aproximat per participant.
+
+    Aquest exercici ens permetrà disposar d’unes tarifes orientatives de
+    mobilització de GLOPS, valorar quines oportunitats tenen més impacte i
+    presentar als possibles patrocinadors un programa d’itinerància amb costos i
+    resultats esperats. Aquests canvis i estimes els hauríem de fer ja, doncs
+    tant Consellera com president de la FCRI ja ens han demanat aquesta estima i
+    aquests canvis per poder-ho integrar als seus actes com a activitat outreach
+    d’ICRA.
+
+    Apa doncs, en parlem aviat
+
+    Vicenç Acuña Salazar
+  '''

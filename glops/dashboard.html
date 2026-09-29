@@ -1,0 +1,73 @@
+<!doctype html><html><head>
+  <meta charset=utf8>
+  <title>GLOPS Dashboard</title>
+  <script src="lib/vue.global.prod.js"></script>
+  <style>
+    div[boto]{
+      border:1px solid #ccc;
+      border-radius:5px;
+      padding:1em 1.618em;
+      text-align:center;
+      cursor:pointer;
+    }
+    div[boto]:hover{
+      background:royalblue;
+      color:white;
+    }
+    div[seccio]{
+      padding:5px;
+    }
+  </style>
+</head><body><h1>GLOPS Dashboard (links principals)</h1>
+
+<div id=app>
+  <div seccio v-for="sec in seccions">
+    <div
+      style="
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:5px;
+      "
+    >
+      <div boto v-for="link in sec.links"
+        @click="obre(link.href)"
+      >
+        {{link.nom}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let app=Vue.createApp({
+    data(){return{
+      seccions:[
+        {
+          nom:"principal",
+          links:[
+            {nom:"Pàgina principal",             href:"index.html"},
+            {nom:"Selector lloc instal·lació",   href:"lloc.html"},
+            {nom:"Resultats real time",          href:"pantalla.html"},
+          ],
+        },
+        {
+          nom:"dades recopilades",
+          links:[
+            {nom:"Participacions (agrupades)",   href:"resultats.html"},
+            {nom:"Participacions (taula plana)", href:"resultats-taula-plana.php"},
+          ],
+        },
+        {
+          nom:"disseny",
+          links:[
+            {nom:"Disseny Sady (canva)", href:"https://www.canva.com/design/DAHJFKhO1JA/KNTIG27O2G5PyJs1LcW1yA/edit?utm_source=shareButton&utm_medium=email&utm_campaign=designshare"},
+            {nom:"Disseny Pau (canva)",  href:"https://canva.link/grt9dye83cxy8oa"},
+          ],
+        },
+      ],
+    }},
+    methods:{
+      obre(link){window.open(link)},
+    },
+  }).mount("#app");
+</script>
