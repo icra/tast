@@ -12,14 +12,14 @@
       cursor:pointer;
       text-decoration:none;
       color:royalblue;
+      width:200px;
     }
     a[boto]:hover{
-      background:royalblue;
-      color:white;
+      background:#ccc;
       text-decoration:underline;
     }
     div[seccio]{
-      padding:5px;
+      padding:2px;
     }
   </style>
 </head><body><h1>GLOPS Dashboard (links principals)</h1>
@@ -28,9 +28,8 @@
   <div seccio v-for="sec in seccions">
     <div
       style="
-        display:grid;
-        grid-template-columns:repeat(3,1fr);
-        gap:5px;
+        display:flex;
+        gap:3px;
       "
     >
       <div v-for="link in sec.links">
