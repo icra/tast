@@ -1,7 +1,6 @@
 COSES PER FER
 
 [2026-09-29]
-- establir camp "lloc" a totes les participacions anteriors que no en tenen
 - processar mail vicenç (21/9/2026):
   '''
     Bon dia
@@ -113,3 +112,10 @@ COSES PER FER
 
     Vicenç Acuña Salazar
   '''
+
+- notes reunió 2026-10-08 (anna,pau,sady)
+  -idees:
+    - crear web paral·lela glops amb només informació.
+      - word -> canva -> codi
+    - treure diapositives de text (l'activitat es fa llarga).
+    - tenir 2 versions de glops: curta (lúdica) i llarga (acadèmica).
