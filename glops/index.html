@@ -521,6 +521,7 @@
       </button>
 
       <div><p>{{lloc}}</p></div>
+      <div v-if="versio_curta"><p>Versió curta</p></div>
 
       <div
         style="
@@ -2616,7 +2617,7 @@
         margin-top:2em;
       "
     >
-      <div>Explica'ns què en penses de l'activitat (opcional)</div>
+      <div>(Opcional) Explica'ns què en penses de l'activitat</div>
       <div>
         <textarea v-model="explicans_que_en_penses_opcional"
           style="
@@ -2959,12 +2960,14 @@
 <script>//GET lloc
   let usp  = new URLSearchParams(window.location.search);
   let lloc = usp.get("lloc");
+  let versio_curta = usp.get("versio_curta");
 </script>
 
 <script>
   let app=Vue.createApp({
     data(){return{
       lloc,//usp
+      versio_curta,//usp
 
       //vista actual
       vista_actual:"portada",
@@ -2975,7 +2978,7 @@
       index_pagina_actual:0,
       pagines:[
         {
-          text:"UNES PREGUNTES RÀPIDES ABANS DE COMENÇAR (1/3)",
+          text:"UNES PREGUNTES RÀPIDES ABANS DE COMENÇAR",
           preguntes:[
             {
               id:"quina_edat_tens",
@@ -3014,7 +3017,7 @@
             },
           ],
         },{
-          text:"UNES PREGUNTES RÀPIDES ABANS DE COMENÇAR (2/3)",
+          text:"UNES PREGUNTES RÀPIDES ABANS DE COMENÇAR",
           preguntes:[
             {
               id:"on_vius_habitualment",
@@ -3031,7 +3034,7 @@
             },
           ],
         },{
-          text:"UNES PREGUNTES RÀPIDES ABANS DE COMENÇAR (3/3)",
+          text:"UNES PREGUNTES RÀPIDES ABANS DE COMENÇAR",
           preguntes:[
             {
               id:"quina_aigua_beus_a_casa",
@@ -3549,6 +3552,21 @@
       }
     },
   }).mount("#app");
+
+  //implementa versió curta
+
+  if(versio_curta){
+    app.pagines=[
+      app.pagines[2],
+    ];
+    app.vistes=[
+      "tast_aigues",
+      "tast_aigues_2",
+      "els_teus_resultats",
+      "preguntes_rapides_per_acabar",
+      "final",
+    ];
+  }
 
   /*DEBUG MODE*/
   //app.vista_actual="laigua_segura_i_saludable";
