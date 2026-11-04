@@ -35,6 +35,13 @@
       src:url(fonts/Inter/Inter-VariableFont_opsz,wght.ttf);
     }
 
+    div[caixa_versio_mobil]{
+      border-radius:5px;
+      box-shadow:2px 2px 5px var(--blau_clar);
+      padding:1em 0.5em;
+      margin-bottom:1em;
+    }
+
     div[separador]{
       height:10px;
     }
@@ -557,11 +564,39 @@
   >
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!--titol-->
-    <h1 style="font-family:IntroRust;font-size:smaller">GLOPS versió mòbil</h1>
+    <!--logos-->
+    <div
+      style="
+        display:flex;
+        justify-content:space-around;
+        align-items:center;
+        margin-top:10px;
+      "
+    >
+      <img src="img/logos/icra.svg" style="width:75px">
+      <img src="img/logos/fcri.png" style="width:95px">
+    </div>
+    <div center>
+      <img src="img/sady/logo.svg"
+        style="
+          width:50%;
+          margin-top:-40px;
+          margin-bottom:-70px;
+        "
+      >
+      <div
+        style="
+          font-family:IntroRust;
+          color:var(--vivid_azure);
+          margin-bottom:10px;
+          font-size:larger;
+        " center>
+        Descobreix l'aigua que beus
+      </div>
+    </div>
 
     <div v-if="!versio_mobil_veure_resultats">
-      <div v-for="pregunta in [pagines[2].preguntes.find(p=>p.id=='quina_aigua_beus_a_casa')]">
+      <div v-for="pregunta in [pagines[2].preguntes.find(p=>p.id=='quina_aigua_beus_a_casa')]" caixa_versio_mobil>
         <div><b>{{pregunta.text}}</b></div>
         <div>
           <div v-for="op in pregunta.opcions">
@@ -573,8 +608,7 @@
         </div>
       </div>
 
-      <div v-for="pregunta in [pagines[2].preguntes.find(p=>p.id=='per_que_la_tries')]">
-        <div separador></div>
+      <div v-for="pregunta in [pagines[2].preguntes.find(p=>p.id=='per_que_la_tries')]" caixa_versio_mobil>
         <div><b>{{pregunta.text}}</b></div>
         <div>
           <div v-for="op in pregunta.opcions">
@@ -586,10 +620,9 @@
         </div>
       </div>
 
-      <div>
-        <div separador></div>
-        <div><b>Tast d'aigües</b></div>
-        <ol style="font-size:smaller;padding-left:20px">
+      <div caixa_versio_mobil>
+        <div><b>Comença el tast d'aigües</b></div>
+        <ol style="font-size:x-small;padding-left:20px">
           <li>Agafa un got (te'l pots quedar, és reutilitzable)</li>
           <li>Serveix-te i tasta les 4 aigües (A, B, C i D)</li>
           <li>Intenta endevinar quina aigua correspon a cada lletra</li>
@@ -619,64 +652,113 @@
               </td>
             </tr>
           </table>
-          <small>
-            <i>
+          <div
+            style="
+              background:var(--blau_clar_palid);
+              font-size:x-small;
+              font-style:italic;
+              padding:10px;
+              border-radius:10px;
+              margin-top:1em;
+
+              display:flex;
+              align-items:center;
+              gap:5px;
+            "
+          >
+            <div>
+              <img src="img/sady/i.svg"
+                style="width:20px"
+              >
+            </div>
+            <div>
               L'aigua de l'aixeta s'ofereix directament o després de
               passar per una gerra filtrant o un sistema d'osmosi inversa
-            </i>
-          </small>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div>
-        <div separador></div>
-        <div><b>Quina t'ha agradat més?</b></div>
-        <div
-          style="
-            display:flex;
-            justify-content:space-around;
-          "
-        >
-          <label
-            v-for="lletra in Object.keys(tast)"
-            style="border:1px solid #ccc;"
+      <div caixa_versio_mobil>
+        <div>
+          <div
+            style="
+              display:flex;
+              alig-items:center;
+              gap:5px;
+            "
           >
-            <input type=radio v-model="tast_thumb.up" :value="lletra">
-            {{lletra}}
-          </label>
-        </div>
-      </div>
-
-      <div>
-        <div separador></div>
-        <div><b>I quina menys?</b></div>
-        <div
-          style="
-            display:flex;
-            justify-content:space-around;
-          "
-        >
-          <label
-            v-for="lletra in Object.keys(tast)"
-            style="border:1px solid #ccc;"
+            <img :src="`img/sady/tast_aigues_2/thumb-up.svg`" style="width:20px">
+            <b>Quina t'ha agradat més?</b>
+          </div>
+          <div
+            style="
+              display:flex;
+              justify-content:space-around;
+            "
           >
-            <input type=radio v-model="tast_thumb.down" :value="lletra">
-            {{lletra}}
-          </label>
+            <label center
+              v-for="lletra in Object.keys(tast)"
+              style="
+                border:1px solid #ccc;
+                width:90%;
+              "
+            >
+              <input type=radio v-model="tast_thumb.up" :value="lletra">
+              {{lletra}}
+            </label>
+          </div>
+        </div>
+
+        <div style="margin-top:1em">
+          <div
+            style="
+              display:flex;
+              alig-items:center;
+              gap:5px;
+            "
+          >
+            <img :src="`img/sady/tast_aigues_2/thumb-down.svg`" style="width:20px">
+            <b>I quina menys?</b>
+          </div>
+          <div
+            style="
+              display:flex;
+              justify-content:space-around;
+            "
+          >
+            <label center
+              v-for="lletra in Object.keys(tast)"
+              style="
+                border:1px solid #ccc;
+                width:90%;
+              "
+            >
+              <input type=radio v-model="tast_thumb.down" :value="lletra">
+              {{lletra}}
+            </label>
+          </div>
         </div>
       </div>
 
-      <div>
-        <div separador></div>
+      <div style="padding-bottom:1em">
         <button
           style="
             width:99%;
             padding:1em 1.618em;
             display:block;
             margin:auto;
+
+            border-radius:50px;
+            border:5px solid white;
+            background:var(--verd_intens);
+            color:white;
+
+            box-shadow:1px 1px 5px #ccc;
+
           "
           @click="versio_mobil_veure_resultats^=true"
-        >Següent</button>
+        >SEGÜENT &rarr;</button>
       </div>
     </div>
 
@@ -687,8 +769,7 @@
         </div>
       </div>
 
-      <div>
-        <div separador></div>
+      <div caixa_versio_mobil>
         <div>
           <b>
             <span>
@@ -733,8 +814,7 @@
         </table>
       </div>
 
-      <div>
-        <div separador></div>
+      <div caixa_versio_mobil>
         <div><b>Et planteges canviar algun hàbit de consum?</b></div>
         <div>
           <div 
@@ -765,7 +845,7 @@
               text-align:center;
             "
           >
-            FINALITZAR (guardar resultats)
+            FINALITZAR (enviar participació)
           </button>
         </div>
       </div>
@@ -1747,6 +1827,7 @@
           passar per una gerra filtrant o un sistema d'osmosi inversa
         </i>
       </small>
+
     </div>
   </div>
 
