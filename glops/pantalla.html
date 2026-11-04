@@ -93,21 +93,11 @@
 >
   <div
     style="
-      background:#e8e8e8;
+      background:#efefef;
       padding-top:10px;
     "
   >
-    <div
-      style="
-        display:flex;
-        justify-content:space-around;
-        align-items:center;
-        margin-top:10px;
-      "
-    >
-      <img src="img/logos/icra.svg" style="width:100px">
-      <img src="img/logos/fcri.png" style="width:160px">
-    </div>
+    <div style="margin-top:10px;"></div>
     <div center>
       <img src="img/sady/logo.svg"
         style="
@@ -117,14 +107,18 @@
         "
       >
     </div>
-    <div
+
+    <div center
       style="
         font-family:IntroRust;
         font-size:larger;
+        color:var(--dark_azure);
+        margin-top:-40px;
       "
-    >
-      Descobreix l'aigua que beus
+    >Descobreix<br>l'aigua que beus
     </div>
+
+    <div style="margin-top:200px"></div>
     <div style="font-family:IntroRust;font-size:x-large" center>Participa!</div>
     <div center>
       <img src="img/qr_versio_mobil.png"
@@ -133,7 +127,28 @@
         "
       >
     </div>
+
+    <div
+      style="
+        position:fixed;
+        bottom:0%;
+        width:100%;
+      "
+    >
+      <div
+        style="
+          display:flex;
+          align-items:center;
+          gap:2em;
+          padding:1em;
+        "
+      >
+        <img src="img/logos/icra.svg" style="width:100px">
+        <img src="img/logos/fcri.png" style="width:160px">
+      </div>
+    </div>
   </div>
+
   <div id=app>
     <div fons_normal center style="font-family:Inter">
       <div style="padding-top:1em"></div>
@@ -147,7 +162,7 @@
         style="
           padding:1em;
           background:var(--blau_clar);
-          width:40%;
+          width:90%;
           border-radius:10px;
           margin:auto;
           font-size:larger;
