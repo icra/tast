@@ -35,6 +35,10 @@
       src:url(fonts/Inter/Inter-VariableFont_opsz,wght.ttf);
     }
 
+    div[separador]{
+      height:10px;
+    }
+
     /*general*/
     table{border-collapse:collapse}
     td{padding:0;}
@@ -537,7 +541,235 @@
         <img src="img/logos/icra.svg" style="height:80px">
       </div>
     </div>
+  </div>
 
+  <!--versio mobil en una sola finestra tot-->
+  <div v-if="versio_mobil && vista_actual=='versio_mobil'"
+    style="
+      padding:5px 8px;
+      background:url(img/pau/fons.webp);
+      background-repeat:repeat;
+      background-position:center;
+      background-size:cover;
+      font-family:Inter;
+      height:100vh;
+    "
+  >
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--titol-->
+    <h1 style="font-family:IntroRust;font-size:smaller">GLOPS versió mòbil</h1>
+
+    <div v-if="!versio_mobil_veure_resultats">
+      <div v-for="pregunta in [pagines[2].preguntes.find(p=>p.id=='quina_aigua_beus_a_casa')]">
+        <div><b>{{pregunta.text}}</b></div>
+        <div>
+          <div v-for="op in pregunta.opcions">
+            <label>
+              <input type=radio v-model="pregunta.resposta" :value="op.text">
+              {{op.text}}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div v-for="pregunta in [pagines[2].preguntes.find(p=>p.id=='per_que_la_tries')]">
+        <div separador></div>
+        <div><b>{{pregunta.text}}</b></div>
+        <div>
+          <div v-for="op in pregunta.opcions">
+            <label>
+              <input type=checkbox v-model="pregunta.resposta" :value="op">
+              {{op}}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div separador></div>
+        <div><b>Tast d'aigües</b></div>
+        <ol style="font-size:smaller;padding-left:20px">
+          <li>Agafa un got (te'l pots quedar, és reutilitzable)</li>
+          <li>Serveix-te i tasta les 4 aigües (A, B, C i D)</li>
+          <li>Intenta endevinar quina aigua correspon a cada lletra</li>
+        </ol>
+        <div>
+          <table border=1 style="width:100%">
+            <tr v-for="lletra in Object.keys(tast)">
+              <td>
+                <div lletra>{{lletra}}</div>
+              </td>
+              <td
+                style="
+                  font-size:smaller;
+                  white-space:nowrap;
+                "
+                v-for="opcio in [
+                  'Aixeta',
+                  'Gerra filtrant',
+                  'Osmosi',
+                  'Embotellada',
+                ]"
+              >
+                <label>
+                  <input type=radio v-model="tast[lletra]" :value="opcio">
+                  {{opcio}}
+                </label>
+              </td>
+            </tr>
+          </table>
+          <small>
+            <i>
+              L'aigua de l'aixeta s'ofereix directament o després de
+              passar per una gerra filtrant o un sistema d'osmosi inversa
+            </i>
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <div separador></div>
+        <div><b>Quina t'ha agradat més?</b></div>
+        <div
+          style="
+            display:flex;
+            justify-content:space-around;
+          "
+        >
+          <label
+            v-for="lletra in Object.keys(tast)"
+            style="border:1px solid #ccc;"
+          >
+            <input type=radio v-model="tast_thumb.up" :value="lletra">
+            {{lletra}}
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <div separador></div>
+        <div><b>I quina menys?</b></div>
+        <div
+          style="
+            display:flex;
+            justify-content:space-around;
+          "
+        >
+          <label
+            v-for="lletra in Object.keys(tast)"
+            style="border:1px solid #ccc;"
+          >
+            <input type=radio v-model="tast_thumb.down" :value="lletra">
+            {{lletra}}
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <div separador></div>
+        <button
+          style="
+            width:99%;
+            padding:1em 1.618em;
+            display:block;
+            margin:auto;
+          "
+          @click="versio_mobil_veure_resultats^=true"
+        >Veure resultats</button>
+      </div>
+    </div>
+
+    <div v-if="versio_mobil_veure_resultats">
+      <div>
+        <div>
+          <button @click="versio_mobil_veure_resultats=false">&larr; enrere</button>
+        </div>
+      </div>
+
+      <div>
+        <div separador></div>
+        <div>
+          <b>
+            <span>
+              N'has encertat
+              <span
+                style="
+                  color:var(--vivid_azure);
+                  font-weight:bold;
+                "
+              >
+                {{respostes_correctes}} de {{Object.keys(tast).length}}
+              </span>
+            </span>
+          </b>
+        </div>
+
+        <table border=1 style="width:100%;font-size:smaller">
+          <tr>
+            <td></td>
+            <th>Aigua correcta</th>
+            <th>Resposta</th>
+          </tr>
+          <tr v-for="lletra in Object.keys(tast)">
+            <td center>
+              {{lletra}}
+            </td>
+            <td center>
+              {{tast_respostes_correctes[lletra]}}
+            </td>
+            <td center>
+              {{tast[lletra]}}
+            </td>
+            <td center>
+              <img src="img/sady/els_teus_resultats/tick-verd.svg" style="width:10px"
+                v-if="tast[lletra]==tast_respostes_correctes[lletra]"
+              >
+              <img src="img/sady/els_teus_resultats/creu-vermella.svg" style="width:10px"
+                v-else
+              >
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div>
+        <div separador></div>
+        <div><b>Et planteges canviar algun hàbit de consum?</b></div>
+        <div>
+          <div 
+            v-for="text,i in Object.keys(preguntes_rapides_per_acabar)"
+            @click="
+              respondre_a_pregunes_rapides_per_acabar(text);
+            "
+          >
+            <input type=checkbox :checked="preguntes_rapides_per_acabar[text]">
+            <span>{{text}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div separador></div>
+        <div>
+          <button @click="enviar_participacio()"
+            style="
+              background:var(--blau_clar_intens);
+              border:1px solid white;
+              border-radius:60px;
+              color:white;
+              font-weight:bold;
+              padding:1em 1.618em;
+              box-shadow:1px 1px 5px #ccc;
+              width:100%;
+              text-align:center;
+            "
+          >
+            FINALITZAR (guardar resultats)
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!--preguntes-->
@@ -2667,7 +2899,7 @@
     <div style="font-family:IntroRust;font-size:xxx-large;color:var(--dark_azure)">
       <div>Gràcies per participar!</div>
       <div style="margin:2em"></div>
-      <div>
+      <div v-if="!versio_mobil">
         <img src="img/sady/logo.svg"
           style="
             margin-top:-6em;
@@ -2677,7 +2909,8 @@
       </div>
     </div>
 
-    <div flex 
+    <div flex
+      v-if="!versio_mobil"
       style="
         margin-top:-15em;
         justify-content:space-around;
@@ -2698,68 +2931,70 @@
   </div>
 
   <!--gotes navegació-->
-  <div
-    v-if="
-      (vista_actual=='preguntes'&&pagina_actual)||
-      vistes.includes(vista_actual)
-    "
-    style="
-      position:fixed;
-      bottom:0;
-      width:100%;
-    "
-  >
+  <div v-if="!versio_mobil">
     <div
+      v-if="
+        (vista_actual=='preguntes'&&pagina_actual)||
+        vistes.includes(vista_actual)
+      "
       style="
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        margin:auto;
-        margin-bottom:20px;
+        position:fixed;
+        bottom:0;
+        width:100%;
       "
     >
-      <button
-        btn_prev_next_page
-        @click="pregunta_anterior()"
+      <div
+        style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          margin:auto;
+          margin-bottom:20px;
+        "
       >
-        <img src="img/arrow-right-white.svg" style="transform:rotate(180deg)">
-      </button>
-
-      <!--bullets-->
-      <div>
-        <div
-          style="
-            display:flex;
-            align-items:center;
-            justify-content:space-around;
-            gap:10px;
-          "
+        <button
+          btn_prev_next_page
+          @click="pregunta_anterior()"
         >
+          <img src="img/arrow-right-white.svg" style="transform:rotate(180deg)">
+        </button>
+
+        <!--bullets-->
+        <div>
           <div
-            v-for="g in get_gotes_navegacio.n_gotes"
-            style="font-size:xxx-large;"
+            style="
+              display:flex;
+              align-items:center;
+              justify-content:space-around;
+              gap:10px;
+            "
           >
-            <div center
-              :style="{
-                color:get_gotes_navegacio.gota_actual+1==g?'#00b7f1':'#d9d9d9',
-              }"
-            >&bull;
-              <!--
-              <div v-if="get_gotes_navegacio.gota_actual+1==g">&bull;</div>
-              <div v-else>&bull;</div>
-              -->
+            <div
+              v-for="g in get_gotes_navegacio.n_gotes"
+              style="font-size:xxx-large;"
+            >
+              <div center
+                :style="{
+                  color:get_gotes_navegacio.gota_actual+1==g?'#00b7f1':'#d9d9d9',
+                }"
+              >&bull;
+                <!--
+                <div v-if="get_gotes_navegacio.gota_actual+1==g">&bull;</div>
+                <div v-else>&bull;</div>
+                -->
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <button
-        btn_prev_next_page
-        @click="pregunta_seguent()"
-        v-if="veure_boto_seguent"
-      >
-        <img src="img/arrow-right-white.svg">
-      </button>
+        <button
+          btn_prev_next_page
+          @click="pregunta_seguent()"
+          v-if="veure_boto_seguent"
+        >
+          <img src="img/arrow-right-white.svg">
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -2779,6 +3014,7 @@
 
   //només intentar activar pantalla completa
   function activa_pantalla_completa(){
+    if(app.versio_mobil) return false;
     let el = document.body;
     if(!(document.webkitCurrentFullScreenElement||document.fullScreenElement)){
       if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();return;
@@ -2913,7 +3149,7 @@
 
 <script>
   document.body.addEventListener("keyup",function(ev){
-    console.log(ev.key);
+    //console.log(ev.key);//debug
     if(ev.key=="ArrowLeft"){
       app.pregunta_anterior();
     }
@@ -2935,6 +3171,8 @@
 
   /*funció principal inactivitat*/
   function check_inactivitat(){
+    if(app.versio_mobil) return false;
+
     let temps_inactivitat_segons = (Date.now()-ultima_activitat)/1000;
     let vista_actual = app.vista_actual;
     console.log({temps_inactivitat_segons, vista_actual});
@@ -2957,10 +3195,11 @@
   setInterval(check_inactivitat,20*1000);
 </script>
 
-<script>//GET lloc
+<script>//GET usp (lloc,versio_curta,versio_mobil)
   let usp  = new URLSearchParams(window.location.search);
   let lloc = usp.get("lloc");
   let versio_curta = usp.get("versio_curta");
+  let versio_mobil = usp.get("versio_mobil");
 </script>
 
 <script>
@@ -2969,8 +3208,11 @@
       lloc,//usp
       versio_curta,//usp
 
+      versio_mobil,//usp
+      versio_mobil_veure_resultats:false,
+
       //vista actual
-      vista_actual:"portada",
+      vista_actual: versio_mobil?"versio_mobil":"portada",
       missatge_participar:"",
 
       //preguntes
@@ -3250,6 +3492,7 @@
           explicans_que_en_penses_opcional: this.explicans_que_en_penses_opcional,
           lloc: this.lloc,
           versio_curta,
+          versio_mobil,
         };
         let payload_str = JSON.stringify(payload);
         let body = new FormData();
@@ -3555,10 +3798,9 @@
   }).mount("#app");
 
   //implementa versió curta
-
   if(versio_curta){
     app.pagines=[
-      app.pagines[2],
+      app.pagines[2], //quina aigua beus
     ];
     app.vistes=[
       "tast_aigues",
