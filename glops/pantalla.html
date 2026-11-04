@@ -67,7 +67,6 @@
       background-position:center;
       background-size:cover;
       height:100vh;
-      width:100vw;
     }
     [center]{
       text-align:center;
@@ -86,203 +85,244 @@
   </style>
 </head><body>
 
-<div id=app>
-  <div fons_normal center style="font-family:Inter">
-    <div style="padding-top:1em"></div>
-
-    <div pregunta_text center style="font-size:xxx-large">
-      Resultats de tots els participants
-    </div>
-
+<div
+  style="
+    display:grid;
+    grid-template-columns:1fr 2fr;
+  "
+>
+  <div
+    style="
+      background:#cc;
+    "
+  >
     <div
-      v-if="participacions"
       style="
-        padding:1em;
-        background:var(--blau_clar);
-        width:40%;
-        border-radius:10px;
-        margin:auto;
-        font-size:larger;
+        display:flex;
+        justify-content:space-around;
+        align-items:center;
+        margin-top:10px;
       "
     >
-      Nombre de participants = {{participacions.length}}
+      <img src="img/logos/icra.svg" style="width:100px">
+      <img src="img/logos/fcri.png" style="width:160px">
     </div>
+    <div center>
+      <img src="img/sady/logo.svg"
+        style="
+          margin-top:-60px;
+          width:300px;
+          margin-bottom:-60px;
+        "
+      >
+    </div>
+    <div style="font-family:IntroRust;font-size:x-large" center>Participa!</div>
+    <div center>
+      <img src="img/qr_versio_mobil.png"
+        style="
+          width:61%;
+        "
+      >
+    </div>
+  </div>
+  <div id=app>
+    <div fons_normal center style="font-family:Inter">
+      <div style="padding-top:1em"></div>
 
-    <div v-if="participacions"
-      style="
-        margin:1em 3em;
-        display:grid;
-        grid-template-columns:repeat(2,1fr);
-        grid-gap:2em;
-      "
-    >
-      <div seccio>
-        <div style="font-family:IntroRust;color:var(--dark_azure);font-size:x-large;">
-          Distingim bé les aigües?
-        </div>
-
-        <!--grafic encerts-->
-        <div flex>
-          <div>
-            <canvas id=grafic_encerts></canvas>
-          </div>
-
-          <table border=1
-            v-for="encerts in [get_encerts_participacions_anteriors.encerts]"
-            style="
-              margin:auto;
-              font-size:12px;
-            "
-          >
-            <tr>
-              <th>Encerts</th>
-              <th>Participants</th>
-            </tr>
-            <tr v-for="[key,val] in Object.entries(encerts)">
-              <td>
-                {{key}}/4
-              </td>
-              <td>
-                {{val}}
-                ({{(100*val/participacions.length).toFixed(0)}}%)
-              </td>
-            </tr>
-          </table>
-        </div>
-
-        <!--nombre encertants aixeta-->
-        <div
-          style="
-            display:grid;
-            grid-template-columns:1fr 1fr 2fr;
-            align-items:center;
-
-            background:var(--light_azure);
-            padding:1em;
-            border-radius:10px;
-            border:1px solid var(--blau_clar);
-            font-size:x-large;
-            margin-bottom:0.5em;
-          "
-        >
-          <div>
-            <img src="img/sady/infografia_quina_aigua_bevem/aixeta.webp" style="height:95px">
-          </div>
-
-          <div
-            v-if="get_encerts_participacions_anteriors"
-            style="
-              color:var(--blau_clar_intens);
-              font-size:xx-large;
-              font-weight:bold;
-            "
-          >
-            <div>
-              {{
-                get_encerts_participacions_anteriors.tipus_aigua.Aixeta||0
-              }}
-              de
-              {{
-                participacions.length
-              }}
-            </div>
-            <div style="font-size:smaller">
-              ({{(100*(get_encerts_participacions_anteriors.tipus_aigua.Aixeta||0)/participacions.length).toFixed(2)}} %)
-            </div>
-          </div>
-          <div>
-            <div>han encertat</div>
-            <b style="color:var(--blau_clar_intens)">l'aigua de l'aixeta</b>
-          </div>
-        </div>
-
-        <!--nombre encertants embotellada-->
-        <div flex
-          style="
-            display:grid;
-            grid-template-columns:1fr 1fr 2fr;
-            align-items:center;
-
-            background:var(--lila_clar_palid);
-            padding:1em;
-            border-radius:10px;
-            border:1px solid var(--lila_clar);
-            font-size:x-large;
-          "
-        >
-          <div>
-            <img src="img/sady/infografia_quina_aigua_bevem/embotellada.webp" style="height:95px">
-          </div>
-          <div
-            v-if="get_encerts_participacions_anteriors"
-            style="
-              color:var(--lila_clar_intens);
-              font-size:xx-large;
-              font-weight:bold;
-            "
-          >
-            <div>
-              {{
-                get_encerts_participacions_anteriors.tipus_aigua.Embotellada||0
-              }}
-              de
-              {{
-                participacions.length
-              }}
-            </div>
-            <div style="font-size:smaller">
-              ({{(100*(get_encerts_participacions_anteriors.tipus_aigua.Embotellada||0)/participacions.length).toFixed(2)}} %)
-            </div>
-          </div>
-          <div>
-            <div>han encertat</div>
-            <b style="color:var(--lila_clar_intens)">l'aigua embotellada</b>
-          </div>
-        </div>
+      <div pregunta_text center style="font-size:xxx-large">
+        Resultats de la jornada d'avui
       </div>
 
-      <div seccio>
-        <div style="font-family:IntroRust;color:var(--dark_azure);font-size:x-large;">
-          Quina aigua ens agrada més?
-        </div>
+      <div
+        v-if="participacions"
+        style="
+          padding:1em;
+          background:var(--blau_clar);
+          width:40%;
+          border-radius:10px;
+          margin:auto;
+          font-size:larger;
+        "
+      >
+        Nombre de participants = {{participacions.length}}
+      </div>
 
-        <div flex>
-          <div>
-            <canvas id=grafic_aigua_preferida></canvas>
+      <div v-if="participacions"
+        style="
+          margin:1em 3em;
+          display:grid;
+          grid-template-columns:repeat(2,1fr);
+          grid-gap:2em;
+        "
+      >
+        <div seccio>
+          <div style="font-family:IntroRust;color:var(--dark_azure);font-size:x-large;">
+            Distingim bé les aigües?
           </div>
 
-          <table border=1
-            v-for="aigua_agrada in [get_encerts_participacions_anteriors.aigua_agrada]"
-            style="
-              font-size:12px;
-              margin:auto;
-            "
-          >
-            <tr>
-              <th>Tipus aigua</th>
-              <th>Participants</th>
-            </tr>
-            <tr v-for="[key,val] in Object.entries(aigua_agrada)">
-              <td>{{key}}</td>
-              <td>
-                {{val}}
-                ({{(100*val/participacions.length).toFixed(0)}}%)
-              </td>
-            </tr>
-          </table>
-        </div>
+          <!--grafic encerts-->
+          <div flex>
+            <div>
+              <canvas id=grafic_encerts></canvas>
+            </div>
 
-        <div v-if="get_aigua_preferida_de_tothom">
+            <table border=1
+              v-for="encerts in [get_encerts_participacions_anteriors.encerts]"
+              style="
+                margin:auto;
+                font-size:12px;
+              "
+            >
+              <tr>
+                <th>Encerts</th>
+                <th>Participants</th>
+              </tr>
+              <tr v-for="[key,val] in Object.entries(encerts)">
+                <td>
+                  {{key}}/4
+                </td>
+                <td>
+                  {{val}}
+                  ({{(100*val/participacions.length).toFixed(0)}}%)
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <!--nombre encertants aixeta-->
           <div
             style="
-              margin-top:1em;
+              display:grid;
+              grid-template-columns:1fr 1fr 2fr;
+              align-items:center;
+
+              background:var(--light_azure);
+              padding:1em;
+              border-radius:10px;
+              border:1px solid var(--blau_clar);
+              font-size:x-large;
+              margin-bottom:0.5em;
             "
           >
             <div>
-              <img :src="`img/sady/infografia_quina_aigua_bevem/${get_aigua_preferida_de_tothom.src}.webp`" style="height:95px">
+              <img src="img/sady/infografia_quina_aigua_bevem/aixeta.webp" style="height:95px">
             </div>
-            <div style="font-size:x-large">
-              {{get_aigua_preferida_de_tothom.text}}
+
+            <div
+              v-if="get_encerts_participacions_anteriors"
+              style="
+                color:var(--blau_clar_intens);
+                font-size:xx-large;
+                font-weight:bold;
+              "
+            >
+              <div>
+                {{
+                  get_encerts_participacions_anteriors.tipus_aigua.Aixeta||0
+                }}
+                de
+                {{
+                  participacions.length
+                }}
+              </div>
+              <div style="font-size:smaller">
+                ({{(100*(get_encerts_participacions_anteriors.tipus_aigua.Aixeta||0)/participacions.length).toFixed(0)}} %)
+              </div>
+            </div>
+            <div>
+              <div>han encertat</div>
+              <b style="color:var(--blau_clar_intens)">l'aigua de l'aixeta</b>
+            </div>
+          </div>
+
+          <!--nombre encertants embotellada-->
+          <div flex
+            style="
+              display:grid;
+              grid-template-columns:1fr 1fr 2fr;
+              align-items:center;
+
+              background:var(--lila_clar_palid);
+              padding:1em;
+              border-radius:10px;
+              border:1px solid var(--lila_clar);
+              font-size:x-large;
+            "
+          >
+            <div>
+              <img src="img/sady/infografia_quina_aigua_bevem/embotellada.webp" style="height:95px">
+            </div>
+            <div
+              v-if="get_encerts_participacions_anteriors"
+              style="
+                color:var(--lila_clar_intens);
+                font-size:xx-large;
+                font-weight:bold;
+              "
+            >
+              <div>
+                {{
+                  get_encerts_participacions_anteriors.tipus_aigua.Embotellada||0
+                }}
+                de
+                {{
+                  participacions.length
+                }}
+              </div>
+              <div style="font-size:smaller">
+                ({{(100*(get_encerts_participacions_anteriors.tipus_aigua.Embotellada||0)/participacions.length).toFixed(0)}} %)
+              </div>
+            </div>
+            <div>
+              <div>han encertat</div>
+              <b style="color:var(--lila_clar_intens)">l'aigua embotellada</b>
+            </div>
+          </div>
+        </div>
+
+        <div seccio>
+          <div style="font-family:IntroRust;color:var(--dark_azure);font-size:x-large;">
+            Quina aigua ens agrada més?
+          </div>
+
+          <div flex>
+            <div>
+              <canvas id=grafic_aigua_preferida></canvas>
+            </div>
+
+            <table border=1
+              v-for="aigua_agrada in [get_encerts_participacions_anteriors.aigua_agrada]"
+              style="
+                font-size:12px;
+                margin:auto;
+              "
+            >
+              <tr>
+                <th>Tipus aigua</th>
+                <th>Participants</th>
+              </tr>
+              <tr v-for="[key,val] in Object.entries(aigua_agrada)">
+                <td>{{key}}</td>
+                <td>
+                  {{val}}
+                  ({{(100*val/participacions.length).toFixed(0)}}%)
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div v-if="get_aigua_preferida_de_tothom">
+            <div
+              style="
+                margin-top:1em;
+              "
+            >
+              <div>
+                <img :src="`img/sady/infografia_quina_aigua_bevem/${get_aigua_preferida_de_tothom.src}.webp`" style="height:95px">
+              </div>
+              <div style="font-size:x-large">
+                {{get_aigua_preferida_de_tothom.text}}
+              </div>
             </div>
           </div>
         </div>
@@ -290,6 +330,7 @@
     </div>
   </div>
 </div>
+
 
 <script>
   //alterna pantalla completa
@@ -361,7 +402,6 @@
               display:true,
               text:"Participants",
             },
-            max:app.participacions.length,
           },
         },
         plugins:{
@@ -454,6 +494,13 @@
         //get participacions anteriors
         let res = await fetch("db/get_participacions.php");
         let arr = await res.json();
+
+        let avui = new Date().toISOString().substring(0,10);
+        console.log(avui);
+
+        arr = arr.filter(row=>row.created.startsWith(avui));
+        console.log(arr);
+
         this.participacions=arr;
       },
       //cada 15 segons comprova participacions
