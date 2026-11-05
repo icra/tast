@@ -207,7 +207,7 @@
                 </td>
                 <td>
                   {{val}}
-                  ({{(100*val/participacions.length).toFixed(0)}}%)
+                  ({{(100*val/participacions.length||0).toFixed(0)}}%)
                 </td>
               </tr>
             </table>
@@ -249,7 +249,7 @@
                   participacions.length
                 }}
               </div>
-              <div style="font-size:smaller">
+              <div style="font-size:smaller" v-if="participacions.length">
                 ({{(100*(get_encerts_participacions_anteriors.tipus_aigua.Aixeta||0)/participacions.length).toFixed(0)}} %)
               </div>
             </div>
@@ -293,7 +293,7 @@
                   participacions.length
                 }}
               </div>
-              <div style="font-size:smaller">
+              <div style="font-size:smaller" v-if="participacions.length">
                 ({{(100*(get_encerts_participacions_anteriors.tipus_aigua.Embotellada||0)/participacions.length).toFixed(0)}} %)
               </div>
             </div>
